@@ -1,5 +1,5 @@
 #boot.sh
-source bin/activate
+source flask/bin/activate
 python3 app.py
 
 #Permisos de ejecucion
