@@ -1,13 +1,11 @@
 from flask_restful import Resource
 from flask import request
 
-# Simulación de base de datos
 USUARIOS = {
     1: {"nombre": "Juan", "email": "juan@mail.com", "rol": "ADMIN"},
     2: {"nombre": "Ana", "email": "ana@mail.com", "rol": "USER"},
 }
 
-# /usuario/<id>
 class Usuario(Resource):
     def get(self, id):
         id = int(id)
@@ -30,7 +28,6 @@ class Usuario(Resource):
             return {"mensaje": "Usuario eliminado"}, 200
         return {"error": "Usuario no encontrado"}, 404
 
-# /usuarios
 class Usuarios(Resource):
     def get(self):
         return USUARIOS, 200

@@ -1,11 +1,11 @@
 from flask_restful import Resource
 from flask import request
 
-# Simulación de sesión activa
+
 SESIÓN_ACTIVA = {
     "usuario_id": None,
     "rol": None,
-    "token": None  # por ahora no usamos tokens reales
+    "token": None  
 }
 
 class Login(Resource):
@@ -14,7 +14,7 @@ class Login(Resource):
         usuario_id = data.get("usuario_id")
         rol = data.get("rol")
 
-        # Simulación de login (sin verificar usuario real)
+        
         SESIÓN_ACTIVA["usuario_id"] = usuario_id
         SESIÓN_ACTIVA["rol"] = rol
         SESIÓN_ACTIVA["token"] = "token_simulado"

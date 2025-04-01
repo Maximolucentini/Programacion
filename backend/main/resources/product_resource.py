@@ -1,14 +1,12 @@
 from flask_restful import Resource
 from flask import request
 
-# Simulación de base de datos de productos (solo hamburguesas por ahora)
 PRODUCTOS = {
     1: {"nombre": "Hamburguesa Clásica"},
     2: {"nombre": "Hamburguesa Doble"},
     3: {"nombre": "Hamburguesa con Bacon"},
 }
 
-# /producto/<id>
 class Producto(Resource):
     def get(self, id):
         id = int(id)
@@ -31,7 +29,6 @@ class Producto(Resource):
             return {"mensaje": "Producto eliminado"}, 200
         return {"error": "Producto no encontrado"}, 404
 
-# /productos
 class Productos(Resource):
     def get(self):
         return PRODUCTOS, 200

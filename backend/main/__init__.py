@@ -10,7 +10,7 @@ def create_app():
     app = Flask(__name__)
     load_dotenv()
 
-    # Registrar rutas
+    
     api.add_resource(resources.UsuariosResource, '/usuarios')
     api.add_resource(resources.UsuarioResource, '/usuario/<id>')
 
