@@ -1,0 +1,11 @@
+from .user_resource import Usuario as UsuarioResource
+from .user_resource import Usuarios as UsuariosResource
+from .product_resource import Producto as ProductoResource
+from .product_resource import Productos as ProductosResource
+from .order_resource import Pedido as PedidoResource
+from .order_resource import Pedidos as PedidosResource
+from .auth_resource import Login as LoginResource
+from .auth_resource import Logout as LogoutResource
+from .notification_resource import Notificacion as NotificacionResource
+from .rating_resource import Valoracion as ValoracionResource
+from .rating_resource import ObtenerValoracion as ObtenerValoracionResource
