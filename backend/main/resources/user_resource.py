@@ -24,9 +24,11 @@ class Usuario(Resource):
     def delete(self, id):
         id = int(id)
         if id in USUARIOS:
-            del USUARIOS[id]
-            return {"mensaje": "Usuario eliminado"}, 200
+           USUARIOS[id]["estado"] = "suspendido"
+           return {"mensaje": "Usuario suspendido"}, 200
         return {"error": "Usuario no encontrado"}, 404
+
+
 
 class Usuarios(Resource):
     def get(self):

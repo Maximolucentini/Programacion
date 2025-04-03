@@ -122,7 +122,7 @@
 					"response": []
 				},
 				{
-					"name": "Eliminar usuario por ID",
+					"name": "Suspender usuario por ID",
 					"request": {
 						"method": "DELETE",
 						"header": [],
