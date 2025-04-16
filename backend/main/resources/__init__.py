@@ -7,5 +7,6 @@ from .order_resource import Pedidos as PedidosResource
 from .auth_resource import Login as LoginResource
 from .auth_resource import Logout as LogoutResource
 from .notification_resource import Notificacion as NotificacionResource
+from .notification_resource import NotificacionesUsuario as NotificacionesUsuarioResource
 from .rating_resource import Valoracion as ValoracionResource
 from .rating_resource import ObtenerValoracion as ObtenerValoracionResource

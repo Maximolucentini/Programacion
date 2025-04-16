@@ -1,39 +1,85 @@
 from flask_restful import Resource
 from flask import request
+from .. import db
+from main.models import OrderModel, OrderProductModel,ProductModel
 
-PEDIDOS = {
-    1: {"usuario_id": 1, "producto_id": 2, "estado": "pendiente"},
-    2: {"usuario_id": 2, "producto_id": 1, "estado": "en preparación"},
-}
+#PEDIDOS = {1: {"usuario_id": 1, "producto_id": 2, "estado": "pendiente"},2: {"usuario_id": 2, "producto_id": 1, "estado": "en preparación"},}
+
+
 
 class Pedido(Resource):
     def get(self, id):
-        id = int(id)
-        if id in PEDIDOS:
-            return PEDIDOS[id], 200
+        pedido = db.session.query(OrderModel).get(id)
+        if pedido:
+            return pedido.to_json_complete(), 200
         return {"error": "Pedido no encontrado"}, 404
 
     def put(self, id):
-        id = int(id)
-        if id in PEDIDOS:
+        pedido = db.session.query(OrderModel).get(id)
+        if pedido:
             data = request.get_json()
-            PEDIDOS[id].update(data)
-            return {"mensaje": "Pedido actualizado", "pedido": PEDIDOS[id]}, 200
+            for key, value in data.items():
+                setattr(pedido, key, value)
+            db.session.commit()
+            return {
+                "mensaje": "Pedido actualizado",
+                "pedido": pedido.to_json()
+            }, 200
         return {"error": "Pedido no encontrado"}, 404
 
     def delete(self, id):
-        id = int(id)
-        if id in PEDIDOS:
-            del PEDIDOS[id]
+        pedido = db.session.query(OrderModel).get(id)
+        if pedido:
+            db.session.delete(pedido)
+            db.session.commit()
             return {"mensaje": "Pedido eliminado"}, 200
         return {"error": "Pedido no encontrado"}, 404
 
+
 class Pedidos(Resource):
     def get(self):
-        return PEDIDOS, 200
+        pedidos = db.session.query(OrderModel).all()
+        return [p.to_json() for p in pedidos], 200
 
     def post(self):
         data = request.get_json()
-        nuevo_id = max(PEDIDOS.keys(), default=0) + 1
-        PEDIDOS[nuevo_id] = data
-        return {"mensaje": "Pedido creado", "pedido": PEDIDOS[nuevo_id]}, 201
+
+        user_id = data.get("user_id")
+        status = data.get("status")
+        productos = data.get("productos", [])
+
+        # Validar estados permitidos
+        ESTADOS_VALIDOS = ["pendiente", "en preparación", "en camino", "entregado", "cancelado"]
+        if status not in ESTADOS_VALIDOS:
+            return {"error": "Estado no válido"}, 400
+
+        # Crear pedido vacío
+        order = OrderModel(user_id=user_id, status=status, total_amount=0)
+        db.session.add(order)
+        db.session.flush()
+
+        total = 0
+        for producto in productos:
+            product_id = producto.get("product_id")
+            cantidad = producto.get("quantity", 1)
+
+            # Obtener el producto desde la base
+            product = db.session.query(ProductModel).get(product_id)
+            if not product:
+                return {"error": f"Producto con id {product_id} no encontrado"}, 404
+
+            precio = product.price
+            subtotal = cantidad * precio
+            total += subtotal
+
+            order_product = OrderProductModel(
+                order=order,
+                product_id=product_id,
+                quantity=cantidad,
+                subtotal=subtotal
+            )
+            db.session.add(order_product)
+
+        order.total_amount = total
+        db.session.commit()
+        return order.to_json(), 201

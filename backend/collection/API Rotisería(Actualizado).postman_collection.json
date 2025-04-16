@@ -11,35 +11,13 @@
 			"name": "Usuario/s",
 			"item": [
 				{
-					"name": "Obtener todos los usuarios",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://127.0.0.1:7222/usuarios",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "7222",
-							"path": [
-								"usuarios"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Crear usuario",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"nombre\": \"Carlos\",\n  \"email\": \"carlos@mail.com\",\n  \"rol\": \"ADMIN\"\n}\n",
+							"raw": "{\n  \"name\": \"Juan Perez\",\n  \"email\": \"juanperez@mail.com\",\n  \"password\": \"123456\"\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -90,13 +68,35 @@
 					"response": []
 				},
 				{
+					"name": "Obtener todos los usuarios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:7222/usuarios",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Editar usuario por ID",
 					"request": {
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"nombre\": \"Juan Carlos\",\n  \"email\": \"juancarlos@mail.com\",\n  \"rol\": \"ADMIN\"\n}\n",
+							"raw": "{\n  \"name\": \"Juan Editado\",\n  \"email\": \"juaneditado@mail.com\"\n}\n\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -143,6 +143,85 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Obtener usuarios suspendidos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7222/usuarios?estado=suspendido",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7222",
+							"path": [
+								"usuarios"
+							],
+							"query": [
+								{
+									"key": "estado",
+									"value": "suspendido"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reactivar usuario por ID",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"estado\": \"activo\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7222/usuario/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7222",
+							"path": [
+								"usuario",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener usuarios activos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7222/usuarios?estado=activo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7222",
+							"path": [
+								"usuarios"
+							],
+							"query": [
+								{
+									"key": "estado",
+									"value": "activo"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -150,10 +229,19 @@
 			"name": "Producto/s",
 			"item": [
 				{
-					"name": "Obtener todos los productos",
+					"name": "Crear Producto",
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Hamburguesa clasica\",\n  \"description\": \"Hamburguesa con un medallon de carne,tomate,lechuga y mayonesa\",\n  \"price\": 8000,\n  \"stock\": 15,\n  \"estado\": \"activo\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "http://127.0.0.1:7222/productos",
 							"protocol": "http",
@@ -172,19 +260,41 @@
 					"response": []
 				},
 				{
-					"name": "Crear Producto",
+					"name": "Crear producto",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"nombre\": \"Hamburguesa Veggie\"\n}\n",
+							"raw": "{\n  \"name\": \"Hamburguesa mexicana\",\n  \"description\": \"Hamburguesa con un medallon de carne,tomate,palta y mayonesa\",\n  \"price\": 8500,\n  \"stock\": 15,\n  \"estado\": \"activo\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/productos",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"productos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener todos los productos",
+					"request": {
+						"method": "GET",
+						"header": [],
 						"url": {
 							"raw": "http://127.0.0.1:7222/productos",
 							"protocol": "http",
@@ -279,6 +389,94 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Obtener productos suspendidos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:7222/productos?estado=suspendido",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"productos"
+							],
+							"query": [
+								{
+									"key": "estado",
+									"value": "suspendido"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reactivar producto por ID",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"estado\" : \"activo\" \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/producto/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"producto",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener productos activos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:7222/productos?estado=activo",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"productos"
+							],
+							"query": [
+								{
+									"key": "estado",
+									"value": "activo"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -314,7 +512,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"usuario_id\": 1,\n  \"producto_id\": 2,\n  \"estado\": \"pendiente\"\n}\n",
+							"raw": "{\n  \"user_id\": 1,\n  \"status\": \"pendiente\",\n  \"productos\": [\n    {\n      \"product_id\": 1,\n      \"quantity\": 2\n    },\n    {\n      \"product_id\": 2,\n      \"quantity\": 1\n    }\n  ]\n}\n\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -368,7 +566,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"estado\": \"en preparación\"\n}\n",
+							"raw": "{\n  \"status\": \"completado\"\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -518,6 +716,29 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:7222/notificaciones/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"notificaciones",
+								"1"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -531,7 +752,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"producto_id\": 1,\n  \"valor\": 5\n}\n",
+							"raw": "{\n  \"user_id\": 1,\n  \"product_id\": 1,\n  \"score\": 5,\n  \"comment\": \"¡Muy buena hamburguesa!\"\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
