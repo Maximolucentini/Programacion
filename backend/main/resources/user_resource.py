@@ -7,7 +7,7 @@ from .. import db
 
 
 class Usuario(Resource):
-    def get(self, id):  # 👈 solo agregamos el parámetro
+    def get(self, id):  
         usuario = db.session.query(UserModel).get(id)
         if usuario:
             return usuario.to_json(), 200

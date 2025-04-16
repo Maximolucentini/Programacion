@@ -48,12 +48,12 @@ class Pedidos(Resource):
         status = data.get("status")
         productos = data.get("productos", [])
 
-        # Validar estados permitidos
+        
         ESTADOS_VALIDOS = ["pendiente", "en preparación", "en camino", "entregado", "cancelado"]
         if status not in ESTADOS_VALIDOS:
             return {"error": "Estado no válido"}, 400
 
-        # Crear pedido vacío
+        
         order = OrderModel(user_id=user_id, status=status, total_amount=0)
         db.session.add(order)
         db.session.flush()
@@ -63,7 +63,7 @@ class Pedidos(Resource):
             product_id = producto.get("product_id")
             cantidad = producto.get("quantity", 1)
 
-            # Obtener el producto desde la base
+            
             product = db.session.query(ProductModel).get(product_id)
             if not product:
                 return {"error": f"Producto con id {product_id} no encontrado"}, 404

@@ -13,7 +13,7 @@ def create_app():
     app = Flask(__name__)
     load_dotenv()
 
-    # Si no existe el archivo de base de datos, crearlo (solo válido si se usa SQLite)
+    
     if not os.path.exists(os.getenv("DATABASE_PATH") + os.getenv("DATABASE_NAME")):
         os.mknod(os.getenv("DATABASE_PATH") + os.getenv("DATABASE_NAME"))
 

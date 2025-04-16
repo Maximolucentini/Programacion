@@ -29,7 +29,7 @@ class Producto(Resource):
     def delete(self, id):
         producto = db.session.query(ProductModel).get(id)
         if producto:
-            producto.estado = "suspendido"  # ✅ soft delete
+            producto.estado = "suspendido"  
             db.session.commit()
             return {
                 "mensaje": "Producto suspendido",
