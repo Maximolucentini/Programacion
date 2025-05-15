@@ -1,0 +1,2221 @@
+{
+	"info": {
+		"_postman_id": "a6b2db91-4a1a-48b6-9174-19fb86ddf448",
+		"name": "Grupo G",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43586348",
+		"_collection_link": "https://maximolucentini.postman.co/workspace/Maximo-Lucentini's-Workspace~d00f667e-c3c2-4f41-88c8-1c4de8e1dab9/collection/43586348-a6b2db91-4a1a-48b6-9174-19fb86ddf448?action=share&source=collection_link&creator=43586348"
+	},
+	"item": [
+		{
+			"name": "Usuario/s",
+			"item": [
+				{
+					"name": "Crear usuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Juan Perez\",\n  \"email\": \"juanperez@mail.com\",\n  \"password\": \"123456\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/usuarios",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "obtener usuario por ID",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:7222/usuario/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"usuario",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener todos los usuarios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:7222/usuarios",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar usuario por ID",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Juan Editado\",\n  \"email\": \"juaneditado@mail.com\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/usuario/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"usuario",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Control de error(email duplicado)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Juan Perez\",\n  \"email\": \"juaneditado@mail.com\",\n  \"password\": \"123456\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/usuarios",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Suspender usuario por ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:7222/usuario/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"usuario",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener usuarios suspendidos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7222/usuarios?estado=suspendido",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7222",
+							"path": [
+								"usuarios"
+							],
+							"query": [
+								{
+									"key": "estado",
+									"value": "suspendido"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reactivar usuario por ID",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"estado\": \"activo\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7222/usuario/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7222",
+							"path": [
+								"usuario",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener usuarios activos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7222/usuarios?estado=activo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7222",
+							"path": [
+								"usuarios"
+							],
+							"query": [
+								{
+									"key": "estado",
+									"value": "activo"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "crear usuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"maximo lucentini\",\n  \"email\": \"maxlucen@mail.com\",\n  \"password\": \"1221\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/usuarios",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Control de error(actualizar email a uno existente)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"maxi editado\",\n  \"email\": \"juaneditado@mail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/usuario/2",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"usuario",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Control de error(Actualizar con campos vacios)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/usuario/2",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"usuario",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Control de error(campos obligatorios)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Juan Perez\",\n  \"password\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/usuarios",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "control de error(no poner str en los campos)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": 55,\n  \"email\": \"santisanchez@email.com\",\n  \"password\": \"4432\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/usuarios",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Usuarios filtrados",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7222/usuarios?estado=activo&name=j&sort_by=name_asc&page=1&per_page=5\n",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7222",
+							"path": [
+								"usuarios"
+							],
+							"query": [
+								{
+									"key": "estado",
+									"value": "activo"
+								},
+								{
+									"key": "name",
+									"value": "j"
+								},
+								{
+									"key": "sort_by",
+									"value": "name_asc"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "per_page",
+									"value": "5\n"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Usuarios por ordenamiento(mas recientes)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7222/usuarios?sort_by=created_at_desc&page=1&per_page=3\n",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7222",
+							"path": [
+								"usuarios"
+							],
+							"query": [
+								{
+									"key": "sort_by",
+									"value": "created_at_desc"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "per_page",
+									"value": "3\n"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Control de errores(sort_by invalido)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7222/usuarios?sort_by=fecha_az",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7222",
+							"path": [
+								"usuarios"
+							],
+							"query": [
+								{
+									"key": "sort_by",
+									"value": "fecha_az"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Producto/s",
+			"item": [
+				{
+					"name": "Crear Producto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Hamburguesa clasica\",\n  \"description\": \"Hamburguesa con un medallon de carne,tomate,lechuga y mayonesa\",\n  \"price\": 8000,\n  \"stock\": 15\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/productos",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"productos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear producto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Hamburguesa mexicana\",\n  \"description\": \"Hamburguesa con un medallon de carne,tomate,palta y mayonesa\",\n  \"price\": 8500,\n  \"stock\": 15\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/productos",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"productos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener todos los productos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:7222/productos",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"productos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Producto por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:7222/producto/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"producto",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Producto por ID",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Hamburguesa Mexicana\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/producto/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"producto",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Producto por ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:7222/producto/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"producto",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener productos suspendidos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:7222/productos?estado=suspendido",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"productos"
+							],
+							"query": [
+								{
+									"key": "estado",
+									"value": "suspendido"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reactivar producto por ID",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"estado\" : \"activo\" \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/producto/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"producto",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener productos activos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:7222/productos?estado=activo",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"productos"
+							],
+							"query": [
+								{
+									"key": "estado",
+									"value": "activo"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "control de error(campo obligatorio name)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"\",\n  \"description\": \"Hamburguesa con dos medallones de carne, bacon y queso azul\",\n  \"price\": 10000,\n  \"stock\": 40\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/productos",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"productos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "control de error(nombre no puede ser vacio)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"\",\n  \"description\": \"Hamburguesa con dos medallones de carne, bacon y queso azul\",\n  \"price\": 10000,\n  \"stock\": 40\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/productos",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"productos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Control de error(price>0)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\":\"Hamburguesa Azul\",\n  \"description\": \"Hamburguesa con dos medallones de carne, bacon y queso azul\",\n  \"price\": 0,\n  \"stock\": 40\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/productos",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"productos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Control de error(Stock>=0)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\":\"Hamburguesa Azul\",\n  \"description\": \"Hamburguesa con dos medallones de carne, bacon y queso azul\",\n  \"price\": 10000,\n  \"stock\": -40\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/productos",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"productos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear producto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\":\"Hamburguesa Azul\",\n  \"description\": \"Hamburguesa con dos medallones de carne, bacon y queso azul\",\n  \"price\": 10000,\n  \"stock\": 40\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/productos",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"productos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "control de error(Actualizar el nombre a vacio)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\":\"\"\n  \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/producto/3",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"producto",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "control de error(Actualizar price<=0)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"price\":0\n  \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/producto/3",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"producto",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "control de error(Actualizar stock<0)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"stock\":-33\n  \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/producto/3",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"producto",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "control de error(type error)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": 55,\n  \"description\": \"Hamburguesa con un medallon de carne,tomate,lechuga y mayonesa\",\n  \"price\": 8000,\n  \"stock\": 15\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/productos",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"productos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Productos filtrados",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7222/productos?name=hamburguesa&estado=activo&price_min=6000&price_max=10000&stock_min=5&stock_max=80&sort_by=price_desc&page=1&per_page=2\n",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7222",
+							"path": [
+								"productos"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "hamburguesa"
+								},
+								{
+									"key": "estado",
+									"value": "activo"
+								},
+								{
+									"key": "price_min",
+									"value": "6000"
+								},
+								{
+									"key": "price_max",
+									"value": "10000"
+								},
+								{
+									"key": "stock_min",
+									"value": "5"
+								},
+								{
+									"key": "stock_max",
+									"value": "80"
+								},
+								{
+									"key": "sort_by",
+									"value": "price_desc"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "per_page",
+									"value": "2\n"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Productos por ordenamiento",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7222/productos?sort_by=stock_asc&page=1&per_page=5\n",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7222",
+							"path": [
+								"productos"
+							],
+							"query": [
+								{
+									"key": "sort_by",
+									"value": "stock_asc"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "per_page",
+									"value": "5\n"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Control de errores(sort_by invalido)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7222/productos?sort_by=precio_al_reves\n",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7222",
+							"path": [
+								"productos"
+							],
+							"query": [
+								{
+									"key": "sort_by",
+									"value": "precio_al_reves\n"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pedido/s",
+			"item": [
+				{
+					"name": "Obtener todos los pedidos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:7222/pedidos",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Por ordenamiento",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7222/pedidos?sort_by=total_asc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7222",
+							"path": [
+								"pedidos"
+							],
+							"query": [
+								{
+									"key": "sort_by",
+									"value": "total_asc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Pedido",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": 7,\n  \"status\": \"pendiente\",\n  \"productos\": [\n    {\n      \"product_id\": 7,\n      \"quantity\": 1\n    },\n    {\n      \"product_id\": 8,\n      \"quantity\": 1\n    }\n  ]\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/pedidos",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener pedido por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:7222/pedido/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"pedido",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar pedido por ID",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"en camino\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/pedido/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"pedido",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Pedido por ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:7222/pedido/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"pedido",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Control de errores(producto vacio)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": 1,\n  \"status\": \"pendiente\",\n  \"productos\": []\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/pedidos",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "control de errores (id no existente)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": 999,\n  \"status\": \"pendiente\",\n  \"productos\": [\n    {\n      \"product_id\": 2,\n      \"quantity\": 1\n    }\n  ]\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/pedidos",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "control de errores(cantidad negativa)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": 1,\n  \"status\": \"pendiente\",\n  \"productos\": [\n    {\n      \"product_id\": 2,\n      \"quantity\": -3\n    }\n  ]\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/pedidos",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "control de errores(product_id invalido)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": 1,\n  \"status\": \"pendiente\",\n  \"productos\": [\n    {\n      \"product_id\": \"abc\",\n      \"quantity\": 1\n    }\n  ]\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/pedidos",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "control de errores(stock insuficiente)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": 1,\n  \"status\": \"pendiente\",\n  \"productos\": [\n    {\n      \"product_id\": 2,\n      \"quantity\": 1000\n    }\n  ]\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/pedidos",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "control de errores(status invalido)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"no existe\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/pedido/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"pedido",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pedidos filtrado",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7222/pedidos?user_id=2&status=pendiente&sort_by=created_at_desc&page=1&per_page=5\n",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7222",
+							"path": [
+								"pedidos"
+							],
+							"query": [
+								{
+									"key": "user_id",
+									"value": "2"
+								},
+								{
+									"key": "status",
+									"value": "pendiente"
+								},
+								{
+									"key": "sort_by",
+									"value": "created_at_desc"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "per_page",
+									"value": "5\n"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Control de errores(sort_by invalido)",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Control de errores(Pedido por user susp)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": 4,\n  \"status\": \"pendiente\",\n  \"productos\": [\n    {\n      \"product_id\": 2,\n      \"quantity\": 3\n    },\n    {\n      \"product_id\": 3,\n      \"quantity\": 10\n    }\n  ]\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/pedidos",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Control de errores(Producto susp)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": 9,\n  \"status\": \"pendiente\",\n  \"productos\": [\n    {\n      \"product_id\": 10,\n      \"quantity\": 3\n    },\n    {\n      \"product_id\": 3,\n      \"quantity\": 10\n    }\n  ]\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/pedidos",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login/out",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"usuario_id\": 1,\n  \"rol\": \"ADMIN\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/login",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"mensaje\": \"Logout exitoso\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/logout",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Notificacion",
+			"item": [
+				{
+					"name": "Crear notificacion",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": 1,\n  \"message\": \"Tu pedido fue entregado correctamente.\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/notificaciones",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"notificaciones"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener notificacion por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:7222/notificaciones/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"notificaciones",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Control de errores(campos obligatorios)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/notificaciones",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"notificaciones"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Control de errores(type error)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": \"uno\",\n  \"message\": \"Mensaje inválido\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/notificaciones",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"notificaciones"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Control de errores(user_id invalido)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": 9999,\n  \"message\": \"Probando con usuario inexistente\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/notificaciones",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"notificaciones"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Control de errores(mensaje vacio)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": 1,\n  \"message\": \"   \"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/notificaciones",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"notificaciones"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener notificaciones filtradas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7222/notificaciones/1?is_read=false&contains=pedido&sort_by=fecha_desc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7222",
+							"path": [
+								"notificaciones",
+								"1"
+							],
+							"query": [
+								{
+									"key": "is_read",
+									"value": "false"
+								},
+								{
+									"key": "contains",
+									"value": "pedido"
+								},
+								{
+									"key": "sort_by",
+									"value": "fecha_desc"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Valoracion",
+			"item": [
+				{
+					"name": "Crear valoracion",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": 1,\n  \"product_id\": 2,\n  \"score\": 4,\n  \"comment\": \"Muy buen producto\"\n}\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/valoracion",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"valoracion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear valoracion",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": 2,\n  \"product_id\": 2,\n  \"score\": 3,\n  \"comment\": \"No estaba mal\"\n}\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/valoracion",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"valoracion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener valoracion por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:7222/valoracion/2",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"valoracion",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Control de errores(score vacio)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": 1,\n  \"product_id\": 2,\n  \"comment\": \"Falta el puntaje\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/valoracion",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"valoracion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Control de errores(score fuera de rango)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": 1,\n  \"product_id\": 2,\n  \"score\": 7,\n  \"comment\": \"Demasiado puntaje\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/valoracion",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"valoracion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "control de errores(user_id invalido)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": 99,\n  \"product_id\": 2,\n  \"score\": 3,\n  \"comment\": \"user id invalido\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/valoracion",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"valoracion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "control de errores(product_id invalido)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": 2,\n  \"product_id\": 99,\n  \"score\": 3,\n  \"comment\": \"product id invalido\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/valoracion",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"valoracion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "control de errores(type error)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": \"dos\",\n  \"product_id\": 99,\n  \"score\": 3,\n  \"comment\": \"type error\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/valoracion",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"valoracion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "control de errores(type error)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": 2,\n  \"product_id\": \"dos\",\n  \"score\": 3,\n  \"comment\": \"type error\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/valoracion",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"valoracion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener valoraciones filtradas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7222/valoracion/2?&min_score=3&sort_by=score_desc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7222",
+							"path": [
+								"valoracion",
+								"2"
+							],
+							"query": [
+								{
+									"key": null,
+									"value": null
+								},
+								{
+									"key": "min_score",
+									"value": "3"
+								},
+								{
+									"key": "sort_by",
+									"value": "score_desc"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
