@@ -3,8 +3,8 @@ from flask import request, jsonify
 from main.models import UserModel
 from .. import db
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import asc, desc
 
-#USUARIOS = {1: {"nombre": "Juan", "email": "juan@mail.com", "rol": "ADMIN"},2: {"nombre": "Ana", "email": "ana@mail.com", "rol": "USER"},}
 
 
 class Usuario(Resource):
@@ -63,47 +63,88 @@ class Usuario(Resource):
 
 
 
+
+
 class Usuarios(Resource):
- def get(self):
-        estado = request.args.get("estado")
+    def get(self):
+        
+        try:
+            page = int(request.args.get("page", 1))
+            per_page = int(request.args.get("per_page", 10))
+        except ValueError:
+            return {"error": "page y per_page deben ser enteros válidos"}, 400
 
-        if estado:
-            usuarios = db.session.query(UserModel).filter_by(estado=estado).all()
-        else:
-            usuarios = db.session.query(UserModel).all()
-
-        return [usuario.to_json() for usuario in usuarios]
+        query = db.session.query(UserModel)
 
         
- def post(self):
-    data = request.get_json()
+        if estado := request.args.get("estado"):
+            if estado not in ["activo", "suspendido"]:
+                return {"error": "El estado debe ser 'activo' o 'suspendido'"}, 400
+            query = query.filter(UserModel.estado == estado)
 
-    required_fields = ['name', 'email', 'password']
-    missing_fields = [field for field in required_fields if not data.get(field)]
+        if name := request.args.get("name"):
+            query = query.filter(UserModel.name.ilike(f"%{name}%"))
 
-    if missing_fields:
-        return {"error": f"Faltan campos obligatorios: {', '.join(missing_fields)}"}, 400
+        if email := request.args.get("email"):
+            query = query.filter(UserModel.email.ilike(f"%{email}%"))
+
+        
+        valid_sort_options = {
+            "name_asc": asc(UserModel.name),
+            "name_desc": desc(UserModel.name),
+            "created_at_asc": asc(UserModel.created_at),
+            "created_at_desc": desc(UserModel.created_at)
+        }
+
+        sort_by = request.args.get("sort_by")
+        if sort_by:
+            if sort_by not in valid_sort_options:
+                return {
+                    "error": f"sort_by inválido. Opciones válidas: {', '.join(valid_sort_options.keys())}"
+                }, 400
+            query = query.order_by(valid_sort_options[sort_by])
+
+        
+        paginated = query.paginate(page=page, per_page=per_page, error_out=False)
+
+        return {
+            "usuarios": [u.to_json() for u in paginated.items],
+            "total": paginated.total,
+            "pages": paginated.pages,
+            "current_page": page
+        }, 200
+
+
+        
+    def post(self):
+      data = request.get_json()
+
+      required_fields = ['name', 'email', 'password']
+      missing_fields = [field for field in required_fields if not data.get(field)]
+
+      if missing_fields:
+          return {"error": f"Faltan campos obligatorios: {', '.join(missing_fields)}"}, 400
 
     
-    for campo in ['name', 'email', 'password']:
-        valor = data[campo]
-        try:
-            if not isinstance(valor, str):
-                return {"error": f"El campo '{campo}' debe ser texto."}, 400
-            if not valor.strip():
-                return {"error": f"El campo '{campo}' no puede estar vacío."}, 400
-        except Exception:
-            return {"error": f"Error en el campo '{campo}', debe ser texto válido."}, 400
+      for campo in ['name', 'email', 'password']:
+          valor = data[campo]
+          try:
+              if not isinstance(valor, str):
+                  return {"error": f"El campo '{campo}' debe ser texto."}, 400
+              if not valor.strip():
+                  return {"error": f"El campo '{campo}' no puede estar vacío."}, 400
+          except Exception:
+              return {"error": f"Error en el campo '{campo}', debe ser texto válido."}, 400
 
-    usuario = UserModel.from_json(data)
-    db.session.add(usuario)
-    try:
-        db.session.commit()
-    except IntegrityError:
-        db.session.rollback()
-        return {"error": "El email ya está registrado."}, 409 
+      usuario = UserModel.from_json(data)
+      db.session.add(usuario)
+      try:
+          db.session.commit()
+      except IntegrityError:
+          db.session.rollback()
+          return {"error": "El email ya está registrado."}, 409 
 
-    return {"mensaje": "Usuario creado", "usuario": usuario.to_json()}, 201
+      return {"mensaje": "Usuario creado", "usuario": usuario.to_json()}, 201
 
 
       

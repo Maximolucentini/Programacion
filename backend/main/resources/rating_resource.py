@@ -2,6 +2,8 @@ from flask_restful import Resource
 from flask import request
 from .. import db
 from main.models import RatingModel, UserModel, ProductModel
+from sqlalchemy import asc, desc
+
 
 class Valoracion(Resource):
     def post(self):
@@ -47,9 +49,43 @@ class Valoracion(Resource):
         }, 201
 
 
+
 class ObtenerValoracion(Resource):
     def get(self, producto_id):
-        ratings = db.session.query(RatingModel).filter_by(product_id=producto_id).all()
+        query = db.session.query(RatingModel).filter_by(product_id=producto_id)
+
+        
+        if user_id := request.args.get("user_id"):
+            try:
+                user_id = int(user_id)
+                query = query.filter(RatingModel.user_id == user_id)
+            except ValueError:
+                return {"error": "user_id debe ser un número entero válido"}, 400
+
+        try:
+            if min_score := request.args.get("min_score"):
+                query = query.filter(RatingModel.score >= int(min_score))
+            if max_score := request.args.get("max_score"):
+                query = query.filter(RatingModel.score <= int(max_score))
+        except ValueError:
+            return {"error": "min_score y max_score deben ser números enteros válidos"}, 400
+
+        
+        valid_sort = {
+            "score_asc": asc(RatingModel.score),
+            "score_desc": desc(RatingModel.score),
+            "fecha_asc": asc(RatingModel.created_at),
+            "fecha_desc": desc(RatingModel.created_at)
+        }
+
+        sort_by = request.args.get("sort_by")
+        if sort_by:
+            if sort_by not in valid_sort:
+                return {"error": f"sort_by inválido. Opciones: {', '.join(valid_sort.keys())}"}, 400
+            query = query.order_by(valid_sort[sort_by])
+
+        
+        ratings = query.all()
 
         if not ratings:
             return {

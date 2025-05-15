@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "a6b2db91-4a1a-48b6-9174-19fb86ddf448",
-		"name": "API Rotisería",
+		"name": "Grupo G",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "43586348",
 		"_collection_link": "https://maximolucentini.postman.co/workspace/Maximo-Lucentini's-Workspace~d00f667e-c3c2-4f41-88c8-1c4de8e1dab9/collection/43586348-a6b2db91-4a1a-48b6-9174-19fb86ddf448?action=share&source=collection_link&creator=43586348"
@@ -406,6 +406,105 @@
 							"port": "7222",
 							"path": [
 								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Usuarios filtrados",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7222/usuarios?estado=activo&name=j&sort_by=name_asc&page=1&per_page=5\n",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7222",
+							"path": [
+								"usuarios"
+							],
+							"query": [
+								{
+									"key": "estado",
+									"value": "activo"
+								},
+								{
+									"key": "name",
+									"value": "j"
+								},
+								{
+									"key": "sort_by",
+									"value": "name_asc"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "per_page",
+									"value": "5\n"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Usuarios por ordenamiento(mas recientes)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7222/usuarios?sort_by=created_at_desc&page=1&per_page=3\n",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7222",
+							"path": [
+								"usuarios"
+							],
+							"query": [
+								{
+									"key": "sort_by",
+									"value": "created_at_desc"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "per_page",
+									"value": "3\n"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Control de errores(sort_by invalido)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7222/usuarios?sort_by=fecha_az",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7222",
+							"path": [
+								"usuarios"
+							],
+							"query": [
+								{
+									"key": "sort_by",
+									"value": "fecha_az"
+								}
 							]
 						}
 					},
@@ -947,6 +1046,121 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Productos filtrados",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7222/productos?name=hamburguesa&estado=activo&price_min=6000&price_max=10000&stock_min=5&stock_max=80&sort_by=price_desc&page=1&per_page=2\n",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7222",
+							"path": [
+								"productos"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "hamburguesa"
+								},
+								{
+									"key": "estado",
+									"value": "activo"
+								},
+								{
+									"key": "price_min",
+									"value": "6000"
+								},
+								{
+									"key": "price_max",
+									"value": "10000"
+								},
+								{
+									"key": "stock_min",
+									"value": "5"
+								},
+								{
+									"key": "stock_max",
+									"value": "80"
+								},
+								{
+									"key": "sort_by",
+									"value": "price_desc"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "per_page",
+									"value": "2\n"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Productos por ordenamiento",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7222/productos?sort_by=stock_asc&page=1&per_page=5\n",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7222",
+							"path": [
+								"productos"
+							],
+							"query": [
+								{
+									"key": "sort_by",
+									"value": "stock_asc"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "per_page",
+									"value": "5\n"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Control de errores(sort_by invalido)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7222/productos?sort_by=precio_al_reves\n",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7222",
+							"path": [
+								"productos"
+							],
+							"query": [
+								{
+									"key": "sort_by",
+									"value": "precio_al_reves\n"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -976,13 +1190,38 @@
 					"response": []
 				},
 				{
+					"name": "Por ordenamiento",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7222/pedidos?sort_by=total_asc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7222",
+							"path": [
+								"pedidos"
+							],
+							"query": [
+								{
+									"key": "sort_by",
+									"value": "total_asc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Crear Pedido",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"user_id\": 1,\n  \"status\": \"pendiente\",\n  \"productos\": [\n    {\n      \"product_id\": 2,\n      \"quantity\": 2\n    }\n  ]\n}\n",
+							"raw": "{\n  \"user_id\": 7,\n  \"status\": \"pendiente\",\n  \"productos\": [\n    {\n      \"product_id\": 7,\n      \"quantity\": 1\n    },\n    {\n      \"product_id\": 8,\n      \"quantity\": 1\n    }\n  ]\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1270,6 +1509,117 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Pedidos filtrado",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7222/pedidos?user_id=2&status=pendiente&sort_by=created_at_desc&page=1&per_page=5\n",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7222",
+							"path": [
+								"pedidos"
+							],
+							"query": [
+								{
+									"key": "user_id",
+									"value": "2"
+								},
+								{
+									"key": "status",
+									"value": "pendiente"
+								},
+								{
+									"key": "sort_by",
+									"value": "created_at_desc"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "per_page",
+									"value": "5\n"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Control de errores(sort_by invalido)",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Control de errores(Pedido por user susp)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": 4,\n  \"status\": \"pendiente\",\n  \"productos\": [\n    {\n      \"product_id\": 2,\n      \"quantity\": 3\n    },\n    {\n      \"product_id\": 3,\n      \"quantity\": 10\n    }\n  ]\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/pedidos",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Control de errores(Producto susp)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": 9,\n  \"status\": \"pendiente\",\n  \"productos\": [\n    {\n      \"product_id\": 10,\n      \"quantity\": 3\n    },\n    {\n      \"product_id\": 3,\n      \"quantity\": 10\n    }\n  ]\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:7222/pedidos",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "7222",
+							"path": [
+								"pedidos"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -1516,6 +1866,40 @@
 							"port": "7222",
 							"path": [
 								"notificaciones"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener notificaciones filtradas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7222/notificaciones/1?is_read=false&contains=pedido&sort_by=fecha_desc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7222",
+							"path": [
+								"notificaciones",
+								"1"
+							],
+							"query": [
+								{
+									"key": "is_read",
+									"value": "false"
+								},
+								{
+									"key": "contains",
+									"value": "pedido"
+								},
+								{
+									"key": "sort_by",
+									"value": "fecha_desc"
+								}
 							]
 						}
 					},
@@ -1792,6 +2176,40 @@
 							"port": "7222",
 							"path": [
 								"valoracion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener valoraciones filtradas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7222/valoracion/2?&min_score=3&sort_by=score_desc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7222",
+							"path": [
+								"valoracion",
+								"2"
+							],
+							"query": [
+								{
+									"key": null,
+									"value": null
+								},
+								{
+									"key": "min_score",
+									"value": "3"
+								},
+								{
+									"key": "sort_by",
+									"value": "score_desc"
+								}
 							]
 						}
 					},

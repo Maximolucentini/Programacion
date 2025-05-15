@@ -2,8 +2,7 @@ from flask_restful import Resource
 from flask import request
 from .. import db
 from main.models import OrderModel, OrderProductModel,ProductModel,UserModel
-
-#PEDIDOS = {1: {"usuario_id": 1, "producto_id": 2, "estado": "pendiente"},2: {"usuario_id": 2, "producto_id": 1, "estado": "en preparación"},}
+from sqlalchemy import asc, desc
 
 
 
@@ -46,10 +45,64 @@ class Pedido(Resource):
         return {"error": "Pedido no encontrado"}, 404
 
 
+
 class Pedidos(Resource):
     def get(self):
-        pedidos = db.session.query(OrderModel).all()
-        return [p.to_json() for p in pedidos], 200
+        try:
+            page = int(request.args.get("page", 1))
+            per_page = int(request.args.get("per_page", 10))
+        except ValueError:
+            return {"error": "page y per_page deben ser enteros válidos"}, 400
+
+        query = db.session.query(OrderModel)
+
+        
+        status = request.args.get("status")
+        if status:
+            if status not in ESTADOS_VALIDOS:
+                return {"error": f"Estado no válido. Opciones: {', '.join(ESTADOS_VALIDOS)}"}, 400
+            query = query.filter(OrderModel.status == status)
+
+        user_id = request.args.get("user_id")
+        if user_id:
+            try:
+                user_id = int(user_id)
+                query = query.filter(OrderModel.user_id == user_id)
+            except ValueError:
+                return {"error": "user_id debe ser un número entero"}, 400
+
+        try:
+            if min_total := request.args.get("min_total"):
+                query = query.filter(OrderModel.total_amount >= float(min_total))
+            if max_total := request.args.get("max_total"):
+                query = query.filter(OrderModel.total_amount <= float(max_total))
+        except ValueError:
+            return {"error": "min_total y max_total deben ser números válidos"}, 400
+
+        
+        valid_sort_options = {
+            "created_at_asc": asc(OrderModel.created_at),
+            "created_at_desc": desc(OrderModel.created_at),
+            "total_asc": asc(OrderModel.total_amount),
+            "total_desc": desc(OrderModel.total_amount)
+        }
+
+        sort_by = request.args.get("sort_by")
+        if sort_by:
+            if sort_by not in valid_sort_options:
+                return {"error": f"sort_by inválido. Opciones: {', '.join(valid_sort_options)}"}, 400
+            query = query.order_by(valid_sort_options[sort_by])
+
+        
+        paginated = query.paginate(page=page, per_page=per_page, error_out=False)
+
+        return {
+            "pedidos": [p.to_json() for p in paginated.items],
+            "total": paginated.total,
+            "pages": paginated.pages,
+            "current_page": page
+        }, 200
+
 
     def post(self):
         data = request.get_json()
@@ -64,6 +117,9 @@ class Pedidos(Resource):
         usuario = db.session.query(UserModel).get(user_id)
         if not usuario:
             return {"error": f"Usuario con id {user_id} no encontrado."}, 404
+        
+        if usuario.estado != "activo":
+            return {"error": "El usuario está suspendido y no puede realizar pedidos."}, 403
 
         if status not in ESTADOS_VALIDOS:
             return {"error": "Estado no válido"}, 400
@@ -92,6 +148,9 @@ class Pedidos(Resource):
             product = db.session.query(ProductModel).get(product_id)
             if not product:
                 return {"error": f"Producto con id {product_id} no encontrado."}, 404
+            
+            if product.estado != "activo":
+                return {"error": f"El producto con id {product_id} está suspendido y no puede ser agregado al pedido."}, 400
 
             if product.stock is None or product.stock < cantidad:
                 return {"error": f"No hay stock suficiente para el producto con id {product_id}."}, 400
@@ -108,7 +167,7 @@ class Pedidos(Resource):
             )
             db.session.add(order_product)
 
-            product.stock -= cantidad  # Actualizamos el stock
+            product.stock -= cantidad  
 
         order.total_amount = total
         db.session.commit()
