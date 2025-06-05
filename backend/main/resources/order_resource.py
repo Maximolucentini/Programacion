@@ -3,22 +3,40 @@ from flask import request
 from .. import db
 from main.models import OrderModel, OrderProductModel,ProductModel,UserModel
 from sqlalchemy import asc, desc
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
+from main.auth.decorators import role_required
+
 
 
 
 ESTADOS_VALIDOS = ["pendiente", "en preparación", "en camino", "entregado", "cancelado"]
 
 class Pedido(Resource):
+    @jwt_required()
     def get(self, id):
         pedido = db.session.query(OrderModel).get(id)
-        if pedido:
-            return pedido.to_json_complete(), 200
-        return {"error": "Pedido no encontrado"}, 404
+        if not pedido:
+            return {"error": "Pedido no encontrado"}, 404
 
+        user_id = get_jwt_identity()
+        rol = get_jwt().get("rol")
+
+        if rol == "admin" or pedido.user_id == user_id:
+            return pedido.to_json_complete(), 200
+        return {"error": "No tienes permiso para ver este pedido"}, 403
+    
+        
+    @jwt_required()
     def put(self, id):
         pedido = db.session.query(OrderModel).get(id)
         if not pedido:
             return {"error": "Pedido no encontrado"}, 404
+
+        user_id = get_jwt_identity()
+        rol = get_jwt().get("rol")
+
+        if rol != "admin" and pedido.user_id != user_id:
+            return {"error": "No tienes permiso para modificar este pedido"}, 403
 
         data = request.get_json()
         nuevo_estado = data.get("status")
@@ -35,19 +53,31 @@ class Pedido(Resource):
             "mensaje": "Estado del pedido actualizado",
             "pedido": pedido.to_json()
         }, 200
-
+    
+    @jwt_required()
     def delete(self, id):
         pedido = db.session.query(OrderModel).get(id)
-        if pedido:
-            db.session.delete(pedido)
-            db.session.commit()
-            return {"mensaje": "Pedido eliminado"}, 200
-        return {"error": "Pedido no encontrado"}, 404
+        if not pedido:
+            return {"error": "Pedido no encontrado"}, 404
+
+        user_id = get_jwt_identity()
+        rol = get_jwt().get("rol")
+
+        if rol != "admin" and pedido.user_id != user_id:
+            return {"error": "No tienes permiso para eliminar este pedido"}, 403
+
+        db.session.delete(pedido)
+        db.session.commit()
+        return {"mensaje": "Pedido eliminado"}, 200
 
 
 
 class Pedidos(Resource):
+    @jwt_required()
     def get(self):
+        user_id = get_jwt_identity()
+        rol = get_jwt().get("rol")
+        
         try:
             page = int(request.args.get("page", 1))
             per_page = int(request.args.get("per_page", 10))
@@ -55,6 +85,9 @@ class Pedidos(Resource):
             return {"error": "page y per_page deben ser enteros válidos"}, 400
 
         query = db.session.query(OrderModel)
+        
+        if rol != "admin":
+            query = query.filter(OrderModel.user_id == user_id)
 
         
         status = request.args.get("status")
@@ -103,8 +136,12 @@ class Pedidos(Resource):
             "current_page": page
         }, 200
 
-
+    @jwt_required()
     def post(self):
+        user_id = get_jwt_identity()
+
+        
+        
         data = request.get_json()
 
         user_id = data.get("user_id")
@@ -118,8 +155,9 @@ class Pedidos(Resource):
         if not usuario:
             return {"error": f"Usuario con id {user_id} no encontrado."}, 404
         
-        if usuario.estado != "activo":
-            return {"error": "El usuario está suspendido y no puede realizar pedidos."}, 403
+        if not usuario or usuario.estado != "activo":
+            return {"error": "Usuario inválido o suspendido"}, 403
+        
 
         if status not in ESTADOS_VALIDOS:
             return {"error": "Estado no válido"}, 400

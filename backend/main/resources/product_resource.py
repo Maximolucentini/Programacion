@@ -3,17 +3,24 @@ from flask import request
 from .. import db
 from main.models import ProductModel
 from sqlalchemy import asc, desc
-
-#PRODUCTOS = {1: {"nombre": "Hamburguesa Clásica"},2: {"nombre": "Hamburguesa Doble"},3: {"nombre": "Hamburguesa con Bacon"},}
+from flask_jwt_extended import jwt_required, get_jwt
+from main.auth.decorators import role_required
 
 
 class Producto(Resource):
+    @jwt_required(optional=True)
     def get(self, id):
         producto = db.session.query(ProductModel).get(id)
-        if producto:
-            return producto.to_json(), 200
-        return {"error": "Producto no encontrado"}, 404
+        if not producto:
+            return {"error": "Producto no encontrado"}, 404
 
+        rol = get_jwt().get("rol", None)
+        if rol in ["user", "admin"]:
+            return producto.to_json(), 200
+        else:
+            return producto.to_json_short(), 200
+        
+    @role_required(roles=["admin"])
     def put(self, id):
         producto = db.session.query(ProductModel).get(id)
         if not producto:
@@ -48,7 +55,7 @@ class Producto(Resource):
         "producto": producto.to_json()
         }, 200
      
-
+    @role_required(roles=["admin"])
     def delete(self, id):
         producto = db.session.query(ProductModel).get(id)
         if producto:
@@ -64,6 +71,7 @@ class Producto(Resource):
 
 
 class Productos(Resource):
+    @jwt_required(optional=True)
     def get(self):
         
         try:
@@ -121,6 +129,12 @@ class Productos(Resource):
 
     
         paginated = query.paginate(page=page, per_page=per_page, error_out=False)
+        
+        rol = get_jwt().get("rol", None)
+        if rol in ["user", "admin"]:
+            productos = [p.to_json() for p in paginated.items]
+        else:
+            productos = [p.to_json_short() for p in paginated.items]
 
         return {
             "productos": [p.to_json() for p in paginated.items],
@@ -129,7 +143,7 @@ class Productos(Resource):
             "current_page": page
         }, 200
 
-
+    @role_required(roles=["admin"])
     def post(self):
         data = request.get_json()    
         

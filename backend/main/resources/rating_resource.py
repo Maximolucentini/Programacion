@@ -3,13 +3,16 @@ from flask import request
 from .. import db
 from main.models import RatingModel, UserModel, ProductModel
 from sqlalchemy import asc, desc
+from flask_jwt_extended import jwt_required, get_jwt_identity
+
 
 
 class Valoracion(Resource):
+    @jwt_required()
     def post(self):
         data = request.get_json()
 
-        user_id = data.get("user_id")
+        user_id = get_jwt_identity()
         product_id = data.get("product_id")
         score = data.get("score")
         comment = data.get("comment")
@@ -39,6 +42,7 @@ class Valoracion(Resource):
         if not db.session.query(ProductModel).get(product_id):
             return {"error": f"Producto con id {product_id} no encontrado."}, 404
 
+        data["user_id"] = user_id
         rating = RatingModel.from_json(data)
         db.session.add(rating)
         db.session.commit()

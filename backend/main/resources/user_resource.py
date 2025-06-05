@@ -4,20 +4,33 @@ from main.models import UserModel
 from .. import db
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import asc, desc
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
+from main.auth.decorators import role_required
+
 
 
 
 class Usuario(Resource):
+ @jwt_required(optional=True)
  def get(self, id):  
         usuario = db.session.query(UserModel).get(id)
-        if usuario:
-            return usuario.to_json(), 200
-        return {"error": "Usuario no encontrado"}, 404
+        if not usuario:
+            return {"error": "Usuario no encontrado"}, 404
 
+        current_id = get_jwt_identity()
+        if current_id == usuario.id:
+            return usuario.to_json_complete(), 200
+        else:
+            return usuario.to_json(), 200
+    
+ @jwt_required()
  def put(self, id):
     usuario = db.session.query(UserModel).get(id)
     if not usuario:
         return {"error": "Usuario no encontrado"}, 404
+    
+    if get_jwt_identity() != usuario.id:
+            return {"error": "No tenés permiso para modificar este usuario"}, 403
 
     data = request.get_json()
 
@@ -49,16 +62,19 @@ class Usuario(Resource):
     
 
 
-
+ @role_required(["admin", "user"])
  def delete(self, id):
         usuario = db.session.query(UserModel).get(id)
-        if usuario:
-            usuario.estado = "suspendido"
-            db.session.commit()
-            return {
-            "mensaje": "Usuario suspendido",
-            "usuario": usuario.to_json()  }, 200
-        return {"error": "Usuario no encontrado"}, 404
+        if not usuario:
+            return {"error": "Usuario no encontrado"}, 404
+
+        rol = get_jwt().get("rol")
+        if rol == "user" and usuario.id != get_jwt_identity():
+            return {"error": "No tenés permiso para eliminar este usuario"}, 403
+
+        usuario.estado = "suspendido"
+        db.session.commit()
+        return {"mensaje": "Usuario suspendido", "usuario": usuario.to_json()}, 200
 
 
 
@@ -66,6 +82,7 @@ class Usuario(Resource):
 
 
 class Usuarios(Resource):
+    @role_required(roles=["admin"])
     def get(self):
         
         try:

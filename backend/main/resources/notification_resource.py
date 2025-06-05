@@ -3,9 +3,13 @@ from flask import request
 from .. import db
 from main.models import NotificationModel, UserModel
 from sqlalchemy import asc, desc
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
+from main.auth.decorators import role_required
+
 
 
 class Notificacion(Resource):
+    @role_required(roles=["admin"])
     def post(self):
         data = request.get_json()
 
@@ -41,7 +45,14 @@ class Notificacion(Resource):
 
 
 class NotificacionesUsuario(Resource):
+    @jwt_required()
     def get(self, user_id):
+        rol = get_jwt().get("rol")
+        current_user = get_jwt_identity()
+
+        if rol != "admin" and current_user != user_id:
+            return {"error": "No tienes permiso para ver estas notificaciones"}, 403
+        
         query = db.session.query(NotificationModel).filter_by(user_id=user_id)
 
         
