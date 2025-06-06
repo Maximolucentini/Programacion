@@ -12,7 +12,7 @@ class Producto(Resource):
     def get(self, id):
         producto = db.session.query(ProductModel).get(id)
         if not producto:
-            return {"error": "Producto no encontrado"}, 404
+            return {"message": "Producto no encontrado"}, 404
 
         rol = get_jwt().get("rol", None)
         if rol in ["user", "admin"]:
@@ -24,34 +24,34 @@ class Producto(Resource):
     def put(self, id):
         producto = db.session.query(ProductModel).get(id)
         if not producto:
-           return {"error": "Producto no encontrado"}, 404
+           return {"message": "Producto no encontrado"}, 404
 
         data = request.get_json()
 
         if 'name' in data:
            if not isinstance(data['name'], str) or not data['name'].strip():
-              return {"error": "El nombre del producto debe ser texto y no puede estar vacío."}, 400
+              return {"message": "El nombre del producto debe ser texto y no puede estar vacío."}, 400
 
         if 'price' in data:
           try:
               if float(data['price']) <= 0:
-                return {"error": "El precio debe ser mayor que 0."}, 400
+                return {"message": "El precio debe ser mayor que 0."}, 400
           except (ValueError, TypeError):
-                return {"error": "El campo 'price' debe ser un número válido."}, 400
+                return {"message": "El campo 'price' debe ser un número válido."}, 400
 
         if 'stock' in data:
           try:
               if int(data['stock']) < 0:
-                return {"error": "El stock no puede ser negativo."}, 400
+                return {"message": "El stock no puede ser negativo."}, 400
           except (ValueError, TypeError):
-                return {"error": "El campo 'stock' debe ser un número entero válido."}, 400
+                return {"message": "El campo 'stock' debe ser un número entero válido."}, 400
 
         for key, value in data.items():
          setattr(producto, key, value)
 
         db.session.commit()
         return {
-        "mensaje": "Producto actualizado",
+        "message": "Producto actualizado",
         "producto": producto.to_json()
         }, 200
      
@@ -62,10 +62,10 @@ class Producto(Resource):
             producto.estado = "suspendido"  
             db.session.commit()
             return {
-                "mensaje": "Producto suspendido",
+                "message": "Producto suspendido",
                 "producto": producto.to_json()
             }, 200
-        return {"error": "Producto no encontrado"}, 404
+        return {"message": "Producto no encontrado"}, 404
 
 
 
@@ -78,7 +78,7 @@ class Productos(Resource):
             page = int(request.args.get('page', 1))
             per_page = int(request.args.get('per_page', 10))
         except ValueError:
-            return {"error": "page y per_page deben ser enteros"}, 400
+            return {"message": "page y per_page deben ser enteros"}, 400
 
         query = db.session.query(ProductModel)
 
@@ -86,7 +86,7 @@ class Productos(Resource):
 
         if estado := request.args.get("estado"):
             if estado not in ["activo", "suspendido"]:
-                return {"error": "El estado debe ser 'activo' o 'suspendido'"}, 400
+                return {"message": "El estado debe ser 'activo' o 'suspendido'"}, 400
             query = query.filter(ProductModel.estado == estado)
 
         if name := request.args.get("name"):
@@ -98,7 +98,7 @@ class Productos(Resource):
             if price_max := request.args.get("price_max"):
                 query = query.filter(ProductModel.price <= float(price_max))
         except ValueError:
-            return {"error": "price_min y price_max deben ser números válidos"}, 400
+            return {"message": "price_min y price_max deben ser números válidos"}, 400
 
         try:
             if stock_min := request.args.get("stock_min"):
@@ -106,7 +106,7 @@ class Productos(Resource):
             if stock_max := request.args.get("stock_max"):
                 query = query.filter(ProductModel.stock <= int(stock_max))
         except ValueError:
-            return {"error": "stock_min y stock_max deben ser enteros válidos"}, 400
+            return {"message": "stock_min y stock_max deben ser enteros válidos"}, 400
 
         
 
@@ -123,7 +123,7 @@ class Productos(Resource):
         if sort_by:
             if sort_by not in valid_sort_options:
                 return {
-                    "error": f"sort_by inválido. Opciones válidas: {', '.join(valid_sort_options.keys())}"
+                    "message": f"sort_by inválido. Opciones válidas: {', '.join(valid_sort_options.keys())}"
                 }, 400
             query = query.order_by(valid_sort_options[sort_by])
 
@@ -151,32 +151,32 @@ class Productos(Resource):
         missing_fields = [field for field in required_fields if field not in data]
 
         if missing_fields:
-           return {"error": f"Faltan campos obligatorios: {', '.join(missing_fields)}"}, 400
+           return {"message": f"Faltan campos obligatorios: {', '.join(missing_fields)}"}, 400
 
         
         if not isinstance(data['name'], str) or not data['name'].strip():
-           return {"error": "El nombre del producto debe ser texto y no puede estar vacío."}, 400
+           return {"message": "El nombre del producto debe ser texto y no puede estar vacío."}, 400
        
         
         try:
            price = float(data['price'])
            if price <= 0:
-            return {"error": "El precio debe ser mayor que 0."}, 400
+            return {"message": "El precio debe ser mayor que 0."}, 400
         except (ValueError, TypeError):
-          return {"error": "El campo 'price' debe ser un número válido."}, 400
+          return {"message": "El campo 'price' debe ser un número válido."}, 400
 
         
         try:
            stock = int(data['stock'])
            if stock < 0:
-            return {"error": "El stock no puede ser negativo."}, 400
+            return {"message": "El stock no puede ser negativo."}, 400
         except (ValueError, TypeError):
-           return {"error": "El campo 'stock' debe ser un número entero válido."}, 400
+           return {"message": "El campo 'stock' debe ser un número entero válido."}, 400
 
         producto = ProductModel.from_json(data)
         db.session.add(producto)
         db.session.commit()
         return {
-        "mensaje": "Producto creado",
+        "message": "Producto creado",
         "producto": producto.to_json()
      }, 201

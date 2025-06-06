@@ -10,7 +10,7 @@ def role_required(roles):
             claims = get_jwt()
             if claims['rol'] in roles:
                 return fn(*args, **kwargs)
-            return 'Acceso denegado por rol', 403
+            return {"message":'Acceso denegado por rol'}, 403
         return wrapper
     return decorator
 

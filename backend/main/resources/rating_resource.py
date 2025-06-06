@@ -18,29 +18,29 @@ class Valoracion(Resource):
         comment = data.get("comment")
 
         if user_id is None or product_id is None or score is None:
-            return {"error": "Faltan campos obligatorios: 'user_id', 'product_id' y/o 'score'."}, 400
+            return {"message": "Faltan campos obligatorios: 'user_id', 'product_id' y/o 'score'."}, 400
 
         
         if not isinstance(user_id, int):
-            return {"error": "El campo 'user_id' debe ser un número entero."}, 400
+            return {"message": "El campo 'user_id' debe ser un número entero."}, 400
         if not isinstance(product_id, int):
-            return {"error": "El campo 'product_id' debe ser un número entero."}, 400
+            return {"message": "El campo 'product_id' debe ser un número entero."}, 400
         try:
             score = int(score)
             if not (1 <= score <= 5):
-                return {"error": "El campo 'score' debe estar entre 1 y 5."}, 400
+                return {"message": "El campo 'score' debe estar entre 1 y 5."}, 400
         except (ValueError, TypeError):
-            return {"error": "El campo 'score' debe ser un número entero válido."}, 400
+            return {"message": "El campo 'score' debe ser un número entero válido."}, 400
 
         if comment is not None:
             if not isinstance(comment, str):
-                return {"error": "El campo 'comment' debe ser texto si se incluye."}, 400
+                return {"message": "El campo 'comment' debe ser texto si se incluye."}, 400
 
         
         if not db.session.query(UserModel).get(user_id):
-            return {"error": f"Usuario con id {user_id} no encontrado."}, 404
+            return {"message": f"Usuario con id {user_id} no encontrado."}, 404
         if not db.session.query(ProductModel).get(product_id):
-            return {"error": f"Producto con id {product_id} no encontrado."}, 404
+            return {"message": f"Producto con id {product_id} no encontrado."}, 404
 
         data["user_id"] = user_id
         rating = RatingModel.from_json(data)
@@ -48,7 +48,7 @@ class Valoracion(Resource):
         db.session.commit()
 
         return {
-            "mensaje": "Valoración agregada",
+            "message": "Valoración agregada",
             "rating": rating.to_json()
         }, 201
 
@@ -64,7 +64,7 @@ class ObtenerValoracion(Resource):
                 user_id = int(user_id)
                 query = query.filter(RatingModel.user_id == user_id)
             except ValueError:
-                return {"error": "user_id debe ser un número entero válido"}, 400
+                return {"message": "user_id debe ser un número entero válido"}, 400
 
         try:
             if min_score := request.args.get("min_score"):
@@ -72,7 +72,7 @@ class ObtenerValoracion(Resource):
             if max_score := request.args.get("max_score"):
                 query = query.filter(RatingModel.score <= int(max_score))
         except ValueError:
-            return {"error": "min_score y max_score deben ser números enteros válidos"}, 400
+            return {"message": "min_score y max_score deben ser números enteros válidos"}, 400
 
         
         valid_sort = {
@@ -85,7 +85,7 @@ class ObtenerValoracion(Resource):
         sort_by = request.args.get("sort_by")
         if sort_by:
             if sort_by not in valid_sort:
-                return {"error": f"sort_by inválido. Opciones: {', '.join(valid_sort.keys())}"}, 400
+                return {"message": f"sort_by inválido. Opciones: {', '.join(valid_sort.keys())}"}, 400
             query = query.order_by(valid_sort[sort_by])
 
         
