@@ -1,5 +1,6 @@
 from .. import db
 from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -8,6 +9,7 @@ class User(db.Model):
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(128), nullable=False)
+    rol = db.Column(db.String(10), nullable=False, server_default="user")
     estado = db.Column(db.String(50), nullable=False, default="activo")
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
@@ -16,6 +18,17 @@ class User(db.Model):
     orders = db.relationship("Order", back_populates="user", cascade="all, delete-orphan")
     ratings = db.relationship("Rating", back_populates="user", cascade="all, delete-orphan")
     notifications = db.relationship("Notification", back_populates="user", cascade="all, delete-orphan")
+    
+    @property
+    def plain_password(self):
+        raise AttributeError("La contraseña no se puede leer")
+
+    @plain_password.setter
+    def plain_password(self, password):
+        self.password = generate_password_hash(password)
+
+    def validate_pass(self, password):
+        return check_password_hash(self.password, password)
 
     def __repr__(self):
         return f'<User {self.id} - {self.name}>'
@@ -56,8 +69,9 @@ class User(db.Model):
             id=data.get('id'),
             name=data.get('name'),
             email=data.get('email'),
-            password=data.get('password'),
+            plain_password=data.get('password'),
             estado=data.get('estado', 'activo'),
+            rol=data.get('rol', 'user'),
             created_at=datetime.strptime(data['created_at'], '%Y-%m-%d %H:%M:%S') if 'created_at' in data else datetime.now(),
             updated_at=datetime.strptime(data['updated_at'], '%Y-%m-%d %H:%M:%S') if 'updated_at' in data else datetime.now(),
         )

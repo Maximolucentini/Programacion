@@ -1,0 +1,10 @@
+¡Bienvenido/a {{ user.name }}!
+
+Gracias por registrarte en nuestra rotisería.
+
+Con nuestro servicio vas a poder:
+
+- Hacer pedidos de comida
+- Recibir notificaciones sobre tus pedidos
+
+¡Esperamos que disfrutes nuestras comidas caseras!
