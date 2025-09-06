@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gestión de Usuarios - Admin</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    .usuario-card {
+      background-color: #fff;
+      border-left: 5px solid #ff3d3d;
+      border-radius: 10px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .estado-activo {
+      color: green;
+      font-weight: bold;
+    }
+
+    .estado-bloqueado {
+      color: red;
+      font-weight: bold;
+    }
+
+    .btn-bloquear {
+      background-color: #ff3d3d;
+      color: #fff;
+    }
+
+    .btn-activar {
+      background-color: #3b3b3b;
+      color: #fff;
+    }
+  </style>
+</head>
+<body class="bg-light">
+  <div class="container pt-4">
+    <a href="admin.html" class="btn btn-outline-secondary mb-3">
+      ← Volver al panel
+    </a>
+  </div>
+  
+
+  <div class="container py-4">
+    <h2 class="text-center mb-4 text-danger fw-bold">Gestión de usuarios</h2>
+
+    <!-- Usuario 1 -->
+    <div class="usuario-card d-flex justify-content-between align-items-center">
+      <div>
+        <h5 class="mb-1">María López</h5>
+        <p class="mb-1 text-muted">maria.lopez@gmail.com</p>
+        <span class="estado-activo">Activo</span>
+      </div>
+      <button class="btn btn-bloquear">Bloquear</button>
+    </div>
+
+    <!-- Usuario 2 -->
+    <div class="usuario-card d-flex justify-content-between align-items-center">
+      <div>
+        <h5 class="mb-1">Pedro Ramírez</h5>
+        <p class="mb-1 text-muted">pedro.ramirez@hotmail.com</p>
+        <span class="estado-bloqueado">Bloqueado</span>
+      </div>
+      <button class="btn btn-activar">Activar</button>
+    </div>
+
+    <!-- Usuario 3 -->
+    <div class="usuario-card d-flex justify-content-between align-items-center">
+      <div>
+        <h5 class="mb-1">Camila Torres</h5>
+        <p class="mb-1 text-muted">camila.torres@poisson.com</p>
+        <span class="estado-activo">Activo</span>
+      </div>
+      <button class="btn btn-bloquear">Bloquear</button>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
