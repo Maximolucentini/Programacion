@@ -1,0 +1,34 @@
+.estado-container {
+    max-width: 600px; 
+    margin: 0 auto;
+    padding: 20px;
+  }
+.estado-icon {
+    font-size: 32px; 
+    margin-right: 12px;
+    vertical-align: middle;
+  }
+  
+  
+  .estado-realizado {
+    color: #198754; 
+  }
+  
+  .estado-preparacion {
+    color: #ff9800; 
+  }
+  
+  .estado-listo {
+    color: #6c757d; 
+  }
+  .btn-danger {
+    background-color: #ff3d3d;
+    border: none;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-danger:hover {
+    background-color: #e63434;
+  }
+  

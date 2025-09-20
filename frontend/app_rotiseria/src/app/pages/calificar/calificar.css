@@ -1,0 +1,87 @@
+/* Contenedor principal */
+.calificar-container {
+    background-color: #d9d9d9;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  
+  /* Título principal */
+  .titulo {
+    color: #d32f2f;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+  
+  /* Texto del pedido */
+  .pedido {
+    font-size: 0.9rem;
+    color: #000;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  
+  /* Tarjeta blanca */
+  .calificar-card {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    width: 250px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Secciones de comida y atención */
+  .calificar-section {
+    margin-bottom: 1.2rem;
+    text-align: center;
+  }
+  
+  .label {
+    font-weight: bold;
+    color: #d32f2f;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Estrellas */
+  .estrellas {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  
+  .estrellas i {
+    font-size: 1.5rem;
+    color: #000;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .estrellas i:hover {
+    color: #ff3d3d;
+  }
+  
+  /* Botón Finalizar */
+  .btn-finalizar {
+    background-color: #ff3d3d;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.5rem;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+  }
+  
+  .btn-finalizar:hover {
+    background-color: #e63434;
+  }
+  

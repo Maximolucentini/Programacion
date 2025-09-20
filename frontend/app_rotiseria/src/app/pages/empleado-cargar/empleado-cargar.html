@@ -1,0 +1,74 @@
+<div class="container-cargar-pedido">
+    <!-- Encabezado -->
+    <div class="header">
+      <a routerLink="/empleado" class="back-btn">
+        <i class="fa-solid fa-arrow-left"></i>
+      </a>
+      <h5 class="titulo-header">Cargar Pedido</h5>
+      <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    </div>
+  
+    <!-- Título -->
+    <h3 class="titulo-principal">Nuevo Pedido</h3>
+  
+    <!-- Formulario -->
+    <form class="pedido-form" onsubmit="return false;">
+      <!-- Nombre del cliente -->
+      <div class="form-group">
+        <label for="cliente">Nombre del cliente</label>
+        <input
+          type="text"
+          id="cliente"
+          placeholder="Ingrese el nombre del cliente"
+        />
+      </div>
+  
+      <!-- Lista dinámica de productos -->
+      <div id="productos-lista">
+        <div class="producto-item">
+          <div class="form-group">
+            <label>Producto</label>
+            <select>
+              <option disabled selected>Seleccione un producto</option>
+              <option value="pizza">Pizza</option>
+              <option value="hamburguesa">Hamburguesa</option>
+              <option value="papas">Papas fritas</option>
+              <option value="gaseosa">Gaseosa</option>
+            </select>
+          </div>
+  
+          <div class="form-group cantidad-group">
+            <label>Cantidad</label>
+            <div class="cantidad-control">
+              <button type="button" class="btn-cantidad" onclick="disminuirCantidad(this)">&#9664;</button>
+              <span class="cantidad">1</span>
+              <button type="button" class="btn-cantidad" onclick="aumentarCantidad(this)">&#9654;</button>
+            </div>
+          </div>
+  
+          <button type="button" class="btn-eliminar" onclick="eliminarProducto(this)">Eliminar</button>
+        </div>
+      </div>
+  
+      <!-- Botón para agregar otro producto -->
+      <div class="form-actions">
+        <button type="button" class="btn-agregar" onclick="agregarProducto()">+ Agregar Producto</button>
+      </div>
+  
+      <!-- Total del pedido -->
+      <div class="form-group">
+        <label for="total">Total</label>
+        <input type="number" id="total" placeholder="Ingrese el total" />
+      </div>
+  
+      <!-- Botón cargar pedido -->
+      <div class="form-actions">
+        <button type="submit" class="btn-cargar">Cargar Pedido</button>
+        <button type="reset" class="btn-reset">Limpiar</button>
+      </div>
+    </form>
+  </div>
+  
+  <app-footer></app-footer>
+  
+

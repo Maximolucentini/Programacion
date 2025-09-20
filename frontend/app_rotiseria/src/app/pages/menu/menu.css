@@ -1,0 +1,10 @@
+.pedido-btn {
+    background-color: #ff7043;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .pedido-btn:hover {
+    background-color: #e65100;
+    transform: scale(1.05);
+  }
+  

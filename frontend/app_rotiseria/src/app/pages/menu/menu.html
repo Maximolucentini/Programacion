@@ -1,0 +1,123 @@
+<app-navbar></app-navbar>
+
+  
+  <!-- Título y búsqueda -->
+  <div class="container mt-5">
+    <h1 class="text-center">Menú</h1>
+    <p class="text-center mb-4">¡Ordena tu comida favorita!</p>
+  
+    <div class="input-group mb-4">
+      <input type="text" class="form-control" placeholder="Buscar producto..." />
+      <button class="btn btn-outline-secondary" type="button"><i class="fa fa-search"></i></button>
+    </div>
+  
+    <!-- Productos -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+  
+      <!-- Producto 1 -->
+      <div class="col">
+        <div class="card h-100">
+          <img src="assets/img/americanburger.jpg" class="card-img-top" alt="American Burger">
+          <div class="card-body">
+            <h5 class="card-title">American Burger</h5>
+            <p class="card-text small">Una hamburguesa clásica americana con queso cheddar, lechuga, tomate y pepinillos.</p>
+            <p><strong>Puntaje:</strong> 4.9 ★ | <strong>Tiempo estimado:</strong> 20 mins</p>
+  
+            <div class="mb-2">
+              <label class="form-label d-block mb-1">Nivel de picante</label>
+              <div class="btn-group" role="group">
+                <input type="radio" class="btn-check" name="spicy1" id="suave1" autocomplete="off" checked>
+                <label class="btn btn-outline-danger btn-sm" for="suave1">Suave</label>
+                <input type="radio" class="btn-check" name="spicy1" id="picante1" autocomplete="off">
+                <label class="btn btn-outline-danger btn-sm" for="picante1">Picante</label>
+              </div>
+            </div>
+  
+            <div class="mb-3">
+              <label for="portion1" class="form-label">Porciones</label>
+              <input type="number" class="form-control form-control-sm" id="portion1" value="1" min="1" />
+            </div>
+  
+            <div class="d-grid">
+                <button (click)="realizarPedido()" class="btn text-white pedido-btn">
+                    ¡Pedir ahora! - $2.500
+                  </button>
+                  
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Producto 2 -->
+      <div class="col">
+        <div class="card h-100">
+          <img src="assets/img/bigburger.jpg" class="card-img-top" alt="Big Burger">
+          <div class="card-body">
+            <h5 class="card-title">Big Burger</h5>
+            <p class="card-text small">Doble carne, doble queso, tocino y una salsa secreta. Ideal para los fanáticos del sabor.</p>
+            <p><strong>Puntaje:</strong> 4.8 ★ | <strong>Tiempo estimado:</strong> 25 mins</p>
+  
+            <div class="mb-2">
+              <label class="form-label d-block mb-1">Nivel de picante</label>
+              <div class="btn-group" role="group">
+                <input type="radio" class="btn-check" name="spicy2" id="suave2" autocomplete="off" checked>
+                <label class="btn btn-outline-danger btn-sm" for="suave2">Suave</label>
+                <input type="radio" class="btn-check" name="spicy2" id="picante2" autocomplete="off">
+                <label class="btn btn-outline-danger btn-sm" for="picante2">Picante</label>
+              </div>
+            </div>
+  
+            <div class="mb-3">
+              <label for="portion2" class="form-label">Porciones</label>
+              <input type="number" class="form-control form-control-sm" id="portion2" value="1" min="1" />
+            </div>
+  
+            <div class="d-grid">
+                <button (click)="realizarPedido()" class="btn text-white pedido-btn">
+                    ¡Pedir ahora! - $2.500
+                  </button>
+                  
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Producto 3 -->
+      <div class="col">
+        <div class="card h-100">
+          <img src="assets/img/chickenburger.jpg" class="card-img-top" alt="Chicken Burger">
+          <div class="card-body">
+            <h5 class="card-title">Chicken Burger</h5>
+            <p class="card-text small">Hamburguesa de pollo empanado con lechuga fresca, tomate y mayonesa suave.</p>
+            <p><strong>Puntaje:</strong> 4.7 ★ | <strong>Tiempo estimado:</strong> 18 mins</p>
+  
+            <div class="mb-2">
+              <label class="form-label d-block mb-1">Nivel de picante</label>
+              <div class="btn-group" role="group">
+                <input type="radio" class="btn-check" name="spicy3" id="suave3" autocomplete="off" checked>
+                <label class="btn btn-outline-danger btn-sm" for="suave3">Suave</label>
+                <input type="radio" class="btn-check" name="spicy3" id="picante3" autocomplete="off">
+                <label class="btn btn-outline-danger btn-sm" for="picante3">Picante</label>
+              </div>
+            </div>
+  
+            <div class="mb-3">
+              <label for="portion3" class="form-label">Porciones</label>
+              <input type="number" class="form-control form-control-sm" id="portion3" value="1" min="1" />
+            </div>
+  
+            <div class="d-grid">
+                <button (click)="realizarPedido()" class="btn text-white pedido-btn">
+                    ¡Pedir ahora! - $2.500
+                  </button>
+                  
+            </div>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+  
+  
+  <app-footer></app-footer>

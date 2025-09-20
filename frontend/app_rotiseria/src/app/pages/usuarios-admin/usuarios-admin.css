@@ -1,0 +1,54 @@
+/* Fondo de la página */
+body {
+    background-color: #f8f9fa;
+  }
+  
+  /* Tarjeta de usuario */
+  .usuario-card {
+    background-color: #fff;
+    border-left: 5px solid #ff3d3d;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Estados */
+  .estado-activo {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .estado-bloqueado {
+    color: red;
+    font-weight: bold;
+  }
+  
+  /* Botones */
+  .btn-bloquear {
+    background-color: #ff3d3d;
+    color: #fff;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-bloquear:hover {
+    background-color: #e63434;
+  }
+  
+  .btn-activar {
+    background-color: #3b3b3b;
+    color: #fff;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-activar:hover {
+    background-color: #1f1f1f;
+  }
+  
+  /* Botón volver */
+  .btn-outline-secondary {
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-weight: 500;
+  }
+  

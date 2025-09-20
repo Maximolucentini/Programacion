@@ -1,0 +1,30 @@
+<app-navbar></app-navbar>
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="card p-4 shadow" style="width: 100%; max-width: 400px;">
+      <h4 class="text-center mb-4">PoissonFood - Registro</h4>
+      
+      <form>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" placeholder="ejemplo@correo.com" required>
+        </div>
+  
+        <div class="mb-3">
+          <label for="password" class="form-label">Contraseña</label>
+          <input type="password" class="form-control" id="password" required>
+        </div>
+  
+        <div class="mb-3">
+          <label for="confirmPassword" class="form-label">Confirmar contraseña</label>
+          <input type="password" class="form-control" id="confirmPassword" required>
+        </div>
+  
+        <a routerLink="/login" class="btn btn-primary w-100">Regístrarse</a>  
+        <div class="text-center mt-3">
+          <small>¿Ya tenés cuenta? <a routerLink="/login">Iniciá sesión</a></small>
+        </div>
+      </form>
+    </div>
+  </div>
+<app-footer></app-footer>

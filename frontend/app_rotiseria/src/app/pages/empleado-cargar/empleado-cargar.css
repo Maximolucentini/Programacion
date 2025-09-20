@@ -1,0 +1,157 @@
+/* Contenedor principal */
+.container-cargar-pedido {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  /* Header */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  
+  .back-btn i,
+  .search-icon {
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #333;
+  }
+  
+  .titulo-header {
+    color: #ff3d3d;
+    font-weight: bold;
+    font-size: 1.4rem;
+    margin: 0;
+  }
+  
+  /* Título */
+  .titulo-principal {
+    color: #ff3d3d;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+  }
+  
+  /* Productos dinámicos */
+  .producto-item {
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+  
+  .btn-eliminar {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #ff3d3d;
+    color: white;
+    border: none;
+    padding: 0.4rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8rem;
+  }
+  
+  .btn-eliminar:hover {
+    background-color: #e63434;
+  }
+  
+  /* Cantidad control */
+  .cantidad-control {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .cantidad {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .btn-cantidad {
+    background-color: #ff3d3d;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-cantidad:hover {
+    background-color: #e63434;
+  }
+  
+  /* Botón agregar producto */
+  .btn-agregar {
+    background-color: transparent;
+    border: 1px solid #ff3d3d;
+    color: #ff3d3d;
+    font-weight: bold;
+    padding: 0.6rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 2rem;
+  }
+  
+  .btn-agregar:hover {
+    background-color: #ff3d3d;
+    color: white;
+  }
+  
+  /* Botones finales */
+  .form-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  
+  .btn-cargar {
+    background-color: #ff3d3d;
+    color: white;
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-cargar:hover {
+    background-color: #e63434;
+  }
+  
+  .btn-reset {
+    background-color: transparent;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-reset:hover {
+    background-color: #f1f1f1;
+    border-color: #999;
+  }
+  

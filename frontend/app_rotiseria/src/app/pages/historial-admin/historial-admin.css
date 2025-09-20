@@ -1,0 +1,40 @@
+/* Tarjeta de cada pedido */
+.pedido-card {
+    border-left: 5px solid #ff3d3d;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Encabezado con nombre y fecha */
+  .pedido-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* Texto de productos */
+  .pedido-productos {
+    font-size: 0.95rem;
+    margin: 0.5rem 0;
+  }
+  
+  /* Estados del pedido */
+  .pedido-estado {
+    font-weight: bold;
+  }
+  
+  .pedido-entregado {
+    color: green;
+  }
+  
+  .pedido-preparacion {
+    color: orange;
+  }
+  
+  .pedido-cancelado {
+    color: red;
+  }
+  

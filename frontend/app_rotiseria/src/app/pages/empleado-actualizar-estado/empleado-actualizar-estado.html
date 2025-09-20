@@ -1,0 +1,52 @@
+<div class="container text-center">
+    <!-- Encabezado -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <a routerLink="/estado-pedido-empleado">
+        <i class="fa-solid fa-arrow-left back-icon"></i>
+      </a>
+      <h5 class="fw-bold m-0 titulo-rojo">Actualizar estado</h5>
+      <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    </div>
+  
+    <!-- Estado actual -->
+    <div class="estado-actualizar mt-4">
+      <p class="fw-bold">Pedido N°1947034</p>
+      <div class="d-flex justify-content-between estado-icons">
+        <!-- Pendiente -->
+        <button class="estado-item" onclick="seleccionarEstado(this)">
+          <div class="estado-circle pendiente"></div>
+          <small>Pendiente</small>
+        </button>
+        <!-- En preparación -->
+        <button class="estado-item" onclick="seleccionarEstado(this)">
+          <div class="estado-circle en-preparacion"></div>
+          <small>En preparación</small>
+        </button>
+        <!-- Pedido listo -->
+        <button class="estado-item" onclick="seleccionarEstado(this)">
+          <div class="estado-circle listo"></div>
+          <small>Pedido listo</small>
+        </button>
+        <!-- Pedido entregado -->
+        <button class="estado-item" onclick="seleccionarEstado(this)">
+          <div class="estado-circle entregado"></div>
+          <small>Pedido entregado</small>
+        </button>
+      </div>
+      <button class="btn-actualizar mt-3">Actualizar estado</button>
+    </div>
+  
+    
+  
+  <app-footer></app-footer>
+  
+  <!-- Script temporal para marcar seleccionados -->
+  <script>
+    function seleccionarEstado(boton) {
+      const botones = document.querySelectorAll('.estado-item');
+      botones.forEach(btn => btn.classList.remove('activo')); // quitar activo a todos
+      boton.classList.add('activo'); // marcar el que se seleccionó
+    }
+  </script>
+  
+  
