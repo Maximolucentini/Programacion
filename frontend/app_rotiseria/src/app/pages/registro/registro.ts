@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Navbar } from '../../components/navbar/navbar';
-import { Footer } from '../../components/footer/footer';
+import { Navbar } from '../../componentes/navbar/navbar';
+import { Footer } from '../../componentes/footer/footer';
 
 @Component({
   selector: 'app-registro',

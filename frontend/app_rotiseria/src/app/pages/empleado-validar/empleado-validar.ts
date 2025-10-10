@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
-import { Footer } from '../../components/footer/footer';
-import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { Navbar } from '../../componentes/navbar/navbar';
+import { Footer } from '../../componentes/footer/footer';
+import { VerUser } from '../../componentes/usuarios/ver-user/ver-user'; 
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-empleado-validar',
-  imports: [Footer,RouterLink,CommonModule],
+  imports: [CommonModule, Navbar, Footer, VerUser,RouterLink],
   templateUrl: './empleado-validar.html',
   styleUrl: './empleado-validar.css'
 })

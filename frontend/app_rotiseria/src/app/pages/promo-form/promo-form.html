@@ -1,0 +1,28 @@
+<div class="container py-4">
+    <a [routerLink]="'/promos-admin'" class="btn btn-outline-secondary mb-3">
+      ← Volver
+    </a>
+  
+    <h2 class="text-danger fw-bold mb-4">{{ titulo }}</h2>
+  
+    <!-- mismos campos para agregar/editar promo -->
+    <form (submit)="$event.preventDefault()">
+      <div class="mb-3">
+        <label class="form-label">Título</label>
+        <input class="form-control" placeholder="Ej: 2x1 en hamburguesas">
+      </div>
+  
+      <div class="mb-3">
+        <label class="form-label">Descripción</label>
+        <textarea class="form-control" rows="3" placeholder="Descripción de la promo..."></textarea>
+      </div>
+  
+      <div class="mb-3">
+        <label class="form-label">Fecha</label>
+        <input type="date" class="form-control">
+      </div>
+  
+      <button type="submit" class="btn btn-danger">{{ submitLabel }}</button>
+    </form>
+  </div>
+  

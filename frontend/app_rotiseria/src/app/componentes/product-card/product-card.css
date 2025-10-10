@@ -1,0 +1,5 @@
+.product-card .card-img-top { max-height: 180px; object-fit: cover; }
+.product-card .badge { letter-spacing: 0.2px; }
+.product-card .card-footer { background: transparent; }
+
+  

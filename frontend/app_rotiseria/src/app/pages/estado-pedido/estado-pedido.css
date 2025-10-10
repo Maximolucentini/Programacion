@@ -1,34 +1,33 @@
-.estado-container {
-    max-width: 600px; 
-    margin: 0 auto;
-    padding: 20px;
-  }
-.estado-icon {
-    font-size: 32px; 
-    margin-right: 12px;
-    vertical-align: middle;
-  }
-  
-  
-  .estado-realizado {
-    color: #198754; 
-  }
-  
-  .estado-preparacion {
-    color: #ff9800; 
-  }
-  
-  .estado-listo {
-    color: #6c757d; 
-  }
-  .btn-danger {
-    background-color: #ff3d3d;
-    border: none;
-    font-weight: 500;
-    transition: background-color 0.3s ease;
-  }
-  
-  .btn-danger:hover {
-    background-color: #e63434;
-  }
-  
+/* Estilos de la vista Empleado (lista) */
+body { background-color: #f8f9fa; }
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+.back-icon, .search-icon {
+  font-size: 1.4rem; cursor: pointer; color: #333;
+}
+.titulo-rojo { color: #ff3d3d; font-weight: bold; margin: 0; }
+.pedido-card {
+  background-color: #fff; border-radius: 12px; padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1); text-align: left; transition: transform .2s ease;
+}
+.pedido-card:hover { transform: translateY(-3px); }
+.btn-detalles {
+  background: transparent; border: 1px solid #333; border-radius: 12px;
+  padding: .3rem 1rem; font-size: .85rem; text-decoration: none; color: #333; cursor: pointer; transition: all .3s ease;
+}
+.btn-detalles:hover { background-color: #ff3d3d; color: #fff; border-color: #ff3d3d; }
+
+/* Estilos de la vista Usuario (flujo de estados) */
+.estado-container { max-width: 600px; margin: 0 auto; padding: 20px; }
+.estado-icon { font-size: 32px; margin-right: 12px; vertical-align: middle; }
+.estado-realizado { color: #198754; }
+.estado-preparacion { color: #ff9800; }
+.estado-listo { color: #6c757d; }
+.btn-danger { background-color: #ff3d3d; border: none; font-weight: 500; transition: background-color .3s ease; }
+.btn-danger:hover { background-color: #e63434; }

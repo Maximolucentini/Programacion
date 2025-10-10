@@ -39,6 +39,7 @@ class User(db.Model):
             "name": self.name,
             "email": self.email,
             "estado": self.estado,
+            "rol": self.rol,
             "created_at": self.created_at.strftime('%Y-%m-%d %H:%M:%S'),
             "updated_at": self.updated_at.strftime('%Y-%m-%d %H:%M:%S'),
         }
@@ -56,6 +57,7 @@ class User(db.Model):
             "name": self.name,
             "email": self.email,
             "estado": self.estado,
+            "rol": self.rol,
             "created_at": self.created_at.strftime('%Y-%m-%d %H:%M:%S'),
             "updated_at": self.updated_at.strftime('%Y-%m-%d %H:%M:%S'),
             "orders": [order.to_json_short() for order in self.orders],

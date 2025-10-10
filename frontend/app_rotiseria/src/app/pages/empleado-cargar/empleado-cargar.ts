@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Footer } from '../../components/footer/footer';
+import { Footer } from '../../componentes/footer/footer';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 

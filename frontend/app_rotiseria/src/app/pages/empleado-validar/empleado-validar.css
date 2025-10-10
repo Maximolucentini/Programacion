@@ -1,127 +1,33 @@
-/* Fondo general */
-body {
-    background-color: #f8f9fa;
-  }
-  
-  /* Contenedor principal */
-  .container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 2rem 1rem;
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  }
-  
-  /* Encabezado */
-  .back-icon,
-  .search-icon {
-    font-size: 1.4rem;
-    cursor: pointer;
-    color: #333;
-  }
-  
-  .titulo-rojo {
-    color: #ff3d3d;
-    font-weight: bold;
-    margin: 0;
-  }
-  
-  /* Título principal */
-  .titulo-principal {
-    color: #ff3d3d;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 1.5rem;
-  }
-  
-  /* Barra de búsqueda */
-  .search-container {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  
-  .input-group {
-    flex: 1;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .input-group-text {
-    background-color: #fff;
-    border: none;
-    font-size: 1rem;
-  }
-  
-  .form-control {
-    border: none;
-    padding: 0.5rem;
-    font-size: 0.9rem;
-  }
-  
-  .form-control:focus {
-    box-shadow: none;
-    outline: none;
-  }
-  
-  /* Botón de filtros */
-  .btn-filter {
-    background-color: #ff3d3d;
-    color: #fff;
-    border: none;
-    border-radius: 12px;
-    padding: 0.6rem 0.8rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .btn-filter:hover {
-    background-color: #e63434;
-  }
-  
-  /* Tarjeta de la cuenta */
-  .cuenta-card {
-    background-color: #fff;
-    border-radius: 12px;
-    padding: 1.5rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: left;
-  }
-  
-  .nombre-usuario {
-    color: #ff3d3d;
-    font-weight: bold;
-    margin-bottom: 1rem;
-  }
-  
-  /* Botones */
-  .btn-validar {
-    background-color: #28a745;
-    color: #fff;
-    border: none;
-    border-radius: 12px;
-    padding: 0.5rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .btn-validar:hover {
-    background-color: #218838;
-  }
-  
-  .btn-bloquear {
-    background-color: #ff3d3d;
-    color: #fff;
-    border: none;
-    border-radius: 12px;
-    padding: 0.5rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .btn-bloquear:hover {
-    background-color: #e63434;
-  }
-  
+/* layout */
+.content{ min-height: calc(100vh - 180px); }
+
+/* tarjeta */
+.usuario-card{
+  background:#fff;
+  border-left:5px solid #ff3d3d;      /* acento rojo de tu app */
+  border-radius:10px;
+  box-shadow:0 0 5px rgba(0,0,0,.08);
+}
+
+/* estados */
+.estado-activo{ color:#16a34a; font-weight:700; }
+.estado-bloqueado{ color:#ef4444; font-weight:700; }
+
+/* buscador */
+.input-group-text{ background:#fff; border-right:0; }
+.input-group .form-control{ border-left:0; }
+.form-control:focus{ border-color:#ff3d3d; box-shadow:0 0 0 .15rem rgba(255,61,61,.15); }
+/* Botón circular de volver */
+.back-btn{
+  width: 42px;
+  height: 42px;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  line-height: 1;
+}
+.back-btn:hover{
+  background: #f8f9fa;
+}

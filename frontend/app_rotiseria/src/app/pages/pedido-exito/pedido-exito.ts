@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { Navbar } from '../../components/navbar/navbar';
+import { Navbar } from '../../componentes/navbar/navbar';
 import { CommonModule } from '@angular/common';
 
 

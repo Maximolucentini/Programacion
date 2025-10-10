@@ -1,87 +1,91 @@
-/* Contenedor principal */
+/* Contenedor principal: sin fondo gris y con respiración */
 .calificar-container {
-    background-color: #d9d9d9;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-  }
-  
-  /* Título principal */
-  .titulo {
-    color: #d32f2f;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-    text-align: center;
-  }
-  
-  /* Texto del pedido */
-  .pedido {
-    font-size: 0.9rem;
-    color: #000;
-    margin-bottom: 1.5rem;
-    text-align: center;
-  }
-  
-  /* Tarjeta blanca */
-  .calificar-card {
-    background-color: #fff;
-    border-radius: 12px;
-    padding: 1.5rem;
-    width: 250px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  /* Secciones de comida y atención */
-  .calificar-section {
-    margin-bottom: 1.2rem;
-    text-align: center;
-  }
-  
-  .label {
-    font-weight: bold;
-    color: #d32f2f;
-    display: block;
-    margin-bottom: 0.5rem;
-  }
-  
-  /* Estrellas */
-  .estrellas {
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-  }
-  
-  .estrellas i {
-    font-size: 1.5rem;
-    color: #000;
-    cursor: pointer;
-    transition: color 0.3s ease;
-  }
-  
-  .estrellas i:hover {
-    color: #ff3d3d;
-  }
-  
-  /* Botón Finalizar */
-  .btn-finalizar {
-    background-color: #ff3d3d;
-    color: white;
-    border: none;
-    padding: 0.6rem 1.5rem;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 100%;
-  }
-  
-  .btn-finalizar:hover {
-    background-color: #e63434;
-  }
-  
+  /* sacamos el gris */
+  background: transparent;
+  /* altura visible pero sin estirar a pantalla completa si no hace falta */
+  min-height: calc(100vh - 160px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 2rem 1rem 3rem;
+}
+
+/* Título */
+.titulo {
+  color: #ff3d3d;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: .25rem;
+}
+
+/* Subtítulo (pedido) */
+.pedido {
+  text-align: center;
+  color: #6b7280;      /* gris suave */
+  font-size: .95rem;
+  margin-bottom: 1.25rem;
+}
+
+/* Tarjeta blanca al estilo de tu app (borde rojo + sombra suave) */
+.calificar-card {
+  background: #fff;
+  border-left: 5px solid #ff3d3d;
+  border-radius: 12px;
+  box-shadow: 0 10px 18px rgba(0,0,0,.08);
+  width: 100%;
+  max-width: 480px;    /* << ensanchamos */
+  padding: 1.5rem;
+}
+
+/* Bloques (Comida / Atención) */
+.calificar-section {
+  margin-bottom: 1.2rem;
+  text-align: center;
+}
+
+.label {
+  font-weight: 700;
+  color: #d32f2f;
+  display: block;
+  margin-bottom: .5rem;
+}
+
+/* Estrellas */
+.estrellas {
+  display: flex;
+  justify-content: center;
+  gap: .65rem;
+}
+
+.estrellas i {
+  font-size: 1.6rem;
+  color: #6b7280;      /* gris neutro */
+  cursor: pointer;
+  transition: color .2s ease, transform .12s ease;
+}
+
+.estrellas i:hover {
+  color: #ff3d3d;
+  transform: scale(1.05);
+}
+
+/* Botón Finalizar con el rojo de tu marca */
+.btn-finalizar {
+  background-color: #ff3d3d;
+  color: #fff;
+  border: none;
+  padding: .7rem 1.5rem;
+  border-radius: 10px;
+  font-weight: 700;
+  width: 100%;
+  transition: background-color .2s ease, transform .08s ease;
+}
+
+.btn-finalizar:hover {
+  background-color: #e63434;
+}
+
+.btn-finalizar:active {
+  transform: translateY(1px);
+}

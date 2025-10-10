@@ -1,54 +1,33 @@
-/* Fondo de la página */
-body {
-    background-color: #f8f9fa;
-  }
-  
-  /* Tarjeta de usuario */
-  .usuario-card {
-    background-color: #fff;
-    border-left: 5px solid #ff3d3d;
-    border-radius: 10px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    padding: 1rem;
-    margin-bottom: 1rem;
-  }
-  
-  /* Estados */
-  .estado-activo {
-    color: green;
-    font-weight: bold;
-  }
-  
-  .estado-bloqueado {
-    color: red;
-    font-weight: bold;
-  }
-  
-  /* Botones */
-  .btn-bloquear {
-    background-color: #ff3d3d;
-    color: #fff;
-    transition: background-color 0.3s ease;
-  }
-  
-  .btn-bloquear:hover {
-    background-color: #e63434;
-  }
-  
-  .btn-activar {
-    background-color: #3b3b3b;
-    color: #fff;
-    transition: background-color 0.3s ease;
-  }
-  
-  .btn-activar:hover {
-    background-color: #1f1f1f;
-  }
-  
-  /* Botón volver */
-  .btn-outline-secondary {
-    border-radius: 8px;
-    padding: 6px 12px;
-    font-weight: 500;
-  }
-  
+/* layout */
+.content{ min-height: calc(100vh - 180px); }
+
+/* tarjeta */
+.usuario-card{
+  background:#fff;
+  border-left:5px solid #ff3d3d;      /* acento rojo de tu app */
+  border-radius:10px;
+  box-shadow:0 0 5px rgba(0,0,0,.08);
+}
+
+/* estados */
+.estado-activo{ color:#16a34a; font-weight:700; }
+.estado-bloqueado{ color:#ef4444; font-weight:700; }
+
+/* buscador */
+.input-group-text{ background:#fff; border-right:0; }
+.input-group .form-control{ border-left:0; }
+.form-control:focus{ border-color:#ff3d3d; box-shadow:0 0 0 .15rem rgba(255,61,61,.15); }
+/* Botón circular de volver */
+.back-btn{
+  width: 42px;
+  height: 42px;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  line-height: 1;
+}
+.back-btn:hover{
+  background: #f8f9fa;
+}

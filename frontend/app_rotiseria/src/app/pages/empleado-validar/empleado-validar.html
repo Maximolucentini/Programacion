@@ -1,44 +1,13 @@
-<div class="container text-center">
-    <!-- Encabezado -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <a routerLink="/empleado">
-        <i class="fa-solid fa-arrow-left back-icon"></i>
-      </a>
-      <h5 class="fw-bold m-0 titulo-rojo">Validar cuentas</h5>
-      <i class="fa-solid fa-magnifying-glass search-icon"></i>
-    </div>
-  
-    <!-- Título principal -->
-    <h3 class="titulo-principal">Validar cuentas <br> clientes:</h3>
-  
-    <!-- Barra de búsqueda -->
-    <div class="d-flex justify-content-between align-items-center search-container">
-      <div class="input-group">
-        <span class="input-group-text">
-          <i class="fa-solid fa-search"></i>
-        </span>
-        <input type="text" class="form-control" placeholder="Buscar usuario">
-      </div>
-      <button class="btn-filter">
-        <i class="fa-solid fa-sliders"></i>
-      </button>
-    </div>
-  
-    <!-- Información de la cuenta -->
-    <div class="cuenta-card mt-4">
-      <h5 class="nombre-usuario">Nombre Apellido</h5>
-      <p><strong>Mail:</strong> usuario@correo.com</p>
-      <p><strong>Estado:</strong> Activo</p>
-      <p><strong>Deuda:</strong> $500</p>
-      <p><strong>Total cancelación:</strong> $700</p>
-  
-      <!-- Botones -->
-      <div class="d-grid gap-2 mt-3">
-        <button class="btn-validar">Validar</button>
-        <button class="btn-bloquear">Bloquear</button>
-      </div>
-    </div>
+<app-navbar></app-navbar>
+
+<div class="container py-3">
+    <a routerLink="/empleado"
+       class="btn btn-outline-secondary back-btn"
+       aria-label="Volver al panel"><i class="fa-solid fa-arrow-left"></i>
+    </a>
   </div>
-  
-  <app-footer></app-footer>
+
+<app-ver-user [soloRolUser]="true"></app-ver-user>
+
+<app-footer></app-footer>
   

@@ -1,0 +1,29 @@
+<div class="container role-container text-center">
+    <!-- Título y perfil -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h2 class="fw-bold">{{ titulo }}</h2>
+        <p class="role-title">{{ subtitulo }}</p>
+      </div>
+      <img [src]="perfilUrl" class="rounded-circle" alt="Foto perfil" />
+    </div>
+  
+    <!-- Botones principales -->
+    <div class="role-buttons">
+      <button
+        *ngFor="let a of acciones"
+        class="btn w-100"
+        [routerLink]="a.link">
+        {{ a.label }}
+      </button>
+    </div>
+  
+    <!-- Botón cerrar sesión -->
+    <div class="mt-4">
+     <button type="button" class="btn btn-outline-secondary w-100" (click)="logout()">
+      ⟵ Cerrar sesión
+     </button>
+    </div>
+
+  </div>
+  

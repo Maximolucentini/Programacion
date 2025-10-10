@@ -62,7 +62,7 @@ class Usuario(Resource):
     
 
 
- @role_required(["admin", "user"])
+ @role_required(["admin", "user","empleado"])
  def delete(self, id):
         usuario = db.session.query(UserModel).get(id)
         if not usuario:
@@ -82,7 +82,7 @@ class Usuario(Resource):
 
 
 class Usuarios(Resource):
-    @role_required(roles=["admin"])
+    @role_required(roles=["admin","empleado"])
     def get(self):
         
         try:

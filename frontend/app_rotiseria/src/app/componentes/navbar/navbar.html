@@ -1,0 +1,41 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/">
+      <i class="fa-solid fa-burger"></i> PoissonFood
+    </a>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+
+        <!-- Productos: solo si NO hay sesión -->
+        <li class="nav-item" *ngIf="!isLoggedIn">
+          <a class="nav-link" routerLink="/menu">Productos</a>
+        </li>
+
+        <!-- Login: solo si NO hay sesión -->
+        <li class="nav-item" *ngIf="!isLoggedIn">
+          <a class="nav-link" routerLink="/login">Login</a>
+        </li>
+
+        <!-- Cerrar sesión: solo si HAY sesión -->
+        <li class="nav-item" *ngIf="isLoggedIn">
+          <button class="nav-link btn btn-link p-0" (click)="logout()">
+            Cerrar sesión
+          </button>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
