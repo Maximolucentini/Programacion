@@ -1,4 +1,3 @@
-// src/app/componentes/usuarios/ver-user/ver-user.ts
 import { Component, OnInit, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -14,7 +13,6 @@ import { Usuarios } from '../../../services/usuarios';
 export class VerUser implements OnInit {
   private usuariosSrv = inject(Usuarios);
 
-  /** En empleado-validar: true para mostrar solo usuarios finales (no admin/empleado) */
   @Input() soloRolUser = false;
 
   nombre = '';
@@ -44,7 +42,7 @@ export class VerUser implements OnInit {
         // Normalizo campos y rol
         const lista = raw.map(u => {
           const roleRaw = (u.rol ?? u.role ?? '').toString().trim().toLowerCase();
-          const roleNorm = roleRaw || 'user'; // si viene vacío/undefined lo consideramos 'user'
+          const roleNorm = roleRaw || 'user'; 
           return {
             ...u,
             estado: u.estado ?? (u.activo ? 'activo' : 'bloqueado'),
@@ -52,15 +50,13 @@ export class VerUser implements OnInit {
           };
         });
 
-        // Filtro solo 'usuarios finales' cuando lo pida el padre (empleado-validar)
-        // Incluimos variantes comunes: 'user', 'usuario', 'cliente' y también vacío.
         let base = lista;
         if (this.soloRolUser) {
           base = lista.filter(u => {
             const r = (u.rol || '').toString().toLowerCase();
-            if (!r) return true; // vacío => tratar como usuario final
+            if (!r) return true; 
             if (r === 'admin' || r === 'empleado') return false;
-            // variantes aceptadas como 'user':
+            
             return r === 'user' || r === 'usuario' || r === 'cliente';
           });
         }
@@ -69,8 +65,7 @@ export class VerUser implements OnInit {
         this.arrayFiltred = [...base];
         this.cargando = false;
 
-        // Si querés ver qué valores de rol están llegando:
-        // console.log('roles en respuesta:', lista.map(x => x.rol));
+        
       },
       error: (err) => {
         console.error('GET /usuarios error:', err);
