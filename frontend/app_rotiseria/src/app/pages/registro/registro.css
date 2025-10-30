@@ -1,12 +1,8 @@
-.card {
-    border-radius: 10px;
-  }
-  
-  input::placeholder {
-    font-size: 0.9rem;
-  }
-  
-  h4 {
-    font-weight: bold;
-  }
-  
+.card .btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+.card .btn-danger:hover {
+  background-color: #bb2d3b;
+  border-color: #b02a37;
+}

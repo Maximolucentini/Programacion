@@ -1,5 +1,18 @@
-.product-card .card-img-top { max-height: 180px; object-fit: cover; }
-.product-card .badge { letter-spacing: 0.2px; }
-.product-card .card-footer { background: transparent; }
+:host{ display:block; width:100%; }
+.card{ width:100%; height:100%; display:flex; flex-direction:column; }
 
-  
+.card-img-top, img.card-img-top{
+  width:100%; height:180px; object-fit:cover; object-position:center;
+  border-top-left-radius:.5rem; border-top-right-radius:.5rem;
+}
+
+.card-body{ flex:1; display:flex; flex-direction:column; }
+.card-title{ margin-bottom:.25rem; font-weight:600; }
+
+/* Botón principal rojo dentro de las cards, solo en esta página */
+:host-context(.menu-container) .btn-primary{
+  background-color:#dc3545; border-color:#dc3545; color:#fff;
+}
+:host-context(.menu-container) .btn-primary:hover{
+  background-color:#bb2d3b; border-color:#b02a37;
+}

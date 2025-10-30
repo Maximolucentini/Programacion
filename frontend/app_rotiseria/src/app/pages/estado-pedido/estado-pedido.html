@@ -1,49 +1,143 @@
 <app-navbar></app-navbar>
+<div class="container my-4" style="max-width: 600px;">
 
-<!-- EMPLEADO: lista de pedidos -->
-<ng-container *ngIf="ver; else userView">
-  <div class="container text-center">
-    <!-- Encabezado -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <a routerLink="/empleado"><i class="fa-solid fa-arrow-left back-icon"></i></a>
-      <h5 class="fw-bold m-0 titulo-rojo">Estado de pedidos</h5>
-      <i class="fa-solid fa-magnifying-glass search-icon"></i>
-    </div>
+  <!-- Header con botón volver y título -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
 
-    <!-- Lista (array) de pedidos -->
-    <div class="pedido-card mb-3" *ngFor="let o of orders">
-      <div class="d-flex justify-content-between align-items-center">
-        <p class="fw-bold m-0">Pedido N°{{ o.id }}</p>
-        <small class="text-muted">{{ o.fecha }}</small>
-      </div>
-      <div class="d-flex justify-content-between mt-2">
-        <small>Cantidad: {{ o.qty }}</small>
-        <small class="fw-bold">Total: ${{ o.total }}</small>
-      </div>
-      <div class="mt-3 text-start">
-        <a routerLink="/empleado-actualizar-estado" class="btn-detalles">Detalles</a>
+    <!-- Volver -->
+    <button
+      class="btn btn-link p-0 d-flex align-items-center"
+      style="text-decoration:none; color:#000; font-size:0.95rem;"
+      (click)="volver()"
+    >
+      <i class="fa-solid fa-arrow-left me-2"></i>
+      <span>Volver</span>
+    </button>
+
+    <!-- Título -->
+    <h2 class="m-0 fw-bold" style="font-size:1.2rem;">
+      <ng-container *ngIf="!ver">Mis pedidos</ng-container>
+      <ng-container *ngIf="ver">Pedidos (empleado)</ng-container>
+    </h2>
+
+    <span style="width:40px;"></span>
+  </div>
+
+  <!-- CONTROLES DE FILTRO Y ORDEN (sólo empleado) -->
+  <div *ngIf="ver" class="card mb-3 shadow-sm">
+    <div class="card-body" style="font-size:0.9rem;">
+      <div class="row g-2">
+        <!-- Filtro por estado -->
+        <div class="col-12 col-md-4">
+          <label class="form-label m-0 fw-semibold">Estado</label>
+          <select
+            class="form-select form-select-sm"
+            [ngModel]="statusFilter()"
+            (ngModelChange)="statusFilter.set($event); onChangeStatus()"
+          >
+            <option value="">Todos</option>
+            <option value="pendiente">pendiente</option>
+            <option value="en preparación">en preparación</option>
+            <option value="en camino">en camino</option>
+            <option value="entregado">entregado</option>
+            <option value="cancelado">cancelado</option>
+          </select>
+        </div>
+
+        <!-- Ordenar -->
+        <div class="col-12 col-md-4">
+          <label class="form-label m-0 fw-semibold">Ordenar por</label>
+          <select
+            class="form-select form-select-sm"
+            [ngModel]="sortBy()"
+            (ngModelChange)="sortBy.set($event); onChangeSort()"
+          >
+            <option value="created_at_desc">Más recientes primero</option>
+            <option value="created_at_asc">Más viejos primero</option>
+            <option value="total_desc">Total $ más alto</option>
+            <option value="total_asc">Total $ más bajo</option>
+          </select>
+        </div>
+
+        <!-- Paginación mini info -->
+        <div class="col-12 col-md-4 d-flex flex-column justify-content-end">
+          <div class="text-muted" style="font-size:0.8rem;">
+            Página {{ page() }}
+          </div>
+          <div class="btn-group btn-group-sm mt-1" role="group">
+            <button
+              class="btn btn-outline-secondary"
+              [disabled]="!canPrev()"
+              (click)="prevPage()"
+            >
+              ← Anterior
+            </button>
+            <button
+              class="btn btn-outline-secondary"
+              [disabled]="!canNext()"
+              (click)="nextPage()"
+            >
+              Siguiente →
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</ng-container>
 
-<!-- USUARIO: un solo estado -->
-<ng-template #userView>
-  <div class="container text-center mt-5 estado-container">
-    <h2 class="fw-bold">Estado de tu pedido</h2>
-    <p class="text-muted">Estamos trabajando en tu comida 🍔</p>
+  <!-- Loading / error -->
+  <div *ngIf="loading()">Cargando pedidos...</div>
+  <div *ngIf="error()" class="text-danger">{{ error() }}</div>
 
-    <div class="mt-5 text-start d-inline-block">
-      <p><i class="fa-solid fa-circle-check estado-icon estado-realizado"></i> Pedido realizado</p>
-      <p><i class="fa-solid fa-utensils estado-icon estado-preparacion"></i> En preparación</p>
-      <p><i class="fa-solid fa-bell estado-icon estado-listo"></i> Listo para retirar</p>
-    </div>
+  <!-- Sin pedidos -->
+  <div
+    *ngIf="!loading() && !error() && orders().length === 0"
+    class="text-muted"
+  >
+    No hay pedidos.
+  </div>
 
-    <div class="mt-5 d-flex flex-column align-items-center gap-3">
-      <a routerLink="/menu" class="btn btn-primary btn-lg w-50">Volver al menú</a>
-      <a routerLink="/calificar" class="btn btn-danger btn-lg w-50">Calificar</a>
+  <!-- LISTA DE PEDIDOS -->
+  <div *ngFor="let o of orders()" class="card mb-3 shadow-sm">
+    <div class="card-body" style="font-size:0.9rem;">
+
+      <div class="fw-bold">Pedido #{{ o.id }}</div>
+
+      <div class="text-muted">
+        Fecha: {{ o.created_at }}
+      </div>
+
+      <div class="mt-1">
+        Estado:
+        <span class="badge bg-secondary">{{ o.status }}</span>
+      </div>
+
+      <div class="fw-bold mt-1">
+        Total: ${{ o.total_amount }}
+      </div>
+
+      <!-- Botón empleado: Actualizar estado -->
+      <div *ngIf="ver" class="mt-3 text-end">
+        <button
+          class="btn btn-danger btn-sm"
+          (click)="irActualizar(o.id)"
+        >
+          Actualizar estado
+        </button>
+      </div>
+
+      <!-- Botón cliente: Calificar (solo si entregado) -->
+      <div *ngIf="!ver && o.status === 'entregado'" class="mt-3 text-end">
+        <button
+          class="btn btn-warning btn-sm"
+          (click)="irCalificar(o.id)"
+        >
+          Calificar
+        </button>
+      </div>
+
     </div>
   </div>
-</ng-template>
+</div>
 
 <app-footer></app-footer>

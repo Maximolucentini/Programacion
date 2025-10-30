@@ -12,5 +12,8 @@ export class Auth {
   login(dataLogin: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(this.url + '/auth/login', dataLogin);
   }
+  register(data: { name: string; email: string; password: string }): Observable<any> {
+    return this.http.post<any>(this.url + '/auth/register', data);
+  }
 }
 

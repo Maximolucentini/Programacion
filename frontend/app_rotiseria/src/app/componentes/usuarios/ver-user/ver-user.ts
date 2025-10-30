@@ -89,16 +89,16 @@ export class VerUser implements OnInit {
   bloquear(u: any): void {
     if (!confirm(`¿Bloquear a ${u.name}?`)) return;
     this.usuariosSrv.updateUsuarioEstado(u.id, 'bloqueado').subscribe({
-      next: () => { u.estado = 'bloqueado'; this.buscar(); },
-      error: (err) => { console.error(err); alert('No se pudo bloquear el usuario'); }
+      next: () => { /* ... */ },
+      error: (err: any) => { console.error(err); alert('No se pudo bloquear'); }
     });
   }
 
   activar(u: any): void {
     if (!confirm(`¿Activar a ${u.name}?`)) return;
     this.usuariosSrv.updateUsuarioEstado(u.id, 'activo').subscribe({
-      next: () => { u.estado = 'activo'; this.buscar(); },
-      error: (err) => { console.error(err); alert('No se pudo activar el usuario'); }
+      next: () => { /* ... */ },
+      error: (err: any) => { console.error(err); alert('No se pudo activar'); }
     });
   }
 }
