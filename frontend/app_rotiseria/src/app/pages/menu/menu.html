@@ -1,0 +1,91 @@
+<app-navbar></app-navbar>
+<!-- Botón "Volver al panel" visible solo en modo admin -->
+<div *ngIf="ver" class="d-flex justify-content-end mb-3">
+  <a class="btn btn-outline-danger btn-sm" routerLink="/admin">
+    ← Volver al panel
+  </a>
+</div>
+
+
+<!-- Contenedor ancho propio -->
+<div class="menu-container mt-5">
+  <h1 class="text-center" *ngIf="!ver">Menú</h1>
+  <h1 class="text-center text-danger" *ngIf="ver">Editar menú (Admin)</h1>
+  <p class="text-center mb-4">¡Ordena tu comida favorita!</p>
+
+  <!-- Filtros: 2 filas x 2 columnas + footer -->
+  <form class="card p-3 mb-4 shadow-sm filters filters--wide">
+    <div class="filters-grid-two-by-two">
+      <div class="form-group">
+        <label for="fName" class="form-label">Nombre</label>
+        <input id="fName" class="form-control" placeholder="Ej: mexica"
+               [(ngModel)]="filtros.name" name="name">
+      </div>
+
+      <div class="form-group">
+        <label for="fSort" class="form-label">Ordenar por</label>
+        <select id="fSort" class="form-select" [(ngModel)]="filtros.sort_by" name="sort_by">
+          <option value="name_asc">Nombre ↑</option>
+          <option value="name_desc">Nombre ↓</option>
+          <option value="price_asc">Precio ↑</option>
+          <option value="price_desc">Precio ↓</option>
+          <option value="stock_asc">Stock ↑</option>
+          <option value="stock_desc">Stock ↓</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="fPriceMin" class="form-label">Precio mín</label>
+        <input id="fPriceMin" type="number" min="0" class="form-control"
+               [(ngModel)]="filtros.price_min" name="price_min">
+      </div>
+
+      <div class="form-group">
+        <label for="fPriceMax" class="form-label">Precio máx</label>
+        <input id="fPriceMax" type="number" min="0" class="form-control"
+               [(ngModel)]="filtros.price_max" name="price_max">
+      </div>
+    </div>
+
+    <div class="filters-footer">
+      <div class="left">
+        <div class="form-check">
+          <input id="fStock" type="checkbox" class="form-check-input"
+                 [checked]="!!filtros.stock_min"
+                 (change)="filtros.stock_min = $event.target.checked ? 1 : 0">
+          <label class="form-check-label" for="fStock">Solo con stock</label>
+        </div>
+      </div>
+      <div class="right">
+        <button type="button" class="btn btn-danger btn-slim" (click)="aplicarFiltros()">Aplicar</button>
+        <button type="button" class="btn btn-outline-danger btn-slim" (click)="limpiarFiltros()">Limpiar</button>
+      </div>
+    </div>
+  </form>
+
+  <!-- Estado -->
+  <div *ngIf="loading" class="text-center text-muted my-4">Cargando...</div>
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+  <!-- Grilla de productos ANCHA -->
+  <div class="products-grid" *ngIf="!loading && !error">
+    <app-product-card
+      *ngFor="let p of products"
+      [data]="p"
+      [adminMode]="ver"
+      (add)="addToCart($event)"
+      (remove)="onRemove($event)"
+      (toggle)="onToggle($event)">
+    </app-product-card>
+  </div>
+
+  <!-- Paginación -->
+  <div class="d-flex justify-content-between align-items-center mt-4" *ngIf="pages > 1">
+    <button class="btn btn-danger btn-slim" [disabled]="page <= 1" (click)="cambiarPagina(-1)">« Anterior</button>
+    <div class="small text-muted">Página {{ page }} de {{ pages }} — {{ total }} productos</div>
+    <button class="btn btn-danger btn-slim" [disabled]="page >= pages" (click)="cambiarPagina(1)">Siguiente »</button>
+  </div>
+</div>
+
+<app-footer></app-footer>
+

@@ -1,0 +1,146 @@
+/* Fondo general */
+body {
+    background-color: #f8f9fa;
+  }
+  
+  /* Contenedor */
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Encabezado */
+  .back-icon,
+  .search-icon {
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: #333;
+  }
+  
+  .titulo-rojo {
+    color: #ff3d3d;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  /* Caja actualizar estado */
+  .estado-actualizar {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .estado-icons {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  /* Botones de estado */
+  .estado-item {
+    background: none;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .estado-item:focus {
+    outline: none;
+  }
+  
+  .estado-item:hover {
+    transform: scale(1.1);
+  }
+  
+  .estado-circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-bottom: 0.4rem;
+    transition: all 0.3s ease;
+  }
+  
+  /* Colores base */
+  .pendiente {
+    background-color: #ff3d3d;
+  }
+  
+  .en-preparacion {
+    background-color: #ff7f00;
+  }
+  
+  .listo {
+    background-color: #ffc107;
+  }
+  
+  .entregado {
+    background-color: #28a745;
+  }
+  
+  /* Estado seleccionado */
+  .estado-item.activo .estado-circle {
+    border: 3px solid #000;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  .estado-item.activo small {
+    font-weight: bold;
+    color: #000;
+  }
+  
+  /* Botón actualizar */
+  .btn-actualizar {
+    background-color: #ff3d3d;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 0.6rem 1.5rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-actualizar:hover {
+    background-color: #e63434;
+  }
+  
+  /* Botón volver */
+  .btn-volver {
+    background-color: transparent;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 0.4rem 1.2rem;
+    font-size: 0.9rem;
+    text-decoration: none;
+    color: #333;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-volver:hover {
+    background-color: #ff3d3d;
+    color: #fff;
+    border-color: #ff3d3d;
+  }
+  
+  /* --- FORZAR feedback visual del botón seleccionado --- */
+ .estado-item.activo {
+  border: 2px solid #000;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.3);
+  background-color: #fff; /* mantené fondo claro */
+ }
+
+ .estado-item.activo p {
+  font-weight: bold;
+  color: #000;
+ }

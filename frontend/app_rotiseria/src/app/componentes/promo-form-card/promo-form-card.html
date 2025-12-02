@@ -1,0 +1,25 @@
+<div class="container py-4">
+    <a [routerLink]="volverLink" class="btn btn-outline-secondary mb-3">← Volver</a>
+  
+    <h2 class="text-danger fw-bold mb-4">{{ titulo }}</h2>
+  
+    <form (submit)="$event.preventDefault()">
+      <div class="mb-3">
+        <label class="form-label">Título</label>
+        <input class="form-control" [value]="initial?.title" placeholder="Ej: 2x1 en hamburguesas">
+      </div>
+  
+      <div class="mb-3">
+        <label class="form-label">Descripción</label>
+        <textarea class="form-control" rows="3" placeholder="Descripción...">{{ initial?.description }}</textarea>
+      </div>
+  
+      <div class="mb-3">
+        <label class="form-label">Fecha</label>
+        <input type="date" class="form-control" [value]="initial?.date">
+      </div>
+  
+      <button type="submit" class="btn btn-danger">{{ submitLabel }}</button>
+    </form>
+  </div>
+  

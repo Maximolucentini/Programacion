@@ -1,0 +1,56 @@
+<div class="card h-100 shadow-sm product-card">
+    <!-- Imagen -->
+    <ng-container *ngIf="data.imageUrl as img">
+      <img [src]="img" class="card-img-top object-fit-cover" alt="{{ data.title }}" />
+    </ng-container>
+  
+    <!-- Cuerpo -->
+    <div class="card-body d-flex flex-column">
+      <h5 class="card-title mb-1">{{ data.title }}</h5>
+  
+      <p class="card-text small text-muted mb-2" *ngIf="data.description">
+        {{ data.description }}
+      </p>
+  
+      <div class="small d-flex align-items-center gap-3 mb-2">
+        <span *ngIf="data.rating !== undefined"><strong>Puntaje:</strong> {{ data.rating }} ★</span>
+        <span *ngIf="data.prepMinutes"><strong>Tiempo:</strong> {{ data.prepMinutes }} min</span>
+      </div>
+  
+      <div class="mt-auto d-flex justify-content-between align-items-center">
+        <div>
+          <span *ngIf="data.spiceLevel" class="badge text-bg-warning me-2">{{ data.spiceLevel }}</span>
+          <span *ngIf="data.available === false" class="badge text-bg-secondary">Sin stock</span>
+        </div>
+        <div class="fw-bold" *ngIf="data.price !== undefined">
+          {{ data.price | currency:'ARS' }}
+        </div>
+      </div>
+    </div>
+  
+    <!-- Footer USUARIO -->
+    <div class="card-footer bg-white border-top-0 pt-0" *ngIf="!adminMode && isLoggedIn">
+     <a class="btn btn-primary w-100 pedido-btn" [routerLink]="['/estado-pedido']">
+       Pedir Ya
+     </a>
+    </div>
+    <!-- Alternativa: Mostrar CTA para iniciar sesión -->
+    <div class="card-footer bg-white border-top-0 pt-0" *ngIf="!adminMode && !isLoggedIn">
+     <a class="btn btn-outline-secondary w-100" [routerLink]="['/login']">
+      Iniciá sesión para pedir
+     </a>
+    </div>
+
+  
+    <!-- Footer ADMIN -->
+    <div class="card-footer bg-white border-top-0 pt-0" *ngIf="adminMode">
+      <div class="d-flex gap-2 justify-content-end">
+        <a class="btn btn-sm btn-outline-secondary" [routerLink]="['/editar-producto']">Editar</a>
+        <button class="btn btn-sm btn-outline-danger" (click)="onRemove()">Eliminar</button>
+        <button class="btn btn-sm btn-outline-warning" (click)="onToggle()">
+          {{ data.available === false ? 'Activar' : 'Desactivar' }}
+        </button>
+      </div>
+    </div>
+  </div>
+  

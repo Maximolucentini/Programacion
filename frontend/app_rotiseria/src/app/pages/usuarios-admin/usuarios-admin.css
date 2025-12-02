@@ -1,0 +1,27 @@
+
+
+.admin-users { width: min(98vw, 1400px); margin-inline: auto; padding-inline: 12px; }
+
+.table thead th { white-space: nowrap; }
+.table td, .table th { vertical-align: middle; }
+
+/* Rojo consistente con tu estilo */
+.admin-users .btn-danger { background-color:#dc3545; border-color:#dc3545; }
+.admin-users .btn-danger:hover { background-color:#bb2d3b; border-color:#b02a37; }
+.pagination .page-link { color:#dc3545; }
+.pagination .page-item.active .page-link { background:#dc3545; border-color:#dc3545; }
+.btn-sm {
+  font-size: 0.9rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 8px;
+}
+
+.btn-outline-danger {
+  color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: #fff;
+}

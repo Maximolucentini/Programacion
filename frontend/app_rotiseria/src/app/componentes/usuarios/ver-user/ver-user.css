@@ -1,0 +1,7 @@
+.content{ min-height: calc(100vh - 180px); }
+.usuario-card{ background:#fff; border-left:5px solid #ff3d3d; border-radius:10px; box-shadow:0 0 5px rgba(0,0,0,.08); }
+.estado-activo{ color:#16a34a; font-weight:700; }
+.estado-bloqueado{ color:#ef4444; font-weight:700; }
+.input-group-text{ background:#fff; border-right:0; }
+.input-group .form-control{ border-left:0; }
+.form-control:focus{ border-color:#ff3d3d; box-shadow:0 0 0 .15rem rgba(255,61,61,.15); }

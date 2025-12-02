@@ -1,0 +1,45 @@
+<app-navbar></app-navbar>
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+  <div class="card p-4 shadow" style="width: 100%; max-width: 420px;">
+    <h4 class="text-center mb-4">PoissonFood - Registro</h4>
+
+    <form (ngSubmit)="submit()">
+      <div class="mb-3">
+        <label for="name" class="form-label">Nombre</label>
+        <input id="name" class="form-control" name="name" [(ngModel)]="form.name" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input id="email" type="email" class="form-control" name="email"
+               [(ngModel)]="form.email" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label">Contraseña</label>
+        <input id="password" type="password" class="form-control" name="password"
+               [(ngModel)]="form.password" required minlength="6">
+      </div>
+
+      <div class="mb-3">
+        <label for="confirmPassword" class="form-label">Confirmar contraseña</label>
+        <input id="confirmPassword" type="password" class="form-control" name="confirmPassword"
+               [(ngModel)]="form.confirmPassword" required minlength="6">
+      </div>
+
+      <div *ngIf="error" class="alert alert-danger py-2">{{ error }}</div>
+      <div *ngIf="success" class="alert alert-success py-2">{{ success }}</div>
+
+      <button type="button" class="btn btn-danger w-100" (click)="submit()" [disabled]="loading">
+        {{ loading ? 'Creando...' : 'Registrarse' }}
+      </button>
+
+      <div class="text-center mt-3">
+        <small>¿Ya tenés cuenta? <a routerLink="/login">Iniciá sesión</a></small>
+      </div>
+    </form>
+  </div>
+</div>
+
+<app-footer></app-footer>

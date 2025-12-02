@@ -1,0 +1,8 @@
+.card .btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+.card .btn-danger:hover {
+  background-color: #bb2d3b;
+  border-color: #b02a37;
+}

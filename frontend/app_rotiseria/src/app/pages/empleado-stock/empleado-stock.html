@@ -1,0 +1,64 @@
+<div class="container-stock">
+    <!-- Encabezado -->
+    <div class="header">
+      <a routerLink="/empleado" class="back-btn">
+        <i class="fa-solid fa-arrow-left"></i>
+      </a>
+      <h5 class="titulo-header">Stock</h5>
+      <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    </div>
+  
+    <!-- Título -->
+    <h3 class="titulo-principal">Stock:</h3>
+  
+    <!-- Producto 1 -->
+    <div class="stock-card">
+      <div class="card-header">
+        <p class="producto-nombre">Producto 1</p>
+        <span class="fecha">18-09-2025</span>
+      </div>
+  
+      <div class="cantidad-control">
+        <button class="btn-cantidad" onclick="disminuir('cantidad1')">&#9664;</button>
+        <span id="cantidad1" class="cantidad">1</span>
+        <button class="btn-cantidad" onclick="aumentar('cantidad1')">&#9654;</button>
+      </div>
+  
+      <button class="btn-editar">Editar</button>
+    </div>
+  
+    <!-- Producto 2 -->
+    <div class="stock-card">
+      <div class="card-header">
+        <p class="producto-nombre">Producto 2</p>
+        <span class="fecha">18-09-2025</span>
+      </div>
+  
+      <div class="cantidad-control">
+        <button class="btn-cantidad" onclick="disminuir('cantidad2')">&#9664;</button>
+        <span id="cantidad2" class="cantidad">5</span>
+        <button class="btn-cantidad" onclick="aumentar('cantidad2')">&#9654;</button>
+      </div>
+  
+      <button class="btn-editar">Editar</button>
+    </div>
+  
+    <!-- Producto 3 -->
+    <div class="stock-card">
+      <div class="card-header">
+        <p class="producto-nombre">Producto 3</p>
+        <span class="fecha">18-09-2025</span>
+      </div>
+  
+      <div class="cantidad-control">
+        <button class="btn-cantidad" onclick="disminuir('cantidad3')">&#9664;</button>
+        <span id="cantidad3" class="cantidad">2</span>
+        <button class="btn-cantidad" onclick="aumentar('cantidad3')">&#9654;</button>
+      </div>
+  
+      <button class="btn-editar">Editar</button>
+    </div>
+  </div>
+  
+  <app-footer></app-footer>
+  

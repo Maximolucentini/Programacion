@@ -14,16 +14,22 @@ ESTADOS_VALIDOS = ["pendiente", "en preparación", "en camino", "entregado", "ca
 class Pedido(Resource):
     @jwt_required()
     def get(self, id):
+        # buscar el pedido
         pedido = db.session.query(OrderModel).get(id)
         if not pedido:
             return {"message": "Pedido no encontrado"}, 404
 
+        # info del usuario logueado
         user_id = get_jwt_identity()
         rol = get_jwt().get("rol")
 
-        if rol == "admin" or pedido.user_id == user_id:
-            return pedido.to_json_complete(), 200
-        return {"message": "No tienes permiso para ver este pedido"}, 403
+        
+        if rol not in ("admin", "empleado") and pedido.user_id != user_id:
+            return {"message": "No tienes permiso para ver este pedido"}, 403
+
+        
+        return pedido.to_json(), 200
+
     
         
     @jwt_required()
@@ -35,7 +41,7 @@ class Pedido(Resource):
         user_id = get_jwt_identity()
         rol = get_jwt().get("rol")
 
-        if rol != "admin" and pedido.user_id != user_id:
+        if rol not in ("admin" ,"empleado") and pedido.user_id != user_id:
             return {"message": "No tienes permiso para modificar este pedido"}, 403
 
         data = request.get_json()
@@ -86,8 +92,10 @@ class Pedidos(Resource):
 
         query = db.session.query(OrderModel)
         
-        if rol != "admin":
+        
+        if rol not in ("admin", "empleado"):
             query = query.filter(OrderModel.user_id == user_id)
+
 
         
         status = request.args.get("status")

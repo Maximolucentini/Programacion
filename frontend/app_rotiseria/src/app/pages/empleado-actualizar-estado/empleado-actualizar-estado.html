@@ -1,0 +1,90 @@
+<div class="container text-center">
+  <!-- Encabezado -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <a routerLink="/estado-pedido-empleado">
+      <i class="fa-solid fa-arrow-left back-icon"></i>
+    </a>
+    <h5 class="fw-bold m-0 titulo-rojo">Actualizar estado</h5>
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+  </div>
+
+  <!-- Caja principal -->
+  <div class="estado-actualizar mt-4">
+    <p class="fw-bold">
+      Pedido N°{{ order()?.id || '-' }}
+    </p>
+
+    <div class="d-flex justify-content-between estado-icons flex-wrap">
+
+      <!-- pendiente -->
+      <button
+        class="estado-item"
+        [class.activo]="elegido()==='pendiente'"
+        (click)="seleccionar('pendiente')"
+      >
+        <i class="fa-solid fa-circle-check"></i>
+        <p class="m-0">Pedido realizado</p>
+      </button>
+
+      <!-- en preparación -->
+      <button
+        class="estado-item"
+        [class.activo]="elegido()==='en preparación'"
+        (click)="seleccionar('en preparación')"
+      >
+        <i class="fa-solid fa-circle-check"></i>
+        <p class="m-0">en preparación</p>
+      </button>
+
+      <!-- en camino -->
+      <button
+        class="estado-item"
+        [class.activo]="elegido()==='en camino'"
+        (click)="seleccionar('en camino')"
+      >
+        <i class="fa-solid fa-circle-check"></i>
+        <p class="m-0">en camino</p>
+      </button>
+
+      <!-- entregado -->
+      <button
+        class="estado-item"
+        [class.activo]="elegido()==='entregado'"
+        (click)="seleccionar('entregado')"
+      >
+        <i class="fa-solid fa-circle-check"></i>
+        <p class="m-0">entregado</p>
+      </button>
+
+      <!-- cancelado -->
+      <button
+        class="estado-item"
+        [class.activo]="elegido()==='cancelado'"
+        (click)="seleccionar('cancelado')"
+      >
+        <i class="fa-solid fa-circle-check"></i>
+        <p class="m-0">cancelado</p>
+      </button>
+
+    </div>
+
+    
+    <p class="mt-3">
+      Estado seleccionado:
+      <strong>{{ elegido() }}</strong>
+    </p>
+
+    <button
+      class="btn btn-danger w-100 mt-3"
+      (click)="guardar()"
+      [disabled]="guardando() || !order()"
+    >
+      Guardar
+    </button>
+
+    <div class="text-success mt-2" *ngIf="ok()">{{ ok() }}</div>
+    <div class="text-danger mt-2" *ngIf="error()">{{ error() }}</div>
+  </div>
+
+  <app-footer></app-footer>
+</div>

@@ -1,0 +1,99 @@
+<app-navbar></app-navbar>
+
+<div class="admin-users my-4">
+  <!-- Botón arriba, más chico -->
+  <div class="d-flex justify-content-end mb-2">
+    <a class="btn btn-outline-danger btn-sm" routerLink="/admin">
+      ← Volver al panel
+    </a>
+  </div>
+
+  <h2 class="mb-3 text-center">Usuarios</h2>
+
+
+  <!-- Controles mínimos de paginación -->
+  <div class="card p-3 mb-3">
+    <div class="row g-2 align-items-end">
+      <div class="col-6 col-md-2">
+        <label class="form-label">Por página</label>
+        <select class="form-select" [(ngModel)]="per_page" (change)="cambiarPageSize()">
+          <option [ngValue]="5">5</option>
+          <option [ngValue]="10">10</option>
+          <option [ngValue]="20">20</option>
+          <option [ngValue]="50">50</option>
+        </select>
+      </div>
+
+      <div class="col-6 col-md-4 ms-auto text-end">
+        <div class="small text-muted">
+          Total: {{ total }} — Página {{ page }} de {{ pages }}
+          <span *ngIf="clientPaginate" class="badge bg-secondary ms-2">Paginación cliente</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+  <!-- Tabla -->
+  <div class="table-responsive">
+    <table class="table align-middle">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th class="d-none d-md-table-cell">Rol</th>
+          <th class="d-none d-md-table-cell">Estado</th>
+          <th class="text-end">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let u of data">
+          <td><strong class="text-capitalize">{{ u.name }}</strong></td>
+          <td>{{ u.email }}</td>
+          <td class="d-none d-md-table-cell"><span class="badge bg-secondary">{{ u.role || 'user' }}</span></td>
+          <td class="d-none d-md-table-cell">
+            <span class="badge" [class.bg-success]="u.estado==='activo'" [class.bg-secondary]="u.estado!=='activo'">
+              {{ u.estado || '—' }}
+            </span>
+          </td>
+          <td class="text-end">
+            <div class="btn-group btn-group-sm">
+              <button class="btn btn-outline-secondary">Ver</button>
+              <button class="btn btn-outline-secondary">Editar</button>
+              <button class="btn btn-danger">Suspender</button>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="!loading && data.length === 0">
+          <td colspan="5" class="text-center text-muted py-4">Sin resultados</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Paginador -->
+  <nav aria-label="Paginación" class="mt-2">
+    <ul class="pagination justify-content-center flex-wrap gap-1">
+      <li class="page-item" [class.disabled]="page === 1">
+        <button class="page-link" (click)="primero()">« Primero</button>
+      </li>
+      <li class="page-item" [class.disabled]="page === 1">
+        <button class="page-link" (click)="anterior()">‹ Anterior</button>
+      </li>
+
+      <li class="page-item" *ngFor="let p of pagesToShow" [class.active]="p === page">
+        <button class="page-link" (click)="cambiarPagina(p)">{{ p }}</button>
+      </li>
+
+      <li class="page-item" [class.disabled]="page === pages">
+        <button class="page-link" (click)="siguiente()">Siguiente ›</button>
+      </li>
+      <li class="page-item" [class.disabled]="page === pages">
+        <button class="page-link" (click)="ultima()">Última »</button>
+      </li>
+    </ul>
+  </nav>
+</div>
+
+<app-footer></app-footer>

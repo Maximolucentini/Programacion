@@ -1,0 +1,133 @@
+/* Fondo general */
+body {
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  /* Contenedor principal */
+  .container-stock {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  /* Header */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  
+  .back-btn i,
+  .search-icon {
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #333;
+  }
+  
+  .titulo-header {
+    color: #ff3d3d;
+    font-weight: bold;
+    font-size: 1.4rem;
+    margin: 0;
+  }
+  
+  /* Título principal */
+  .titulo-principal {
+    color: #ff3d3d;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+  }
+  
+  /* Tarjeta de producto */
+  .stock-card {
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.2s ease;
+  }
+  
+  .stock-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+  
+  .producto-nombre {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #333;
+    margin: 0;
+  }
+  
+  .fecha {
+    color: #777;
+    font-size: 0.9rem;
+  }
+  
+  /* Control de cantidad */
+  .cantidad-control {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .cantidad {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #333;
+    min-width: 40px;
+    text-align: center;
+  }
+  
+  .btn-cantidad {
+    background-color: #ff3d3d;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-cantidad:hover {
+    background-color: #e63434;
+  }
+  
+  /* Botón editar */
+  .btn-editar {
+    background-color: transparent;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 0.4rem 1.2rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-editar:hover {
+    background-color: #ff3d3d;
+    color: #fff;
+    border-color: #ff3d3d;
+  }
+  
