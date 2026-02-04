@@ -1,0 +1,10 @@
+Hola {{ user.name }}!
+
+Tu pedido #{{ order.id }} cambió de estado.
+
+Estado anterior: {{ old_status }}
+Estado nuevo: {{ order.status }}
+
+Total: ${{ order.total_amount }}
+
+Gracias por tu compra.

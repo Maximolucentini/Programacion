@@ -1,64 +1,71 @@
 <div class="container-stock">
-    <!-- Encabezado -->
-    <div class="header">
-      <a routerLink="/empleado" class="back-btn">
-        <i class="fa-solid fa-arrow-left"></i>
-      </a>
-      <h5 class="titulo-header">Stock</h5>
-      <i class="fa-solid fa-magnifying-glass search-icon"></i>
-    </div>
-  
-    <!-- Título -->
-    <h3 class="titulo-principal">Stock:</h3>
-  
-    <!-- Producto 1 -->
-    <div class="stock-card">
-      <div class="card-header">
-        <p class="producto-nombre">Producto 1</p>
-        <span class="fecha">18-09-2025</span>
-      </div>
-  
-      <div class="cantidad-control">
-        <button class="btn-cantidad" onclick="disminuir('cantidad1')">&#9664;</button>
-        <span id="cantidad1" class="cantidad">1</span>
-        <button class="btn-cantidad" onclick="aumentar('cantidad1')">&#9654;</button>
-      </div>
-  
-      <button class="btn-editar">Editar</button>
-    </div>
-  
-    <!-- Producto 2 -->
-    <div class="stock-card">
-      <div class="card-header">
-        <p class="producto-nombre">Producto 2</p>
-        <span class="fecha">18-09-2025</span>
-      </div>
-  
-      <div class="cantidad-control">
-        <button class="btn-cantidad" onclick="disminuir('cantidad2')">&#9664;</button>
-        <span id="cantidad2" class="cantidad">5</span>
-        <button class="btn-cantidad" onclick="aumentar('cantidad2')">&#9654;</button>
-      </div>
-  
-      <button class="btn-editar">Editar</button>
-    </div>
-  
-    <!-- Producto 3 -->
-    <div class="stock-card">
-      <div class="card-header">
-        <p class="producto-nombre">Producto 3</p>
-        <span class="fecha">18-09-2025</span>
-      </div>
-  
-      <div class="cantidad-control">
-        <button class="btn-cantidad" onclick="disminuir('cantidad3')">&#9664;</button>
-        <span id="cantidad3" class="cantidad">2</span>
-        <button class="btn-cantidad" onclick="aumentar('cantidad3')">&#9654;</button>
-      </div>
-  
-      <button class="btn-editar">Editar</button>
-    </div>
+  <!-- Encabezado -->
+  <div class="header">
+    <a routerLink="/empleado" class="back-btn">
+      <i class="fa-solid fa-arrow-left"></i>
+    </a>
+    <h5 class="titulo-header">Stock</h5>
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
   </div>
-  
-  <app-footer></app-footer>
-  
+
+  <!-- Título -->
+  <h3 class="titulo-principal">Stock:</h3>
+
+  <!-- Estados de carga -->
+  <div *ngIf="loading" class="text-center my-3">
+    Cargando productos...
+  </div>
+
+  <div *ngIf="!loading && error" class="alert alert-danger text-center">
+    {{ error }}
+  </div>
+
+  <div
+    *ngIf="!loading && !error && items.length === 0"
+    class="alert alert-info text-center"
+  >
+    No hay productos.
+  </div>
+
+  <!-- Tarjetas de productos -->
+  <div *ngFor="let item of items" class="stock-card">
+    <div class="card-header">
+      <div class="product-info">
+        <div class="product-name">
+          {{ item.product.name }}
+          <span class="product-id">ID: {{ item.product.id }}</span>
+        </div>
+
+        <div
+          class="product-estado"
+          [ngClass]="{
+            'estado-activo': item.product.estado === 'activo',
+            'estado-bloqueado': item.product.estado !== 'activo'
+          }"
+        >
+          {{ formatEstado(item.product) }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Stock -->
+    <div class="cantidad-control">
+      <button class="btn-cantidad" (click)="decrementar(item)">
+        &#9664;
+      </button>
+      <span class="cantidad">
+        {{ item.nuevoStock }}
+      </span>
+      <button class="btn-cantidad" (click)="incrementar(item)">
+        &#9654;
+      </button>
+    </div>
+
+    <!-- Confirmar cambio -->
+    <button class="btn-editar" (click)="guardar(item)">
+      Guardar
+    </button>
+  </div>
+</div>
+
+<app-footer></app-footer>

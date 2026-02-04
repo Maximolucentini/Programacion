@@ -28,11 +28,21 @@ class Usuario(Resource):
     usuario = db.session.query(UserModel).get(id)
     if not usuario:
         return {"message": "Usuario no encontrado"}, 404
-    
-    if get_jwt_identity() != usuario.id:
-            return {"message": "No tenés permiso para modificar este usuario"}, 403
+
+    claims = get_jwt()
+    rol = claims.get("rol")
+
+    try:
+        current_id = int(get_jwt_identity())
+    except (TypeError, ValueError):
+        current_id = None
+
+    if rol == "user" and current_id is not None and current_id != usuario.id:
+        return {"message": "No tenés permiso para modificar este usuario"}, 403
 
     data = request.get_json()
+    
+
 
     if 'email' in data:
         nuevo_email = data['email']
@@ -42,7 +52,7 @@ class Usuario(Resource):
                 return {"message": "El email ya está en uso por otro usuario."}, 409
 
     
-    for campo in ['name', 'email', 'password']:
+    for campo in ['name', 'email', 'password', 'phone']:
         if campo in data:
             try:
                 if not isinstance(data[campo], str):
@@ -51,6 +61,13 @@ class Usuario(Resource):
                     return {"message": f"El campo '{campo}' no puede estar vacío."}, 400
             except Exception:
                 return {"message": f"Error en el campo '{campo}', debe ser texto válido."}, 400
+    
+    if "estado" in data:
+       estado_nuevo = (data.get("estado") or "").strip().lower()
+       if estado_nuevo not in ["activo", "suspendido", "pre_confirmacion"]:
+          return {"message": "Estado inválido"}, 400
+       data["estado"] = estado_nuevo
+
 
     for key, value in data.items():
         setattr(usuario, key, value)
@@ -95,9 +112,10 @@ class Usuarios(Resource):
 
         
         if estado := request.args.get("estado"):
-            if estado not in ["activo", "suspendido"]:
-                return {"message": "El estado debe ser 'activo' o 'suspendido'"}, 400
+            if estado not in ["activo", "suspendido", "pre_confirmacion"]:
+              return {"message": "El estado debe ser 'activo', 'suspendido' o 'pre_confirmacion'"}, 400
             query = query.filter(UserModel.estado == estado)
+
 
         if name := request.args.get("name"):
             query = query.filter(UserModel.name.ilike(f"%{name}%"))

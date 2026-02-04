@@ -21,6 +21,7 @@ export class Registro {
   form = {
     name: '',
     email: '',
+    phone: '', 
     password: '',
     confirmPassword: ''
   };
@@ -36,6 +37,7 @@ export class Registro {
     // Validaciones simples
     if (!this.form.name.trim()) { this.error = 'Ingresá tu nombre.'; return; }
     if (!this.form.email.trim()) { this.error = 'Ingresá tu email.'; return; }
+    if (!this.form.phone.trim()) { this.error = 'Ingresá tu teléfono.'; return; }
     if (this.form.password.length < 6) { this.error = 'La contraseña debe tener al menos 6 caracteres.'; return; }
     if (this.form.password !== this.form.confirmPassword) { this.error = 'Las contraseñas no coinciden.'; return; }
 
@@ -43,13 +45,14 @@ export class Registro {
     const body = {
       name: this.form.name.trim(),
       email: this.form.email.trim(),
+      phone: this.form.phone.trim(), 
       password: this.form.password
     };
 
     this.auth.register(body).subscribe({
       next: () => {
         this.loading = false;
-        this.success = 'Cuenta creada. Revisa tu correo y luego iniciá sesión.';
+        this.success = 'Cuenta creada. Quedó pendiente de validación por el local. Te avisaremos cuando esté habilitada.';
         // Redirigimos al login después de un segundo
         setTimeout(() => this.router.navigateByUrl('/login'), 1000);
       },

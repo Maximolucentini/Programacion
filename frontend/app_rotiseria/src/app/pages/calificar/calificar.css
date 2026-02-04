@@ -1,8 +1,7 @@
-/* Contenedor principal: sin fondo gris y con respiración */
 .calificar-container {
-  /* sacamos el gris */
+  
   background: transparent;
-  /* altura visible pero sin estirar a pantalla completa si no hace falta */
+  
   min-height: calc(100vh - 160px);
   display: flex;
   flex-direction: column;
@@ -11,7 +10,7 @@
   padding: 2rem 1rem 3rem;
 }
 
-/* Título */
+
 .titulo {
   color: #ff3d3d;
   font-weight: 800;
@@ -19,26 +18,26 @@
   margin-bottom: .25rem;
 }
 
-/* Subtítulo (pedido) */
+
 .pedido {
   text-align: center;
-  color: #6b7280;      /* gris suave */
+  color: #6b7280;      
   font-size: .95rem;
   margin-bottom: 1.25rem;
 }
 
-/* Tarjeta blanca al estilo de tu app (borde rojo + sombra suave) */
+
 .calificar-card {
   background: #fff;
   border-left: 5px solid #ff3d3d;
   border-radius: 12px;
   box-shadow: 0 10px 18px rgba(0,0,0,.08);
   width: 100%;
-  max-width: 480px;    /* << ensanchamos */
+  max-width: 480px;    
   padding: 1.5rem;
 }
 
-/* Bloques (Comida / Atención) */
+
 .calificar-section {
   margin-bottom: 1.2rem;
   text-align: center;
@@ -51,7 +50,7 @@
   margin-bottom: .5rem;
 }
 
-/* Estrellas */
+
 .estrellas {
   display: flex;
   justify-content: center;
@@ -60,7 +59,7 @@
 
 .estrellas i {
   font-size: 1.6rem;
-  color: #6b7280;      /* gris neutro */
+  color: #6b7280;      
   cursor: pointer;
   transition: color .2s ease, transform .12s ease;
 }
@@ -70,7 +69,6 @@
   transform: scale(1.05);
 }
 
-/* Botón Finalizar con el rojo de tu marca */
 .btn-finalizar {
   background-color: #ff3d3d;
   color: #fff;

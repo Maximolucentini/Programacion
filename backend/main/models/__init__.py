@@ -4,3 +4,4 @@ from .order import Order as OrderModel
 from .order_product import OrderProduct as OrderProductModel
 from .rating import Rating as RatingModel
 from .notification import Notification as NotificationModel
+from .promo_model import Promotion

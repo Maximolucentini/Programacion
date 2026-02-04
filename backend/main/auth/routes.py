@@ -11,6 +11,10 @@ def login():
     user = db.session.query(UserModel).filter_by(email=request.json.get("email")).first()
     if user is None or not user.validate_pass(request.json.get("password")):
         return {"message":"Usuario o contraseña inválida"}, 401
+    
+    if user.estado == "pre_confirmacion":
+        return {"message": "Cuenta pendiente de validación por el local."}, 403
+
 
     access_token = create_access_token(identity=user)
 
@@ -22,7 +26,19 @@ def login():
 
 @auth.route('/register', methods=['POST'])
 def register():
-    user = UserModel.from_json(request.get_json())
+    data = request.get_json() or {}
+
+    
+    phone = (data.get("phone") or "").strip()
+    if not phone:
+        return {"message": "El teléfono es obligatorio para registrarse"}, 400
+
+    user = UserModel.from_json(data)
+    user.phone = phone  
+    
+    user.estado = "pre_confirmacion"
+    user.rol = "user"
+
 
     exists = db.session.query(UserModel).filter_by(email=user.email).scalar() is not None
     if exists:
@@ -36,12 +52,13 @@ def register():
         sendMail(
             [user.email],
             "¡Bienvenido/a a la Rotisería!",
-            "register",  
+            "register",
             user=user
         )
 
         return user.to_json(), 201
     except Exception as e:
         db.session.rollback()
-        return {"error": str(e)}, 4
+        return {"error": str(e)}, 400
+
 

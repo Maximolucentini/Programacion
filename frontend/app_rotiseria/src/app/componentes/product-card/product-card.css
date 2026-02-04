@@ -9,7 +9,7 @@
 .card-body{ flex:1; display:flex; flex-direction:column; }
 .card-title{ margin-bottom:.25rem; font-weight:600; }
 
-/* Botón principal rojo dentro de las cards, solo en esta página */
+/* Botón principal rojo dentro de las cards */
 :host-context(.menu-container) .btn-primary{
   background-color:#dc3545; border-color:#dc3545; color:#fff;
 }

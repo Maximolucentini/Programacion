@@ -16,6 +16,15 @@ export class Navbar {
     return !!localStorage.getItem('token');
   }
 
+  get userRole(): string | null {
+    return localStorage.getItem('rol');
+  }
+
+  // usuario “normal” (no admin / empleado)
+  get isUser(): boolean {
+    return this.userRole === 'user';
+  }
+
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('rol');
@@ -23,4 +32,5 @@ export class Navbar {
     this.router.navigateByUrl('/login');
   }
 }
+
 

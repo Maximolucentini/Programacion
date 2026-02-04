@@ -7,67 +7,138 @@
 </div>
 
 
-<!-- Contenedor ancho propio -->
 <div class="menu-container mt-5">
   <h1 class="text-center" *ngIf="!ver">Menú</h1>
   <h1 class="text-center text-danger" *ngIf="ver">Editar menú (Admin)</h1>
   <p class="text-center mb-4">¡Ordena tu comida favorita!</p>
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="fw-bold text-danger mb-0">
+      {{ ver ? 'Administrar menú' : 'Menú' }}
+    </h2>
+  
+    <!-- Botón solo para admin -->
+    <button
+      *ngIf="ver"
+      type="button"
+      class="btn btn-danger"
+      (click)="irAgregarProducto()"
+    >
+      + Agregar producto
+    </button>
+  </div>
+  
+  
 
-  <!-- Filtros: 2 filas x 2 columnas + footer -->
-  <form class="card p-3 mb-4 shadow-sm filters filters--wide">
-    <div class="filters-grid-two-by-two">
-      <div class="form-group">
-        <label for="fName" class="form-label">Nombre</label>
-        <input id="fName" class="form-control" placeholder="Ej: mexica"
-               [(ngModel)]="filtros.name" name="name">
-      </div>
-
-      <div class="form-group">
-        <label for="fSort" class="form-label">Ordenar por</label>
-        <select id="fSort" class="form-select" [(ngModel)]="filtros.sort_by" name="sort_by">
-          <option value="name_asc">Nombre ↑</option>
-          <option value="name_desc">Nombre ↓</option>
-          <option value="price_asc">Precio ↑</option>
-          <option value="price_desc">Precio ↓</option>
-          <option value="stock_asc">Stock ↑</option>
-          <option value="stock_desc">Stock ↓</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="fPriceMin" class="form-label">Precio mín</label>
-        <input id="fPriceMin" type="number" min="0" class="form-control"
-               [(ngModel)]="filtros.price_min" name="price_min">
-      </div>
-
-      <div class="form-group">
-        <label for="fPriceMax" class="form-label">Precio máx</label>
-        <input id="fPriceMax" type="number" min="0" class="form-control"
-               [(ngModel)]="filtros.price_max" name="price_max">
-      </div>
-    </div>
-
-    <div class="filters-footer">
-      <div class="left">
-        <div class="form-check">
-          <input id="fStock" type="checkbox" class="form-check-input"
-                 [checked]="!!filtros.stock_min"
-                 (change)="filtros.stock_min = $event.target.checked ? 1 : 0">
-          <label class="form-check-label" for="fStock">Solo con stock</label>
+    <form class="card shadow-sm p-3 mb-4" (ngSubmit)="aplicarFiltros()">
+      <div class="row g-3">
+        <!-- Nombre -->
+        <div class="col-md-3">
+          <label class="form-label">Nombre</label>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="filtros.name"
+            name="name"
+            placeholder="Buscar por nombre"
+          />
+        </div>
+  
+        <!-- Precio mínimo -->
+        <div class="col-md-3">
+          <label class="form-label">Precio mínimo</label>
+          <input
+            type="number"
+            class="form-control"
+            [(ngModel)]="filtros.price_min"
+            name="price_min"
+            min="0"
+          />
+        </div>
+  
+        <!-- Precio máximo -->
+        <div class="col-md-3">
+          <label class="form-label">Precio máximo</label>
+          <input
+            type="number"
+            class="form-control"
+            [(ngModel)]="filtros.price_max"
+            name="price_max"
+            min="0"
+          />
+        </div>
+  
+        <!-- Solo con stock (modo cliente) -->
+        <div class="col-md-3" *ngIf="!ver">
+          <label class="form-label d-block">Stock</label>
+          <div class="form-check mt-2">
+            <input
+              id="soloStock"
+              type="checkbox"
+              class="form-check-input"
+              [ngModel]="filtros.stock_min > 0"
+              (ngModelChange)="filtros.stock_min = $event ? 1 : 0"
+              name="soloStock"
+            />
+            <label class="form-check-label" for="soloStock">
+              Solo con stock
+            </label>
+          </div>
+        </div>
+  
+        <!-- Estado (solo admin) -->
+        <div class="col-md-3" *ngIf="ver">
+          <label class="form-label">Estado</label>
+          <select
+            class="form-select"
+            [(ngModel)]="filtros.estado"
+            name="estado"
+          >
+            <option value="">Todos</option>
+            <option value="activo">Activos</option>
+            <option value="suspendido">Suspendidos / sin stock</option>
+          </select>
+        </div>
+  
+        <!-- Ordenar por -->
+        <div class="col-md-3">
+          <label class="form-label">Ordenar por</label>
+          <select
+            class="form-select"
+            [(ngModel)]="filtros.sort_by"
+            name="sort_by"
+          >
+            <option value="most_sold">Más vendidos</option>
+            <option value="best_rated">Mejor valorados</option>
+            <option value="name_asc">Nombre A-Z</option>
+            <option value="name_desc">Nombre Z-A</option>
+            <option value="price_asc">Precio menor a mayor</option>
+            <option value="price_desc">Precio mayor a menor</option>
+            <option value="stock_desc">Stock mayor a menor</option>
+            <option value="stock_asc">Stock menor a mayor</option>
+          </select>
+        </div>
+  
+        <!-- Botones -->
+        <div class="col-md-6 d-flex align-items-end justify-content-end gap-2">
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            (click)="limpiarFiltros()"
+          >
+            Limpiar
+          </button>
+          <button type="submit" class="btn btn-danger">
+            Aplicar filtros
+          </button>
         </div>
       </div>
-      <div class="right">
-        <button type="button" class="btn btn-danger btn-slim" (click)="aplicarFiltros()">Aplicar</button>
-        <button type="button" class="btn btn-outline-danger btn-slim" (click)="limpiarFiltros()">Limpiar</button>
-      </div>
-    </div>
-  </form>
+    </form>
+  
 
   <!-- Estado -->
   <div *ngIf="loading" class="text-center text-muted my-4">Cargando...</div>
   <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
 
-  <!-- Grilla de productos ANCHA -->
   <div class="products-grid" *ngIf="!loading && !error">
     <app-product-card
       *ngFor="let p of products"
@@ -78,6 +149,22 @@
       (toggle)="onToggle($event)">
     </app-product-card>
   </div>
+    <!-- Botón global "Pedir ya" (solo cliente) -->
+    <div class="mt-4 text-center" *ngIf="!ver">
+      <button
+        type="button"
+        class="btn btn-lg btn-danger px-5"
+        (click)="pedirYa()"
+        [disabled]="!hayAlMenosUnProductoSeleccionado()"
+      >
+        Pedir ya
+      </button>
+      <div class="small text-muted mt-2">
+        Seleccioná la cantidad de cada hamburguesa y después hacé clic en "Pedir ya".
+      </div>
+    </div>
+    
+  
 
   <!-- Paginación -->
   <div class="d-flex justify-content-between align-items-center mt-4" *ngIf="pages > 1">
@@ -87,5 +174,5 @@
   </div>
 </div>
 
-<app-footer></app-footer>
+
 

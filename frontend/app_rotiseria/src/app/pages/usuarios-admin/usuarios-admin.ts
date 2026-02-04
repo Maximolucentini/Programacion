@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { Usuarios, User, Paged } from '../../services/usuarios';
+import { PedidosService } from '../../services/pedidos';
 import { Navbar } from '../../componentes/navbar/navbar';
 import { Footer } from '../../componentes/footer/footer';
 import { RouterLink } from '@angular/router';
@@ -16,21 +17,24 @@ import { RouterLink } from '@angular/router';
 })
 export class UsuariosAdmin implements OnInit {
   private usuariosSrv = inject(Usuarios);
+  private pedidosSrv = inject(PedidosService);
 
   // estado
   loading = false;
+  loadingPendientesUserId: number | null = null;
+  updatingUserId: number | null = null;  
   error: string | null = null;
 
   // paginación
   page = 1;
-  per_page = 5;        // deja 5 para ver varias páginas en la demo
+  per_page = 5;        
   pages = 1;
   total = 0;
 
   // datos
-  data: User[] = [];          // datos de la página actual (modo API)
-  allData: User[] = [];       // datos completos (modo cliente)
-  clientPaginate = false;     // si la API no trae pages/total, paginamos en cliente
+  data: User[] = [];          
+  allData: User[] = [];       
+  clientPaginate = false;     
 
   ngOnInit(): void { this.cargar(); }
 
@@ -46,14 +50,14 @@ export class UsuariosAdmin implements OnInit {
       next: (resp: Paged<User>) => {
         const items = resp.items ?? [];
 
-        // Si la API trae pages/total válidos → paginación por API
+        
         if (resp.pages && resp.total) {
           this.clientPaginate = false;
           this.data = items;
           this.pages = resp.pages;
           this.total = resp.total;
         } else {
-          // Fallback: la API devuelve todo sin paginar → paginamos en cliente
+          
           this.clientPaginate = true;
           this.allData = items;
           this.total = this.allData.length;
@@ -70,8 +74,118 @@ export class UsuariosAdmin implements OnInit {
       }
     });
   }
+  verPendientes(u: User): void {
+    if (!u || u.id == null) return;
+  
+    this.loadingPendientesUserId = u.id;
+  
+    this.pedidosSrv
+      .list({
+        user_id: u.id,
+        status: 'cancelado',
+        per_page: 1000,
+      })
+      .subscribe({
+        next: (resp: { pedidos: any[] }) => {
+          const pedidos = resp.pedidos ?? [];
+  
+          const total = pedidos.reduce(
+            (acc: number, p: any) => acc + (p.total_amount ?? 0),
+            0
+          );
+  
+          this.loadingPendientesUserId = null;
+  
+          alert(
+            `Total de pedidos cancelados de ${u.name || 'usuario #' + u.id}: $${total.toFixed(2)}`
+          );
+        },
+        error: (e) => {
+          console.error('Error al cargar pedidos cancelados', e);
+          this.loadingPendientesUserId = null;
+          alert('No se pudo obtener el total de pedidos cancelados de este usuario.');
+        },
+      });
+  }
+  
+  editarRol(u: User): void {
+    if (!u || u.id == null) return;
 
-  // ------- paginación UI -------
+    const actual = u.role || 'user';
+    const nuevo = prompt(
+      `Nuevo rol para ${u.name || 'usuario #' + u.id} (por ejemplo: admin, empleado, user)`,
+      actual
+    );
+
+    if (nuevo === null) return; 
+    const role = nuevo.trim();
+    if (!role || role === actual) return;
+
+    this.updatingUserId = u.id;
+
+    this.usuariosSrv.updateUsuario(u.id, { role }).subscribe({
+      next: (updated) => {
+        
+        u.role = updated.role ?? role;
+        this.updatingUserId = null;
+      },
+      error: (e) => {
+        console.error('Error al actualizar rol', e);
+        this.updatingUserId = null;
+        alert('No se pudo actualizar el rol de este usuario.');
+      },
+    });
+  }
+  suspenderUsuario(u: User): void {
+    if (!u || u.id == null) return;
+    if (u.estado === 'suspendido') return;
+
+    const ok = confirm(
+      `¿Seguro que querés suspender al usuario ${u.name || 'usuario #' + u.id}?`
+    );
+    if (!ok) return;
+
+    this.updatingUserId = u.id;
+
+    this.usuariosSrv.updateUsuarioEstado(u.id, 'suspendido').subscribe({
+      next: (updated) => {
+        u.estado = updated.estado ?? 'suspendido';
+        this.updatingUserId = null;
+      },
+      error: (e) => {
+        console.error('Error al suspender usuario', e);
+        this.updatingUserId = null;
+        alert('No se pudo suspender este usuario.');
+      },
+    });
+  }
+  activarUsuario(u: User): void {
+    if (!u || u.id == null) return;
+
+    const ok = confirm(
+      `¿Seguro que querés volver a activar al usuario ${u.name || 'usuario #' + u.id}?`
+    );
+    if (!ok) return;
+
+    this.updatingUserId = u.id;
+
+    this.usuariosSrv.updateUsuarioEstado(u.id, 'activo').subscribe({
+      next: (updated) => {
+        u.estado = updated.estado ?? 'activo';
+        this.updatingUserId = null;
+      },
+      error: (e) => {
+        console.error('Error al activar usuario', e);
+        this.updatingUserId = null;
+        alert('No se pudo activar este usuario.');
+      },
+    });
+  }
+
+
+
+
+  // ------- paginación  -------
   cambiarPagina(p: number): void {
     if (p < 1 || p > this.pages || p === this.page) return;
     this.page = p;
@@ -102,7 +216,6 @@ export class UsuariosAdmin implements OnInit {
     return this.allData.slice(from, from + this.per_page);
   }
 
-  // muestra máx 7 botones de página
   get pagesToShow(): number[] {
     const max = 7;
     const arr: number[] = [];

@@ -1,56 +1,128 @@
 <div class="container pt-4">
-    <!-- Botón volver -->
-    <button routerLink="/admin" class="btn btn-outline-secondary mb-3">
-      ← Volver al panel
-    </button>
-  </div>
-  
-  <div class="container py-4">
-    <h2 class="text-center mb-4 text-danger fw-bold">Historial de pedidos</h2>
-  
-    <!-- Pedido 1 -->
-    <div class="pedido-card">
-      <div class="pedido-header">
-        <h5 class="mb-0">Juan Pérez</h5>
-        <small class="text-muted">02/09/2025 - 13:45</small>
-      </div>
-      <p class="pedido-productos mb-1">
-        🍔 Cheeseburger, 🍟 Papas Fritas, 🥤 Coca Cola
-      </p>
-      <div class="d-flex justify-content-between">
-        <span class="fw-bold">$3.200</span>
-        <span class="pedido-estado pedido-entregado">Entregado</span>
-      </div>
-    </div>
-  
-    <!-- Pedido 2 -->
-    <div class="pedido-card">
-      <div class="pedido-header">
-        <h5 class="mb-0">Lucía Gómez</h5>
-        <small class="text-muted">02/09/2025 - 14:05</small>
-      </div>
-      <p class="pedido-productos mb-1">
-        🍔 Veggie Burger, 🧃 Jugo de naranja
-      </p>
-      <div class="d-flex justify-content-between">
-        <span class="fw-bold">$2.500</span>
-        <span class="pedido-estado pedido-preparacion">En preparación</span>
-      </div>
-    </div>
-  
-    <!-- Pedido 3 -->
-    <div class="pedido-card">
-      <div class="pedido-header">
-        <h5 class="mb-0">Carlos Díaz</h5>
-        <small class="text-muted">01/09/2025 - 20:10</small>
-      </div>
-      <p class="pedido-productos mb-1">
-        🍔 Chicken Burger, 🍺 Cerveza
-      </p>
-      <div class="d-flex justify-content-between">
-        <span class="fw-bold">$3.100</span>
-        <span class="pedido-estado pedido-cancelado">Cancelado</span>
+  <!-- Botón volver -->
+  <button routerLink="/admin" class="btn btn-outline-secondary mb-3">
+    ← Volver al panel
+  </button>
+</div>
+
+<div class="container py-4">
+  <h2 class="text-center mb-4 text-danger fw-bold">Historial de pedidos</h2>
+
+  <!-- Filtros simples -->
+  <div class="card p-3 mb-4">
+    <div class="row g-3 align-items-center">
+      <div class="col-md-6">
+        <label class="form-label mb-1 fw-semibold">Ordenar por</label>
+        <select
+          class="form-select form-select-sm"
+          [(ngModel)]="sortBy"
+          (change)="onSortChange()"
+        >
+          <option value="created_at_desc">Fecha: más nuevos primero</option>
+          <option value="created_at_asc">Fecha: más viejos primero</option>
+          <option value="total_desc">Total: de mayor a menor</option>
+          <option value="total_asc">Total: de menor a mayor</option>
+        </select>
       </div>
     </div>
   </div>
-  
+
+  <!-- Estado de carga -->
+  <div *ngIf="loading" class="text-center my-4">
+    Cargando pedidos...
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="!loading && error" class="alert alert-danger text-center">
+    {{ error }}
+  </div>
+
+  <!-- Sin pedidos -->
+  <div
+    *ngIf="!loading && !error && pedidos.length === 0"
+    class="alert alert-info text-center"
+  >
+    No hay pedidos registrados.
+  </div>
+
+  <!-- Lista de pedidos -->
+ <div *ngIf="!loading && !error">
+  <div *ngFor="let p of paginatedPedidos" class="pedido-card">
+    <div class="pedido-header d-flex justify-content-between align-items-center">
+      <div>
+        <!-- Cliente ID -->
+        <h5 class="mb-0">Cliente ID: {{ p.user_id }}</h5>
+        <!-- Estado del pedido -->
+        <small class="text-muted">
+          Estado:
+          <strong>{{ p.status }}</strong>
+        </small>
+      </div>
+
+      <!-- Fecha formateada -->
+      <small class="text-muted">
+        {{ formatFecha(p.created_at) }}
+      </small>
+    </div>
+
+    <div class="d-flex justify-content-between mt-2 align-items-center">
+      <!-- ID del pedido -->
+      <span>ID pedido: #{{ p.id }}</span>
+
+      <!-- Total del pedido -->
+      <span class="fw-bold">
+        ${{ p.total_amount | number: '1.2-2' }}
+      </span>
+    </div>
+
+    <!-- Acción de cancelar -->
+    <div class="mt-3 d-flex justify-content-end">
+      <button
+        class="btn btn-danger btn-sm"
+        (click)="cancelarPedido(p)"
+        [disabled]="p.status === 'cancelado' || cancelandoId === p.id"
+      >
+        {{ cancelandoId === p.id ? 'Cancelando...' : 'Cancelar pedido' }}
+      </button>
+    </div>
+  </div>
+ </div>
+   <!-- Paginación -->
+   <div
+   class="d-flex justify-content-center mt-3"
+   *ngIf="!loading && !error && pedidos.length > itemsPerPage"
+ >
+   <nav>
+     <ul class="pagination mb-0">
+
+       <!-- Anterior -->
+       <li class="page-item" [class.disabled]="currentPage === 1">
+         <button class="page-link" (click)="prevPage()">
+           Anterior
+         </button>
+       </li>
+
+       <!-- Números de página -->
+       <li
+         class="page-item"
+         *ngFor="let page of [].constructor(totalPages); let i = index"
+         [class.active]="currentPage === i + 1"
+       >
+         <button class="page-link" (click)="goToPage(i + 1)">
+           {{ i + 1 }}
+         </button>
+       </li>
+
+       <!-- Siguiente -->
+       <li class="page-item" [class.disabled]="currentPage === totalPages">
+         <button class="page-link" (click)="nextPage()">
+           Siguiente
+         </button>
+       </li>
+
+     </ul>
+   </nav>
+ </div>
+
+
+</div>

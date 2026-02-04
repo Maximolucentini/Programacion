@@ -1,0 +1,7 @@
+¡Nueva promoción disponible!
+
+Título: {{ promo.title }}
+Descripción: {{ promo.description }}
+Fecha: {{ promo.fecha.strftime("%d/%m/%Y") }}
+
+¡Te esperamos en la rotisería!

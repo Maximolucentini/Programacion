@@ -1,7 +1,7 @@
 export type OrderStatus =
   | 'pendiente'
   | 'en preparación'
-  | 'en camino'
+  | 'listo para el retiro'
   | 'entregado'
   | 'cancelado';
 
@@ -10,6 +10,6 @@ export interface Order {
   user_id: number;
   status: OrderStatus;
   total_amount: number;
-  created_at: string; // viene tipo "2025-10-29 23:14:46"
+  created_at: string; 
 }
 

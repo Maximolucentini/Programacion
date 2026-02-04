@@ -1,47 +1,46 @@
 from flask_restful import Resource
 from flask import request
 from .. import db
-from main.models import OrderModel, OrderProductModel,ProductModel,UserModel
+from main.models import OrderModel, OrderProductModel,ProductModel, UserModel
 from sqlalchemy import asc, desc
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from main.auth.decorators import role_required
+from main.mail.functions import sendMail
 
 
 
-
-ESTADOS_VALIDOS = ["pendiente", "en preparación", "en camino", "entregado", "cancelado"]
+ESTADOS_VALIDOS = ["pendiente", "en preparación", "listo para el retiro", "entregado", "cancelado"]
 
 class Pedido(Resource):
     @jwt_required()
     def get(self, id):
-        # buscar el pedido
+        
         pedido = db.session.query(OrderModel).get(id)
         if not pedido:
             return {"message": "Pedido no encontrado"}, 404
 
-        # info del usuario logueado
-        user_id = get_jwt_identity()
+        
+        user_id = int(get_jwt_identity())  
         rol = get_jwt().get("rol")
 
-        
         if rol not in ("admin", "empleado") and pedido.user_id != user_id:
             return {"message": "No tienes permiso para ver este pedido"}, 403
 
         
-        return pedido.to_json(), 200
+        return pedido.to_json_complete(), 200
+
 
     
-        
     @jwt_required()
     def put(self, id):
         pedido = db.session.query(OrderModel).get(id)
         if not pedido:
             return {"message": "Pedido no encontrado"}, 404
 
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
         rol = get_jwt().get("rol")
 
-        if rol not in ("admin" ,"empleado") and pedido.user_id != user_id:
+        if rol not in ("admin", "empleado") and pedido.user_id != user_id:
             return {"message": "No tienes permiso para modificar este pedido"}, 403
 
         data = request.get_json()
@@ -53,8 +52,41 @@ class Pedido(Resource):
         if nuevo_estado not in ESTADOS_VALIDOS:
             return {"message": "Estado no válido"}, 400
 
+        
+        estado_anterior = pedido.status
+
+        
+        if estado_anterior == nuevo_estado:
+            return {
+                "message": "Estado del pedido actualizado",
+                "pedido": pedido.to_json()
+            }, 200
+
         pedido.status = nuevo_estado
-        db.session.commit()
+
+        try:
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            return {"error": str(e)}, 500
+
+        
+        try:
+            cliente = db.session.query(UserModel).get(pedido.user_id)
+
+            if cliente and getattr(cliente, "email", None):
+                sendMail(
+                    [cliente.email],
+                    f"Actualización de tu pedido #{pedido.id}",
+                    "order_status",
+                    user=cliente,
+                    order=pedido,
+                    old_status=estado_anterior
+                )
+        except Exception as e:
+            
+            print("Error enviando mail de estado de pedido:", str(e))
+
         return {
             "message": "Estado del pedido actualizado",
             "pedido": pedido.to_json()
@@ -66,8 +98,9 @@ class Pedido(Resource):
         if not pedido:
             return {"message": "Pedido no encontrado"}, 404
 
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
         rol = get_jwt().get("rol")
+
 
         if rol != "admin" and pedido.user_id != user_id:
             return {"message": "No tienes permiso para eliminar este pedido"}, 403

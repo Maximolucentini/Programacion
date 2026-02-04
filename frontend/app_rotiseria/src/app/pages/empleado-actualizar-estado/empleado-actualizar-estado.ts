@@ -17,7 +17,6 @@ export class EmpleadoActualizarEstado implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
-  // ahora order es un signal para que podamos usar order() en el template
   order = signal<Order | null>(null);
 
   elegido = signal<OrderStatus>('pendiente');
@@ -49,16 +48,16 @@ export class EmpleadoActualizarEstado implements OnInit {
         }
 
         if (!pedido) {
-          // respuesta rara / inesperada
+          
           this.error.set('Respuesta inesperada del backend');
           this.cargando.set(false);
           return;
         }
 
-        // guardo el pedido en el signal
+        
         this.order.set(pedido);
 
-        // seteo el estado actual como seleccionado
+        
         this.elegido.set(pedido.status as OrderStatus);
 
         this.cargando.set(false);
@@ -87,7 +86,6 @@ export class EmpleadoActualizarEstado implements OnInit {
         this.ok.set('Estado actualizado');
         this.guardando.set(false);
 
-        // volvemos al listado del empleado
         this.router.navigate(['/estado-pedido-empleado']);
       },
       error: (e) => {

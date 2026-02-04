@@ -21,8 +21,16 @@ export class ProductosService {
     price_min?: number;
     price_max?: number;
     stock_min?: number;
-    estado?: string;          // 'activo' | 'suspendido'
-    sort_by?: 'name_asc' | 'name_desc' | 'price_asc' | 'price_desc' | 'stock_asc' | 'stock_desc';
+    estado?: string; 
+    sort_by?:
+      | 'most_sold'
+      | 'best_rated'
+      | 'name_asc'
+      | 'name_desc'
+      | 'price_asc'
+      | 'price_desc'
+      | 'stock_asc'
+      | 'stock_desc';
   } = {}): Observable<PagedResponse<Product>> {
     let hp = new HttpParams();
     Object.entries(params).forEach(([k, v]) => {
@@ -48,9 +56,12 @@ export class ProductosService {
     return this.http.get<Product>(`${this.url}/producto/${id}`, { headers: this.authHeaders() });
   }
 
-  // Por si necesitas admin más adelante:
+  
   crearProducto(body: Partial<Product>) {
-    return this.http.post(`${this.url}/producto`, body, { headers: this.authHeaders() });
+    
+    return this.http.post(`${this.url}/productos`, body, {
+      headers: this.authHeaders(),
+    });
   }
   actualizarProducto(id: number, body: Partial<Product>) {
     return this.http.put(`${this.url}/producto/${id}`, body, { headers: this.authHeaders() });

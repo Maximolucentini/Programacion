@@ -1,0 +1,14 @@
+<h2>Actualización de tu pedido</h2>
+
+<p>Hola <strong>{{ user.name }}</strong>!</p>
+
+<p>Tu pedido <strong>#{{ order.id }}</strong> cambió de estado.</p>
+
+<ul>
+  <li><strong>Estado anterior:</strong> {{ old_status }}</li>
+  <li><strong>Estado nuevo:</strong> {{ order.status }}</li>
+</ul>
+
+<p><strong>Total:</strong> ${{ order.total_amount }}</p>
+
+<p>Gracias por tu compra. </p>

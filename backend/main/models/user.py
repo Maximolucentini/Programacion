@@ -13,6 +13,7 @@ class User(db.Model):
     estado = db.Column(db.String(50), nullable=False, default="activo")
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
+    phone = db.Column(db.String(30), nullable=True)
 
     # Relaciones
     orders = db.relationship("Order", back_populates="user", cascade="all, delete-orphan")
@@ -42,6 +43,8 @@ class User(db.Model):
             "rol": self.rol,
             "created_at": self.created_at.strftime('%Y-%m-%d %H:%M:%S'),
             "updated_at": self.updated_at.strftime('%Y-%m-%d %H:%M:%S'),
+            "phone": self.phone,
+
         }
 
     def to_json_short(self):
@@ -63,6 +66,7 @@ class User(db.Model):
             "orders": [order.to_json_short() for order in self.orders],
             "ratings": [rating.to_json_short() for rating in self.ratings],
             "notifications": [notif.to_json_short() for notif in self.notifications],
+            "phone": self.phone,
         }
 
     @staticmethod
@@ -71,6 +75,7 @@ class User(db.Model):
             id=data.get('id'),
             name=data.get('name'),
             email=data.get('email'),
+            phone=data.get('phone'),
             plain_password=data.get('password'),
             estado=data.get('estado', 'activo'),
             rol=data.get('rol', 'user'),

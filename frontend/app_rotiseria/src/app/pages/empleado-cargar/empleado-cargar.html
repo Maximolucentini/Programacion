@@ -1,74 +1,138 @@
 <div class="container-cargar-pedido">
-    <!-- Encabezado -->
-    <div class="header">
-      <a routerLink="/empleado" class="back-btn">
-        <i class="fa-solid fa-arrow-left"></i>
-      </a>
-      <h5 class="titulo-header">Cargar Pedido</h5>
-      <i class="fa-solid fa-magnifying-glass search-icon"></i>
+  <!-- Encabezado -->
+  <div class="header">
+    <a routerLink="/empleado" class="back-btn">
+      <i class="fa-solid fa-arrow-left"></i>
+    </a>
+    <h5 class="titulo-header">Cargar Pedido</h5>
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+  </div>
+
+  <!-- Título -->
+  <h3 class="titulo-principal">Nuevo Pedido</h3>
+
+  <!-- Estado de carga de productos -->
+  <div *ngIf="loadingProductos" class="text-center my-2">
+    Cargando productos...
+  </div>
+  <div *ngIf="!loadingProductos && error" class="alert alert-danger text-center">
+    {{ error }}
+  </div>
+
+  <!-- Formulario -->
+  <form class="pedido-form" (ngSubmit)="onSubmit()" #pedidoForm="ngForm">
+    <!-- ID del cliente -->
+    <div class="form-group">
+      <label for="clienteId">ID del cliente</label>
+      <input
+        type="number"
+        id="clienteId"
+        name="clienteId"
+        [(ngModel)]="clienteId"
+        min="1"
+        required
+        placeholder="Ej: 3"
+      />
     </div>
-  
-    <!-- Título -->
-    <h3 class="titulo-principal">Nuevo Pedido</h3>
-  
-    <!-- Formulario -->
-    <form class="pedido-form" onsubmit="return false;">
-      <!-- Nombre del cliente -->
-      <div class="form-group">
-        <label for="cliente">Nombre del cliente</label>
-        <input
-          type="text"
-          id="cliente"
-          placeholder="Ingrese el nombre del cliente"
-        />
-      </div>
-  
-      <!-- Lista dinámica de productos -->
-      <div id="productos-lista">
-        <div class="producto-item">
-          <div class="form-group">
-            <label>Producto</label>
-            <select>
-              <option disabled selected>Seleccione un producto</option>
-              <option value="pizza">Pizza</option>
-              <option value="hamburguesa">Hamburguesa</option>
-              <option value="papas">Papas fritas</option>
-              <option value="gaseosa">Gaseosa</option>
-            </select>
-          </div>
-  
-          <div class="form-group cantidad-group">
-            <label>Cantidad</label>
-            <div class="cantidad-control">
-              <button type="button" class="btn-cantidad" onclick="disminuirCantidad(this)">&#9664;</button>
-              <span class="cantidad">1</span>
-              <button type="button" class="btn-cantidad" onclick="aumentarCantidad(this)">&#9654;</button>
-            </div>
-          </div>
-  
-          <button type="button" class="btn-eliminar" onclick="eliminarProducto(this)">Eliminar</button>
+
+    <!-- Productos -->
+    <div class="form-group">
+      <label>Productos</label>
+
+      <div
+        class="producto-item"
+        *ngFor="let item of items; let i = index"
+      >
+        <button
+          type="button"
+          class="btn-eliminar"
+          (click)="eliminarItem(i)"
+          *ngIf="items.length > 1"
+        >
+          ✕
+        </button>
+
+        <div class="mb-2 text-start">
+          <label>Producto</label>
+          <select
+            class="form-select"
+            [(ngModel)]="item.productId"
+            name="product{{ i }}"
+            required
+          >
+            <option [ngValue]="null">Seleccioná un producto</option>
+            <option
+              *ngFor="let p of productos"
+              [ngValue]="p.id"
+            >
+              {{ p.name }} - ${{ p.price }}
+            </option>
+          </select>
+        </div>
+
+        <div class="cantidad-control">
+          <button
+            type="button"
+            class="btn-cantidad"
+            (click)="decrementar(item)"
+          >
+            &#9664;
+          </button>
+          <span class="cantidad">
+            {{ item.quantity }}
+          </span>
+          <button
+            type="button"
+            class="btn-cantidad"
+            (click)="incrementar(item)"
+          >
+            &#9654;
+          </button>
         </div>
       </div>
-  
-      <!-- Botón para agregar otro producto -->
-      <div class="form-actions">
-        <button type="button" class="btn-agregar" onclick="agregarProducto()">+ Agregar Producto</button>
-      </div>
-  
-      <!-- Total del pedido -->
-      <div class="form-group">
-        <label for="total">Total</label>
-        <input type="number" id="total" placeholder="Ingrese el total" />
-      </div>
-  
-      <!-- Botón cargar pedido -->
-      <div class="form-actions">
-        <button type="submit" class="btn-cargar">Cargar Pedido</button>
-        <button type="reset" class="btn-reset">Limpiar</button>
-      </div>
-    </form>
+
+      <button
+        type="button"
+        class="btn-agregar"
+        (click)="agregarItem()"
+      >
+        + Agregar producto
+      </button>
+    </div>
+
+    <!-- Botones finales -->
+    <div class="form-actions">
+      <button
+        type="submit"
+        class="btn-cargar"
+        [disabled]="enviando || loadingProductos"
+      >
+        {{ enviando ? 'Cargando pedido...' : 'Confirmar pedido' }}
+      </button>
+
+      <button
+        type="button"
+        class="btn-reset"
+        (click)="limpiar()"
+      >
+        Limpiar
+      </button>
+    </div>
+  </form>
+
+  <!-- Resultado -->
+  <div
+    *ngIf="totalCreado != null"
+    class="alert alert-success mt-3 text-center"
+  >
+    Pedido
+    <ng-container *ngIf="pedidoIdCreado != null">
+      #{{ pedidoIdCreado }}
+    </ng-container>
+    cargado correctamente. Monto total:
+    ${{ totalCreado | number : '1.2-2' }}.
   </div>
-  
-  <app-footer></app-footer>
-  
+</div>
+
+<app-footer></app-footer>
 

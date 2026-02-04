@@ -12,7 +12,6 @@
   font-weight:600; font-size:.9rem; margin-bottom:.25rem;
 }
 
-/* 2x2 a lo ancho */
 .filters-grid-two-by-two{
   display:grid;
   grid-template-columns: repeat(2, minmax(0,1fr));
@@ -29,7 +28,6 @@
 .filters-footer .right{ display:flex; gap:8px; }
 .btn-slim{ height:40px; line-height:1; padding:.45rem 1rem; }
 
-/* móvil: 1 columna */
 @media (max-width: 768px){
   .filters-grid-two-by-two{ grid-template-columns:1fr; }
   .filters-footer{ grid-template-columns:1fr; }
@@ -37,7 +35,6 @@
 }
 
 /* ===== GRILLA DE PRODUCTOS ===== */
-/* 3 por fila en desktop; 2 en tablet; 1 en móvil */
 .products-grid{
   display:grid;
   gap:18px;
@@ -50,11 +47,9 @@
   .products-grid{ grid-template-columns: 1fr; }
 }
 
-/* Garantiza que cada card use todo su slot */
 .products-grid app-product-card{ display:block; }
 .products-grid app-product-card .card{ height:100%; }
 
-/* Nunca texto vertical por herencias raras */
 app-product-card .card-title,
 app-product-card .product-title,
 .products-grid *{
@@ -65,7 +60,6 @@ app-product-card .product-title,
 }
 
 /* ===== BOTONES ROJOS EN ESTA PÁGINA ===== */
-/* Forzamos los primarios a rojo sin tocar otros módulos */
 .menu-container .btn-primary,
 .menu-container .btn-danger{
   background-color:#dc3545; border-color:#dc3545; color:#fff;
@@ -75,7 +69,6 @@ app-product-card .product-title,
   background-color:#bb2d3b; border-color:#b02a37; color:#fff;
 }
 
-/* Outline rojo */
 .menu-container .btn-outline-secondary,
 .menu-container .btn-outline-danger{
   background-color:transparent; color:#dc3545; border-color:#dc3545;
@@ -85,6 +78,5 @@ app-product-card .product-title,
   background-color:#dc3545; color:#fff; border-color:#dc3545;
 }
 
-/* Si tenés banner fijo abajo en móviles, que no tape */
 @media (max-width:576px){ .menu-container{ padding-bottom:72px; } }
 

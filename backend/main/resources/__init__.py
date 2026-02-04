@@ -8,3 +8,4 @@ from .notification_resource import Notificacion as NotificacionResource
 from .notification_resource import NotificacionesUsuario as NotificacionesUsuarioResource
 from .rating_resource import Valoracion as ValoracionResource
 from .rating_resource import ObtenerValoracion as ObtenerValoracionResource
+from .promo_resource import PromocionesResource, PromocionResource, PromocionEnviarResource

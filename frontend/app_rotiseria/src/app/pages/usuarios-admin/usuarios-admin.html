@@ -59,11 +59,61 @@
           </td>
           <td class="text-end">
             <div class="btn-group btn-group-sm">
-              <button class="btn btn-outline-secondary">Ver</button>
-              <button class="btn btn-outline-secondary">Editar</button>
-              <button class="btn btn-danger">Suspender</button>
+              <!-- Ver total de pedidos cancelados -->
+              <button
+                class="btn btn-outline-secondary"
+                (click)="verPendientes(u)"
+                [disabled]="loadingPendientesUserId === u.id || updatingUserId === u.id"
+              >
+                <span
+                  *ngIf="loadingPendientesUserId === u.id"
+                  class="spinner-border spinner-border-sm me-1"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                Ver
+              </button>
+          
+              <!-- Editar rol -->
+              <button
+                class="btn btn-outline-secondary"
+                (click)="editarRol(u)"
+                [disabled]="updatingUserId === u.id || loadingPendientesUserId === u.id"
+              >
+                Editar
+              </button>
+          
+              <!-- Suspender solo si está activo -->
+              <button
+                *ngIf="u.estado === 'activo'"
+                class="btn btn-danger"
+                (click)="suspenderUsuario(u)"
+                [disabled]="updatingUserId === u.id || loadingPendientesUserId === u.id"
+              >
+                <span
+                  *ngIf="updatingUserId === u.id"
+                  class="spinner-border spinner-border-sm me-1"
+                ></span>
+                Suspender
+              </button>
+
+              <!-- Activar / Validar si NO está activo -->
+              <button
+                *ngIf="u.estado !== 'activo'"
+                class="btn btn-success"
+                (click)="activarUsuario(u)"
+                [disabled]="updatingUserId === u.id || loadingPendientesUserId === u.id"
+              >
+                <span
+                  *ngIf="updatingUserId === u.id"
+                  class="spinner-border spinner-border-sm me-1"
+                ></span>
+                {{ u.estado === 'pre_confirmacion' ? 'Validar' : 'Activar' }}
+              </button>
+
             </div>
-          </td>
+          </td>                
+          
         </tr>
         <tr *ngIf="!loading && data.length === 0">
           <td colspan="5" class="text-center text-muted py-4">Sin resultados</td>

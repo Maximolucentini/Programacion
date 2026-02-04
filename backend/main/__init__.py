@@ -52,6 +52,11 @@ def create_app():
     api.add_resource(resources.ValoracionResource, '/valoracion')
     api.add_resource(resources.ObtenerValoracionResource, '/valoracion/<int:producto_id>')
     
+    api.add_resource(resources.PromocionesResource, "/promociones")
+    api.add_resource(resources.PromocionResource, "/promocion/<int:id>")
+    
+    api.add_resource(resources.PromocionEnviarResource, "/promocion/<int:id>/enviar")
+    
     api.init_app(app)
     
     app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')

@@ -19,6 +19,7 @@ export class EstadoPedido implements OnInit {
   private pedidosService = inject(PedidosService);
   private router = inject(Router);
 
+  pedidos: Order[] = [];
   
   ver = false;
 
@@ -80,19 +81,24 @@ export class EstadoPedido implements OnInit {
     );
   }
 
-  irCalificar(idPedido: number) {
-    this.router.navigate(
-      ['/calificar'],
-      { queryParams: { id: idPedido } }
-    );
-  }
+  
+  irACalificar(pedido: Order): void {
+    
+    if (pedido.status !== 'entregado') return;
+
+    this.router.navigate(['/calificar'], {
+      queryParams: {
+        pedido_id: pedido.id
+      }
+    });
+  }  
 
   volver() {
     
     if (this.ver) this.router.navigate(['/empleado']);
     else this.router.navigate(['/menu']);
 
-    //window.history.back();
+    
   }
 
   // handlers de filtrado / orden / paginación 

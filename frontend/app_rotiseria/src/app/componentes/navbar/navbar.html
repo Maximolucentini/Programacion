@@ -25,6 +25,11 @@
         <li class="nav-item" *ngIf="!isLoggedIn">
           <a class="nav-link" routerLink="/login">Login</a>
         </li>
+        
+        <!-- Mis pedidos: solo si HAY sesión y sos usuario -->
+        <li class="nav-item" *ngIf="isLoggedIn && isUser">
+          <a class="nav-link" routerLink="/estado-pedido">Mis pedidos</a>
+        </li>
 
         <!-- Cerrar sesión: solo si HAY sesión -->
         <li class="nav-item" *ngIf="isLoggedIn">

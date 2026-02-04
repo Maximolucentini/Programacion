@@ -1,72 +1,95 @@
 <app-navbar></app-navbar>
-<div style="max-width: 400px; margin: 2rem auto;">
 
-  <!-- Header con volver -->
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <button
-      class="btn btn-link p-0 d-flex align-items-center"
-      style="text-decoration:none; color:#000; font-size:0.95rem;"
-      (click)="volver()"
-    >
-      <i class="fa-solid fa-arrow-left me-2"></i>
-      <span>Volver</span>
-    </button>
+<div class="calificar-container">
+  <div style="max-width: 600px; width: 100%;">
 
-    <h2 class="m-0 fw-bold" style="color:#e63939; font-size:1.25rem;">
-      Calificar :
-    </h2>
-
-    <span style="width:40px;"></span>
-  </div>
-
-  <div class="text-muted text-center mb-3">
-    Pedido N° {{ pedidoId() || 'xxxxxxxx' }}
-  </div>
-
-  <div class="card shadow-sm p-4" style="border-left: 4px solid #e63939; border-radius: 8px;">
-    <div class="mb-4 text-center">
-      <div class="fw-bold mb-2" style="color: #e63939; font-size: 1.1rem;">
-        Comida:
-      </div>
-
-      <span
-        *ngFor="let n of [1,2,3,4,5]"
-        (click)="setComida(n)"
-        style="font-size: 1.6rem; cursor: pointer; margin: 0 4px;"
+    
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <button
+        class="btn btn-link p-0 d-flex align-items-center"
+        style="text-decoration:none; color:#000; font-size:0.95rem;"
+        (click)="volver()"
       >
-        <i
-          class="fa-star"
-          [class.fa-solid]="comida() >= n"
-          [class.fa-regular]="comida() < n"
-        ></i>
-      </span>
+        <i class="fa-solid fa-arrow-left me-2"></i>
+        <span>Volver</span>
+      </button>
+
+      <h2 class="m-0 fw-bold titulo">
+        Calificar pedido #{{ pedidoId || '' }}
+      </h2>
     </div>
 
-    <div class="mb-4 text-center">
-      <div class="fw-bold mb-2" style="color: #e63939; font-size: 1.1rem;">
-        Atencion:
-      </div>
-
-      <span
-        *ngFor="let n of [1,2,3,4,5]"
-        (click)="setAtencion(n)"
-        style="font-size: 1.6rem; cursor: pointer; margin: 0 4px;"
-      >
-        <i
-          class="fa-star"
-          [class.fa-solid]="atencion() >= n"
-          [class.fa-regular]="atencion() < n"
-        ></i>
-      </span>
+    
+    <div *ngIf="loading" class="text-center my-4">
+      Cargando productos del pedido...
     </div>
 
-    <button
-      class="btn w-100 mt-2"
-      style="background-color:#e63939; color:#fff; font-weight:600;"
-      (click)="finalizar()"
-    >
-      Finalizar
-    </button>
+    <div *ngIf="!loading && error" class="alert alert-danger">
+      {{ error }}
+    </div>
+
+    <!-- Lista de productos -->
+    <div *ngIf="!loading && !error">
+
+      <div *ngIf="items.length === 0" class="alert alert-info">
+        Este pedido no tiene productos para calificar.
+      </div>
+
+      <div
+        *ngFor="let item of items"
+        class="tarjeta p-3 mb-3 shadow-sm rounded-3 border bg-white"
+      >
+        <!-- Encabezado producto -->
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <div>
+            <h5 class="mb-1">{{ item.name }}</h5>
+            <small class="text-muted">Cantidad: {{ item.quantity }}</small>
+          </div>
+        </div>
+
+        <!-- Estrellas -->
+        <div class="mb-2 text-center">
+          <p class="mb-1 fw-semibold">Tu calificación</p>
+          <div class="d-flex justify-content-center gap-1">
+            <button
+              type="button"
+              class="btn p-0 border-0 bg-transparent"
+              *ngFor="let star of [1,2,3,4,5]"
+              (click)="setRating(item, star)"
+            >
+              <i
+                class="fa-star"
+                [ngClass]="item.rating >= star ? 'fa-solid text-warning' : 'fa-regular text-secondary'"
+                style="font-size: 1.6rem;"
+              ></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Comentario -->
+        <div class="mb-2">
+          <label class="form-label small fw-semibold">
+            Comentario (opcional)
+          </label>
+          <textarea
+            class="form-control"
+            rows="2"
+            [(ngModel)]="item.comment"
+            placeholder="Contanos qué te pareció este producto..."
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Botón Finalizar -->
+      <button
+        class="btn btn-finalizar mt-3 w-100"
+        type="button"
+        (click)="finalizar()"
+        [disabled]="loading"
+      >
+        {{ loading ? 'Guardando...' : 'Finalizar' }}
+      </button>
+    </div>
   </div>
 </div>
 

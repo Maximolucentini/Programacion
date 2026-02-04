@@ -13,13 +13,12 @@ import { PanelRol, AccionRol } from '../../componentes/panel-rol/panel-rol';
 export class Panel implements OnInit {
   private route = inject(ActivatedRoute);
 
-  // ⬇️ tu profe: ver = true (admin), ver = false (empleado)
+  // ver = true (admin), ver = false (empleado)
   ver: boolean = true;
 
   acciones: AccionRol[] = [];
 
   ngOnInit(): void {
-    // 1) Si el router te pasa un flag en data (ver abajo en app.routes.ts)
     const dataFlag = this.route.snapshot.data['ver'];
     if (typeof dataFlag === 'boolean') this.ver = dataFlag;
 

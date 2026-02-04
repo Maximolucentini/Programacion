@@ -1,28 +1,87 @@
-<div class="container py-4">
-    <a [routerLink]="'/promos-admin'" class="btn btn-outline-secondary mb-3">
+<app-navbar></app-navbar>
+
+<div class="container my-4">
+
+  <div class="d-grid mb-3">
+    <button class="btn btn-outline-secondary" (click)="volver()">
       ← Volver
-    </a>
-  
-    <h2 class="text-danger fw-bold mb-4">{{ titulo }}</h2>
-  
-    <!-- mismos campos para agregar/editar promo -->
-    <form (submit)="$event.preventDefault()">
+    </button>
+  </div>
+
+  <h1 class="fw-bold text-danger mb-4">
+    {{ modoEdicion ? 'Editar promoción' : 'Nueva promoción' }}
+  </h1>
+
+  <div *ngIf="loading" class="alert alert-info">
+    Cargando promoción...
+  </div>
+
+  <div *ngIf="error && !loading" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <div class="card shadow-sm border-0" *ngIf="!loading">
+    <div class="card-body">
+
       <div class="mb-3">
         <label class="form-label">Título</label>
-        <input class="form-control" placeholder="Ej: 2x1 en hamburguesas">
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="form.title"
+          name="title"
+          required
+        />
       </div>
-  
+
       <div class="mb-3">
         <label class="form-label">Descripción</label>
-        <textarea class="form-control" rows="3" placeholder="Descripción de la promo..."></textarea>
+        <textarea
+          class="form-control"
+          rows="3"
+          [(ngModel)]="form.description"
+          name="description"
+          required
+        ></textarea>
       </div>
-  
-      <div class="mb-3">
+
+      <div class="mb-4">
         <label class="form-label">Fecha</label>
-        <input type="date" class="form-control">
+        <input
+          type="date"
+          class="form-control"
+          [(ngModel)]="form.fecha"
+          name="fecha"
+          required
+        />
       </div>
-  
-      <button type="submit" class="btn btn-danger">{{ submitLabel }}</button>
-    </form>
+
+      <div class="form-check form-switch mb-4">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          id="promoActiva"
+          [(ngModel)]="form.activa"
+          name="activa"
+        />
+        <label class="form-check-label" for="promoActiva">
+          Promoción activa
+        </label>
+      </div>
+
+      <div class="d-grid">
+        <button
+          class="btn btn-danger btn-lg"
+          (click)="guardar()"
+          [disabled]="saving"
+        >
+          {{ saving ? 'Guardando...' : (modoEdicion ? 'Guardar cambios' : 'Crear promoción') }}
+        </button>
+      </div>
+
+    </div>
   </div>
-  
+
+</div>
+
+<app-footer></app-footer>

@@ -55,27 +55,33 @@ export class Login {
 
     this.auth.login(body).subscribe({
       next: (res: any) => {
-        // 1) Guardar token
+        //  guarda el token
         const raw = res?.access_token || res?.token || '';
         const token = String(raw).replace(/^Bearer\s+/i, '');
         localStorage.setItem('token', token);
 
-        // 2) Decodificar payload
+        
         const payload = decodeJwtPayload(token);
         const rol = (payload?.rol || payload?.role || 'user') as string;
         const email = payload?.email || body.email;
 
-        // 3) Persistir info útil
+        
         localStorage.setItem('rol', rol);
         if (email) localStorage.setItem('email', email);
 
-        // 4) Redirigir según rol
+        // redirigue por rol
         this.navigateByRole(rol);
       },
-      error: (e) => {
+      error: (e: any) => {
         console.error('Login error:', e);
-        this.error = 'Credenciales inválidas';
+      
+        const msg =
+          (typeof e?.error === 'string' ? e.error : e?.error?.message) ||
+          e?.message;
+      
+        this.error = msg || 'No se pudo iniciar sesión.';
       }
+      
     });
   }
 }

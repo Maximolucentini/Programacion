@@ -1,8 +1,8 @@
 from flask_restful import Resource
 from flask import request
 from .. import db
-from main.models import ProductModel
-from sqlalchemy import asc, desc
+from main.models import ProductModel, OrderProductModel, RatingModel
+from sqlalchemy import asc, desc, func
 from flask_jwt_extended import jwt_required, get_jwt
 from main.auth.decorators import role_required
 
@@ -20,7 +20,7 @@ class Producto(Resource):
         else:
             return producto.to_json_short(), 200
         
-    @role_required(roles=["admin"])
+    @role_required(roles=["admin","empleado"])
     def put(self, id):
         producto = db.session.query(ProductModel).get(id)
         if not producto:
@@ -110,22 +110,45 @@ class Productos(Resource):
 
         
 
+                # Opciones de ordenamiento simples (por columnas del producto)
         valid_sort_options = {
             "name_asc": asc(ProductModel.name),
             "name_desc": desc(ProductModel.name),
             "price_asc": asc(ProductModel.price),
             "price_desc": desc(ProductModel.price),
             "stock_asc": asc(ProductModel.stock),
-            "stock_desc": desc(ProductModel.stock)
+            "stock_desc": desc(ProductModel.stock),
         }
 
         sort_by = request.args.get("sort_by")
-        if sort_by:
+
+        # Orden especial: más vendidos (most_sold) y mejor valorados (best_rated)
+        if sort_by == "most_sold":
+            query = (
+                query.outerjoin(
+                    OrderProductModel,
+                    ProductModel.id == OrderProductModel.product_id,
+                )
+                .group_by(ProductModel.id)
+                .order_by(desc(func.coalesce(func.sum(OrderProductModel.quantity), 0)))
+            )
+        elif sort_by == "best_rated":
+            query = (
+                query.outerjoin(
+                    RatingModel,
+                    ProductModel.id == RatingModel.product_id,
+                )
+                .group_by(ProductModel.id)
+                .order_by(desc(func.coalesce(func.avg(RatingModel.score), 0)))
+            )
+        elif sort_by:
             if sort_by not in valid_sort_options:
+                valid_keys = list(valid_sort_options.keys()) + ["most_sold", "best_rated"]
                 return {
-                    "message": f"sort_by inválido. Opciones válidas: {', '.join(valid_sort_options.keys())}"
+                    "message": f"sort_by inválido. Opciones válidas: {', '.join(valid_keys)}"
                 }, 400
             query = query.order_by(valid_sort_options[sort_by])
+
 
     
         paginated = query.paginate(page=page, per_page=per_page, error_out=False)

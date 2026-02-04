@@ -1,56 +1,119 @@
 <div class="card h-100 shadow-sm product-card">
-    <!-- Imagen -->
-    <ng-container *ngIf="data.imageUrl as img">
-      <img [src]="img" class="card-img-top object-fit-cover" alt="{{ data.title }}" />
-    </ng-container>
-  
-    <!-- Cuerpo -->
-    <div class="card-body d-flex flex-column">
-      <h5 class="card-title mb-1">{{ data.title }}</h5>
-  
-      <p class="card-text small text-muted mb-2" *ngIf="data.description">
-        {{ data.description }}
-      </p>
-  
-      <div class="small d-flex align-items-center gap-3 mb-2">
-        <span *ngIf="data.rating !== undefined"><strong>Puntaje:</strong> {{ data.rating }} ★</span>
-        <span *ngIf="data.prepMinutes"><strong>Tiempo:</strong> {{ data.prepMinutes }} min</span>
-      </div>
-  
-      <div class="mt-auto d-flex justify-content-between align-items-center">
-        <div>
-          <span *ngIf="data.spiceLevel" class="badge text-bg-warning me-2">{{ data.spiceLevel }}</span>
-          <span *ngIf="data.available === false" class="badge text-bg-secondary">Sin stock</span>
-        </div>
-        <div class="fw-bold" *ngIf="data.price !== undefined">
-          {{ data.price | currency:'ARS' }}
-        </div>
-      </div>
-    </div>
-  
-    <!-- Footer USUARIO -->
-    <div class="card-footer bg-white border-top-0 pt-0" *ngIf="!adminMode && isLoggedIn">
-     <a class="btn btn-primary w-100 pedido-btn" [routerLink]="['/estado-pedido']">
-       Pedir Ya
-     </a>
-    </div>
-    <!-- Alternativa: Mostrar CTA para iniciar sesión -->
-    <div class="card-footer bg-white border-top-0 pt-0" *ngIf="!adminMode && !isLoggedIn">
-     <a class="btn btn-outline-secondary w-100" [routerLink]="['/login']">
-      Iniciá sesión para pedir
-     </a>
+  <!-- Imagen -->
+  <ng-container *ngIf="data.imageUrl as img">
+    <img
+      [src]="img"
+      class="card-img-top object-fit-cover"
+      alt="{{ data.title }}"
+    />
+  </ng-container>
+
+  <!-- Cuerpo -->
+  <div class="card-body d-flex flex-column">
+    <h5 class="card-title mb-1">{{ data.title }}</h5>
+
+    <!--producto más vendido -->
+    <span
+      *ngIf="data.isBestSeller"
+      class="badge rounded-pill bg-warning text-dark mb-2"
+    >
+      🔥 Producto más vendido
+    </span>
+
+    <p class="card-text small text-muted mb-2" *ngIf="data.description">
+      {{ data.description }}
+    </p>
+
+    <div class="small d-flex align-items-center gap-3 mb-2">
+      <span *ngIf="data.rating !== undefined">
+        <strong>Promedio:</strong> {{ data.rating | number:'1.1-2' }} ★
+      </span>
+      <span *ngIf="data.prepMinutes !== undefined">
+        <strong>Prep:</strong> {{ data.prepMinutes }} min
+      </span>
+      <span *ngIf="data.spiceLevel">
+        <strong>Picor:</strong> {{ data.spiceLevel }}
+      </span>
     </div>
 
-  
-    <!-- Footer ADMIN -->
-    <div class="card-footer bg-white border-top-0 pt-0" *ngIf="adminMode">
-      <div class="d-flex gap-2 justify-content-end">
-        <a class="btn btn-sm btn-outline-secondary" [routerLink]="['/editar-producto']">Editar</a>
-        <button class="btn btn-sm btn-outline-danger" (click)="onRemove()">Eliminar</button>
-        <button class="btn btn-sm btn-outline-warning" (click)="onToggle()">
-          {{ data.available === false ? 'Activar' : 'Desactivar' }}
+
+    <!-- Precio + stock -->
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <div class="h5 mb-0" *ngIf="data.price !== undefined">
+        ${{ data.price | number: '1.0-0' }}
+      </div>
+
+      <span
+        class="badge"
+        [ngClass]="
+          data.available === false ||
+          (data.stock !== undefined && data.stock <= 0)
+            ? 'bg-secondary'
+            : 'bg-success'
+        "
+      >
+        {{
+          (data.stock ?? 0) > 0 && data.available !== false
+            ? 'Hay stock (' + (data.stock ?? 0) + ')'
+            : 'Sin stock'
+        }}
+      </span>
+    </div>
+
+    <!-- Contador para el CLIENTE (no se muestra en modo admin) -->
+    <div *ngIf="!adminMode" class="mt-auto">
+      <div class="d-flex align-items-center gap-2 mb-2">
+        <button
+          type="button"
+          class="btn btn-outline-secondary btn-sm"
+          (click)="decrement()"
+          [disabled]="data.quantity <= 0"
+        >
+          −
+        </button>
+
+        <span class="fw-semibold">
+          Cantidad: {{ data.quantity }}
+        </span>
+
+        <button
+          type="button"
+          class="btn btn-outline-secondary btn-sm"
+          (click)="increment()"
+          [disabled]="
+            data.stock !== undefined && data.quantity >= data.stock
+          "
+        >
+          +
         </button>
       </div>
+
+      <small
+        class="text-muted"
+        *ngIf="data.stock !== undefined && data.stock > 0"
+      >
+        Stock disponible: {{ data.stock }}
+      </small>
+      <small
+        class="text-danger"
+        *ngIf="data.stock !== undefined && data.stock === 0"
+      >
+        No hay stock disponible.
+      </small>
+    </div>
+  </div>
+
+  <!-- Footer ADMIN -->
+  <div class="card-footer bg-white border-top-0 pt-0" *ngIf="adminMode">
+    <div class="d-flex gap-2 justify-content-end">
+      <a
+        class="btn btn-sm btn-outline-secondary"
+        [routerLink]="['/editar-producto']"
+        [queryParams]="{ id: data.id }"
+      >
+        Editar
+      </a>
     </div>
   </div>
   
+</div>

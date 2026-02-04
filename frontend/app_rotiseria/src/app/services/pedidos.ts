@@ -17,46 +17,65 @@ export class PedidosService {
     );
   }
 
-  // LISTAR pedidos
-  list(params: {
-    status?: OrderStatus;
-    sort_by?: 'created_at_asc' | 'created_at_desc' | 'total_asc' | 'total_desc';
-    page?: number;
-    per_page?: number;
-  } = {}): Observable<{ pedidos: Order[] }> {
-
-    let hp = new HttpParams();
-    for (const [k, v] of Object.entries(params)) {
-      if (v === undefined || v === null) continue;
-      hp = hp.set(k, String(v));
-    }
-
-    return this.http.get<{ pedidos: Order[] }>(
-      `${this.url}/pedidos`,
-      {
-        headers: this.authHeaders(),
-        params: hp,
+    // LISTAR pedidos
+    list(params: {
+      status?: OrderStatus;
+      sort_by?: 'created_at_asc' | 'created_at_desc' | 'total_asc' | 'total_desc';
+      page?: number;
+      per_page?: number;
+      user_id?: number;          
+    } = {}): Observable<{ pedidos: Order[] }> {
+  
+      let hp = new HttpParams();
+      for (const [k, v] of Object.entries(params)) {
+        if (v === undefined || v === null) continue;
+        hp = hp.set(k, String(v));
       }
-    );
-  }
+  
+      return this.http.get<{ pedidos: Order[] }>(
+        `${this.url}/pedidos`,
+        {
+          headers: this.authHeaders(),
+          params: hp,
+        }
+      );
+    }
+  
 
+  // OBTENER pedido por id
   get(id: number): Observable<any> {
     return this.http.get<any>(
-      `http://127.0.0.1:7222/pedido/${id}`,
+      `${this.url}/pedido/${id}`,
       {
         headers: this.authHeaders(),
       }
     );
   }
-  
+
+  // CREAR pedido (POST /pedidos)
+  create(body: {
+    user_id: number;
+    status: OrderStatus | string;
+    productos: { product_id: number; quantity: number }[];
+  }): Observable<any> {
+    return this.http.post<any>(
+      `${this.url}/pedidos`,
+      body,
+      {
+        headers: this.authHeaders(),
+      }
+    );
+  }
+
+  // ACTUALIZAR estado de un pedido (PUT /pedido/:id)
   updateEstado(id: number, status: OrderStatus): Observable<any> {
     return this.http.put(
-      `http://127.0.0.1:7222/pedido/${id}`,
+      `${this.url}/pedido/${id}`,
       { status },
       {
         headers: this.authHeaders(),
       }
     );
   }
-  
 }
+

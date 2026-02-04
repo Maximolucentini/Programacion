@@ -13,6 +13,7 @@ def sendMail(to, subject, template, **kwargs):
         msg.html = render_template(template + '.html', **kwargs)
         
         result = mailsender.send(msg)
+        
     except SMTPException as e:
         print(str(e))
         return "Mail deliver failed"

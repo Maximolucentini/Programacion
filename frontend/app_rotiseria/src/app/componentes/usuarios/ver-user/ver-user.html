@@ -19,33 +19,49 @@
       <!-- Lista de usuarios -->
       <ul class="list-group d-grid gap-2">
         @for (u of arrayFiltred; track u.id) {
-          <li class="list-group-item d-flex justify-content-between align-items-start usuario-card">
+          <li
+            class="list-group-item d-flex justify-content-between align-items-start usuario-card"
+          >
             <div class="me-2">
               <div class="fw-semibold text-capitalize">
                 {{ u.name || 'Sin nombre' }}
               </div>
               <div class="text-muted small">{{ u.email }}</div>
 
-              <div class="mt-1"
-                   [class.estado-activo]="u.estado === 'activo'"
-                   [class.estado-bloqueado]="u.estado !== 'activo'">
-                {{ u.estado === 'activo' ? 'Activo' : 'Bloqueado' }}
+              <div
+                class="mt-1"
+                [class.estado-activo]="u.estado === 'activo'"
+                [class.estado-bloqueado]="u.estado !== 'activo'"
+              >
+                {{
+                  u.estado === 'activo'
+                    ? 'Activo'
+                    : (u.estado === 'pre_confirmacion'
+                        ? 'Pre-confirmación'
+                        : (u.estado === 'suspendido' ? 'Suspendido' : 'Bloqueado'))
+                }}
+              
               </div>
-            </div>
+            </div> 
 
             <div class="d-flex align-items-center">
-              <!-- Si está activo, muestro Bloquear -->
-              <button *ngIf="u.estado === 'activo'"
-                      class="btn btn-danger btn-sm"
-                      (click)="bloquear(u)">
-                <i class="fa-solid fa-ban me-1"></i> Bloquear
+              <!-- Si está activo, muestro Suspender -->
+              <button
+                *ngIf="u.estado === 'activo'"
+                class="btn btn-danger btn-sm"
+                (click)="bloquear(u)"
+              >
+                <i class="fa-solid fa-ban me-1"></i> Suspender
               </button>
 
               <!-- Si NO está activo, muestro Activar -->
-              <button *ngIf="u.estado !== 'activo'"
-                      class="btn btn-success btn-sm"
-                      (click)="activar(u)">
-                <i class="fa-solid fa-check me-1"></i> Activar
+              <button
+                *ngIf="u.estado !== 'activo'"
+                class="btn btn-success btn-sm"
+                (click)="activar(u)"
+              >
+                <i class="fa-solid fa-check me-1"></i>
+                {{ u.estado === 'pre_confirmacion' ? 'Validar' : 'Activar' }}
               </button>
             </div>
           </li>
@@ -63,4 +79,3 @@
     </div>
   </div>
 </div>
-

@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 
 export interface AccionRol {
   label: string;
-  link: string; // ruta, ej: '/menu'
+  link: string; 
 }
 
 @Component({
@@ -17,10 +17,10 @@ export interface AccionRol {
 export class PanelRol {
   private router = inject(Router);
   @Input() titulo: string = 'Food';
-  @Input() subtitulo: string = '';               // ej: "Bienvenido Administrador" / "Bienvenido Empleado"
+  @Input() subtitulo: string = '';               
   @Input() perfilUrl: string = 'https://via.placeholder.com/40';
-  @Input() acciones: AccionRol[] = [];           // botones principales
-  @Input() volverLink: string = '/login';        // link del botón "Volver al login"
+  @Input() acciones: AccionRol[] = [];           
+  @Input() volverLink: string = '/login';        
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('rol');

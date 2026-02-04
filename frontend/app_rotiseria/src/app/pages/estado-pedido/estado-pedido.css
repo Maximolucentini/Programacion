@@ -23,7 +23,7 @@ body { background-color: #f8f9fa; }
 }
 .btn-detalles:hover { background-color: #ff3d3d; color: #fff; border-color: #ff3d3d; }
 
-/* Estilos de la vista Usuario (flujo de estados) */
+/* Estilos de la vista Usuario */
 .estado-container { max-width: 600px; margin: 0 auto; padding: 20px; }
 .estado-icon { font-size: 32px; margin-right: 12px; vertical-align: middle; }
 .estado-realizado { color: #198754; }

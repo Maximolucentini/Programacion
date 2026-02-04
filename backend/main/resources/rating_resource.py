@@ -12,7 +12,7 @@ class Valoracion(Resource):
     def post(self):
         data = request.get_json()
 
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
         product_id = data.get("product_id")
         score = data.get("score")
         comment = data.get("comment")

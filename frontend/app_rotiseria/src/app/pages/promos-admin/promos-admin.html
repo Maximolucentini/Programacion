@@ -1,44 +1,133 @@
-<div class="container pt-4">
-    <!-- Botón volver -->
-    <button routerLink="/admin" class="btn btn-outline-secondary mb-3">
+<app-navbar></app-navbar>
+
+<div class="container my-4">
+
+  <div class="d-grid mb-3">
+    <a class="btn btn-outline-secondary" routerLink="/admin">
       ← Volver al panel
-    </button>
+    </a>
   </div>
-  
-  <div class="container py-4">
-    <h2 class="text-center mb-4 text-danger fw-bold">Gestión de promociones</h2>
-  
-    <!-- Promoción 1 -->
-    <div class="promo-card">
-      <div class="d-flex justify-content-between align-items-center mb-2">
-        <span class="promo-title">2x1 en hamburguesas</span>
-        <small class="text-muted">02/09/2025</small>
-      </div>
-      <p class="mb-2">¡Solo por hoy! Aprovechá nuestra promo exclusiva para clientes registrados.</p>
-      <div class="d-flex justify-content-end gap-2">
-        <button routerLink="/editar-promo" class="btn btn-editar btn-sm">Editar</button>
-        <button class="btn btn-eliminar btn-sm">Eliminar</button>
-        <button class="btn btn-enviar btn-sm">Enviar</button>
+
+  <h1 class="fw-bold text-danger mb-4">Gestión de promociones</h1>
+
+  <!-- Filtros -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="row g-2 align-items-end">
+
+        <div class="col-12 col-md-4">
+          <label class="form-label">Estado</label>
+          <select class="form-select" [(ngModel)]="filtroEstado">
+            <option value="">Todos</option>
+            <option value="activa">Activa</option>
+            <option value="suspendida">Suspendida</option>
+          </select>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <label class="form-label">Orden por fecha</label>
+          <select class="form-select" [(ngModel)]="order">
+            <option value="desc">Más nuevas primero</option>
+            <option value="asc">Más viejas primero</option>
+          </select>
+        </div>
+
+        <div class="col-12 col-md-4 d-flex gap-2">
+          <button class="btn btn-danger w-100" (click)="aplicarFiltros()">
+            Aplicar
+          </button>
+          <button class="btn btn-outline-secondary w-100" (click)="limpiarFiltros()">
+            Limpiar
+          </button>
+        </div>
+
       </div>
     </div>
-  
-    <!-- Promoción 2 -->
-    <div class="promo-card">
-      <div class="d-flex justify-content-between align-items-center mb-2">
-        <span class="promo-title">Envío gratis en pedidos mayores a $5.000</span>
-        <small class="text-muted">01/09/2025</small>
-      </div>
-      <p class="mb-2">No pagues más por el envío. Pedí tu combo favorito y te lo llevamos gratis.</p>
-      <div class="d-flex justify-content-end gap-2">
-        <button routerLink="/editar-promo" class="btn btn-editar btn-sm">Editar</button>
-        <button class="btn btn-eliminar btn-sm">Eliminar</button>
-        <button class="btn btn-enviar btn-sm">Enviar</button>
+  </div>
+
+  <!-- Estados -->
+  <div *ngIf="loading" class="alert alert-info">
+    Cargando promociones...
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!loading && !error && promos.length === 0" class="alert alert-secondary">
+    No hay promociones cargadas.
+  </div>
+
+  <!-- Listado -->
+  <div class="row g-3" *ngIf="!loading && !error && promos.length > 0">
+    <div class="col-12" *ngFor="let p of promos">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+
+          <div class="d-flex justify-content-between align-items-start">
+            <h4 class="fw-bold mb-1">{{ p.title }}</h4>
+            <span class="text-muted">{{ fechaUi(p.fecha) }}</span>
+          </div>
+
+          <div class="d-flex gap-2 mb-2">
+            <span
+              class="badge"
+              [ngClass]="p.estado === 'activa' ? 'bg-success' : 'bg-secondary'"
+            >
+              {{ p.estado === 'activa' ? 'Activa' : 'Inactiva' }}
+            </span>
+
+            <span class="badge bg-info text-dark" *ngIf="p.enviada">
+              Enviada
+            </span>
+          </div>
+
+          <p class="mb-3">{{ p.description }}</p>
+
+          <div class="d-flex flex-wrap gap-2">
+            <a
+              class="btn btn-dark"
+              [routerLink]="['/agregar-promo']"
+              [queryParams]="{ id: p.id }"
+            >
+              Editar
+            </a>
+
+            <button class="btn btn-danger" (click)="eliminarPromo(p)">
+              Eliminar
+            </button>
+
+            <button
+              class="btn"
+              [ngClass]="p.estado === 'activa' ? 'btn-outline-secondary' : 'btn-success'"
+              (click)="toggleEstado(p)"
+            >
+              {{ p.estado === 'activa' ? 'Suspender' : 'Activar' }}
+            </button>
+
+            <!-- BOTÓN ENVIAR -->
+            <button
+              class="btn"
+              [ngClass]="p.enviada ? 'btn-outline-success' : 'btn-success'"
+              (click)="enviarPromo(p)"
+              [disabled]="p.enviada"
+            >
+              {{ p.enviada ? 'Enviada' : 'Enviar' }}
+            </button>
+          </div>
+
+        </div>
       </div>
     </div>
-  
-    <!-- Botón crear nueva promo -->
-    <button routerLink="/agregar-promo" class="btn btn-danger px-4 py-2">
-      <i class="fa-solid fa-plus me-2"></i> Nueva promoción
-    </button>
   </div>
-  
+
+  <!-- Nueva promoción -->
+  <div class="d-grid mt-4">
+    <a class="btn btn-danger btn-lg" routerLink="/agregar-promo">
+      ＋ Nueva promoción
+    </a>
+  </div>
+
+</div>
+
+

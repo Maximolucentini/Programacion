@@ -14,6 +14,8 @@ export class VerUser implements OnInit {
   private usuariosSrv = inject(Usuarios);
 
   @Input() soloRolUser = false;
+  @Input() soloEstado: 'activo' | 'suspendido' | 'pre_confirmacion' | null = null;
+
 
   nombre = '';
   arrayFiltred: any[] = [];
@@ -28,7 +30,8 @@ export class VerUser implements OnInit {
   cargar(): void {
     this.cargando = true;
 
-    this.usuariosSrv.getUsuarios().subscribe({
+    this.usuariosSrv.getUsuarios({ page: 1, per_page: 100 }).subscribe({
+
       next: (data: any) => {
         // Normalizo a array
         const raw: any[] =
@@ -60,6 +63,10 @@ export class VerUser implements OnInit {
             return r === 'user' || r === 'usuario' || r === 'cliente';
           });
         }
+        if (this.soloEstado) {
+          const est = this.soloEstado.toLowerCase();
+          base = base.filter(u => (u.estado || '').toString().toLowerCase() === est);
+        }
 
         this._todo = base;
         this.arrayFiltred = [...base];
@@ -87,12 +94,13 @@ export class VerUser implements OnInit {
   }
 
   bloquear(u: any): void {
-    if (!confirm(`¿Bloquear a ${u.name}?`)) return;
-    this.usuariosSrv.updateUsuarioEstado(u.id, 'bloqueado').subscribe({
+    if (!confirm(`¿Suspender a ${u.name}?`)) return;
+    this.usuariosSrv.updateUsuarioEstado(u.id, 'suspendido').subscribe({
       next: () => { /* ... */ },
-      error: (err: any) => { console.error(err); alert('No se pudo bloquear'); }
+      error: (err: any) => { console.error(err); alert('No se pudo suspender'); }
     });
   }
+  
 
   activar(u: any): void {
     if (!confirm(`¿Activar a ${u.name}?`)) return;
